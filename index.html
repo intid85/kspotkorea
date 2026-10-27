@@ -164,11 +164,8 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="#interactive-map" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-800 transition">
-          <span>🗺️</span> Live Map
-        </a>
-        <a href="#course-builder" class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-700 transition">
-          <span>✨</span> Half-Day Courses
+        <a href="#interactive-map" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white shadow-xs transition">
+          <span>🗺️</span> Interactive Map
         </a>
       </div>
     </div>
@@ -320,63 +317,34 @@
       </div>
     </section>
 
-    <!-- Interactive Map + Half-Day Pilgrimage Course Builder -->
-    <section id="interactive-map" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-      <!-- Map Column (7 cols on desktop) -->
-      <div class="lg:col-span-7 rounded-2xl bg-white border border-slate-200 overflow-hidden flex flex-col shadow-lg">
-        <div class="px-4 py-3 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 bg-slate-50">
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-            <span class="font-display font-bold text-sm text-slate-900">Interactive K-Scene Map (Korea-Wide)</span>
-            <span id="map-pin-count" class="text-xs font-mono text-slate-500">· 102 Pins Active</span>
-          </div>
-          <div class="flex flex-wrap items-center gap-1.5">
-            <button onclick="flyToRegion(37.555, 126.978, 12)" class="text-xs font-medium px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">Seoul</button>
-            <button onclick="flyToRegion(37.285, 127.015, 14)" class="text-xs font-medium px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">Suwon</button>
-            <button onclick="flyToRegion(37.900, 128.820, 11)" class="text-xs font-medium px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">Gangneung</button>
-            <button onclick="flyToRegion(35.160, 129.130, 11)" class="text-xs font-medium px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">Busan</button>
-            <button onclick="flyToRegion(36.198, 129.346, 12)" class="text-xs font-medium px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">Pohang</button>
-            <button onclick="flyToRegion(33.360, 126.550, 10)" class="text-xs font-medium px-2.5 py-1 rounded-md bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">Jeju</button>
-            <button onclick="fitAllFilteredMarkers()" class="text-xs font-semibold px-2.5 py-1 rounded-md bg-rose-50 hover:bg-rose-100 text-dancheong-coral border border-rose-200 transition">Fit All Pins</button>
-          </div>
+    <!-- Full-Width Interactive Map -->
+    <section id="interactive-map" class="rounded-2xl bg-white border border-slate-200 overflow-hidden flex flex-col shadow-lg">
+      <div class="px-4 sm:px-5 py-3.5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 bg-slate-50">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+          <span class="font-display font-bold text-sm sm:text-base text-slate-900">Interactive K-Scene Map (Korea-Wide)</span>
+          <span id="map-pin-count" class="text-xs font-mono font-semibold text-slate-500">· 102 Pins Active</span>
+          <span class="hidden md:inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500 pl-2 border-l border-slate-200">
+            <span class="inline-block w-2 h-2 rounded-full bg-[#FF385C]"></span> K-Drama
+            <span class="inline-block w-2 h-2 rounded-full bg-[#9333EA] ml-1.5"></span> K-Pop
+            <span class="inline-block w-2 h-2 rounded-full bg-[#F59E0B] ml-1.5"></span> K-Movie
+          </span>
         </div>
-        <div id="map" class="w-full h-[400px] sm:h-[460px] z-10"></div>
-        <div class="px-4 py-2.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
-          <span>🖱️ <strong>Mouse Wheel Zoom Enabled:</strong> Place your cursor on the map and scroll to zoom in/out immediately, or click any numbered pin.</span>
-          <span class="font-mono text-[11px] text-slate-500">All 102 Pins Live on Map</span>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-[11px] font-mono text-slate-400 mr-1 hidden sm:inline">Quick Jump:</span>
+          <button onclick="flyToRegion(37.555, 126.978, 12)" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">🗼 Seoul</button>
+          <button onclick="flyToRegion(37.285, 127.015, 14)" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">🏯 Suwon</button>
+          <button onclick="flyToRegion(37.900, 128.820, 11)" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">🌊 Gangneung</button>
+          <button onclick="flyToRegion(35.160, 129.130, 11)" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">🌉 Busan</button>
+          <button onclick="flyToRegion(36.198, 129.346, 12)" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">🦷 Pohang</button>
+          <button onclick="flyToRegion(33.360, 126.550, 10)" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition shadow-2xs">🍊 Jeju</button>
+          <button onclick="fitAllFilteredMarkers()" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-dancheong-coral border border-rose-200 transition">Fit All Pins</button>
         </div>
       </div>
-
-      <!-- Half-Day Pilgrimage Course Builder (5 cols on desktop) -->
-      <div id="course-builder" class="lg:col-span-5 rounded-2xl bg-white border border-slate-200 p-5 flex flex-col justify-between shadow-lg">
-        <div>
-          <div class="flex items-center justify-between gap-2 mb-2">
-            <span class="text-[11px] font-mono font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">Curated Pilgrimage Route</span>
-            <span id="course-duration-badge" class="text-xs font-mono text-slate-500">⏱️ ~4.5 Hours · Transit + Walk</span>
-          </div>
-          <h3 id="course-title" class="font-display font-bold text-xl text-slate-900 mb-1">Central Seoul Landmark &amp; Hanok Loop</h3>
-          <p id="course-subtitle" class="text-xs text-slate-600 mb-3">Hit 5 iconic K-Drama filming locations in one afternoon without backtracking across the Han River.</p>
-
-          <!-- Course Selector Tabs -->
-          <div class="grid grid-cols-3 gap-1.5 mb-4 bg-slate-100 p-1 rounded-xl border border-slate-200">
-            <button onclick="selectCourse('seoul-central')" data-course="seoul-central" class="course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-dancheong-coral text-white shadow-xs transition">🗼 Seoul Loop</button>
-            <button onclick="selectCourse('suwon-loop')" data-course="suwon-loop" class="course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-slate-950 transition">💛 Suwon Loop</button>
-            <button onclick="selectCourse('gangneung-east')" data-course="gangneung-east" class="course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-slate-950 transition">🌊 East Coast</button>
-          </div>
-
-          <ol id="course-steps-list" class="space-y-2.5 relative before:absolute before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-dancheong-coral before:via-amber-500 before:to-emerald-500">
-            <!-- Populated dynamically by selectCourse() -->
-          </ol>
-        </div>
-
-        <div class="mt-5 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
-          <div class="text-xs text-slate-600">
-            <span class="font-bold text-slate-900">Local Tip:</span> Use a <span class="text-amber-600 font-semibold">T-money Card</span> or <span class="text-emerald-700 font-semibold">Climate Card</span> for unlimited subway/bus transfers.
-          </div>
-          <button onclick="drawCourseRoute()" class="shrink-0 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-dancheong-coral to-rose-600 hover:from-rose-600 hover:to-dancheong-coral text-white font-semibold text-xs shadow-md shadow-dancheong-coral/20 transition">
-            <span>📍</span> Highlight Route on Map
-          </button>
-        </div>
+      <div id="map" class="w-full h-[440px] sm:h-[520px] z-10"></div>
+      <div class="px-4 sm:px-5 py-2.5 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-600">
+        <span>🖱️ <strong>Mouse Wheel Zoom Enabled:</strong> Place your cursor over the map and scroll to zoom in/out immediately, or click any numbered pin for Naver/Kakao links &amp; Korean taxi address.</span>
+        <span class="font-mono text-[11px] text-slate-500">All 102 Pins Live on Map</span>
       </div>
     </section>
 
@@ -516,47 +484,6 @@
       });
     }
 
-    const COURSES = {
-      "seoul-central": {
-        title: "Central Seoul Landmark & Hanok Loop",
-        subtitle: "Hit 5 iconic K-Drama filming locations in one afternoon without backtracking across the Han River.",
-        duration: "⏱️ ~4.5 Hours · Subway + Cable Car",
-        center: [37.558, 126.975],
-        zoom: 12,
-        steps: [
-          { spotId: 3, badge: "1", color: "bg-dancheong-coral text-white", title: "14:00 · Bukchon Hanok Village & Anguk Stone Wall", desc: "Goblin & Queen of Tears — Start at Anguk Stn Exit 2 while afternoon sunlight hits the Hanok tiles." },
-          { spotId: 4, badge: "2", color: "bg-dancheong-coral text-white", title: "15:30 · Yonsei University Underwood Hall", desc: "Lovely Runner & True Beauty — 15 min metro ride to Sinchon Stn for the ivy courtyard." },
-          { spotId: 9, badge: "3", color: "bg-amber-500 text-white", title: "17:00 · Sewoon Sangga Rooftop (Geumga Plaza)", desc: "Vincenzo — Retro Euljiro corridors and panoramic rooftop view facing Namsan." },
-          { spotId: 2, badge: "4", color: "bg-amber-500 text-white", title: "18:30 · Haebangchon & Noksapyeong Overpass", desc: "Itaewon Class — Golden hour photo on Park Sae-royi's pedestrian bridge." },
-          { spotId: 1, badge: "5", color: "bg-emerald-600 text-white", title: "20:00 · Namsan Seoul Tower Finale", desc: "Queen of Tears & My Love from the Star — Lock of Love terrace over Seoul." }
-        ]
-      },
-      "suwon-loop": {
-        title: "Suwon Haenggung Time-Slip Loop",
-        subtitle: "Walk between Im Sol's blue gate (Lovely Runner) and Woo Young-woo's Gimbap shop in 4 minutes!",
-        duration: "⏱️ ~3.5 Hours · 35 min KTX/Metro from Seoul",
-        center: [37.2854, 127.0145],
-        zoom: 15,
-        steps: [
-          { spotId: 5, badge: "1", color: "bg-dancheong-coral text-white", title: "11:00 · Im Sol & Ryu Sun-jae's House (Mong Ted)", desc: "Lovely Runner EP.01–16 — Snap the iconic yellow-umbrella photo at the blue gate in Haenggung-dong." },
-          { spotId: 10, badge: "2", color: "bg-amber-500 text-white", title: "12:00 · Woo Young-woo's Gimbap (Kazaguruma)", desc: "Extraordinary Attorney Woo — Just 180 meters down the same brick alley!" },
-          { spotId: 14, badge: "3", color: "bg-emerald-600 text-white", title: "15:00 · Gyeonggi Fortress & Canyon Extension", desc: "Continue along UNESCO Hwaseong Fortress walls (Our Beloved Summer) or north to Hantan Sky Bridge." }
-        ]
-      },
-      "gangneung-east": {
-        title: "East Coast Ocean & K-Pop Pilgrimage",
-        subtitle: "Crystal-clear East Sea beaches featuring BTS's 'You Never Walk Alone' Bus Stop, Goblin's Breakwater & Gongjin.",
-        duration: "⏱️ Half-Day · KTX Seoul → Gangneung (1h 50m)",
-        center: [37.9126, 128.8166],
-        zoom: 11,
-        steps: [
-          { spotId: 6, badge: "1", color: "bg-dancheong-coral text-white", title: "09:00 · Jumunjin BTS Bus Stop & Goblin Breakwater", desc: "BTS & Goblin — Hyangho Beach album jacket bus stop + Yeongjin Beach red-scarf breakwater 5 mins south." },
-          { spotId: 11, badge: "2", color: "bg-amber-500 text-white", title: "13:30 · Pohang Cheongha Gongjin Market", desc: "Hometown Cha-Cha-Cha — Yoon Dental Clinic, Hardware Store & Red Lighthouse along the East Coast." },
-          { spotId: 13, badge: "3", color: "bg-emerald-600 text-white", title: "17:00 · Coastal Cafe Sunset Finale", desc: "Oceanfront K-Movie & K-Drama seaside cafe experience." }
-        ]
-      }
-    };
-
     const FEATURED_WORKS = [
       { id: "ALL", label: "All Works (102)", icon: "✨" },
       { id: "Queen of Tears", label: "Queen of Tears", icon: "👑" },
@@ -587,12 +514,10 @@
     let searchQuery = "";
     let visibleCardLimit = 12;
     let showAllWorks = false;
-    let activeCourseKey = "seoul-central";
 
     let map;
     let markersById = {};
     let markerGroup;
-    let routeLine = null;
 
     function getNaverUrl(spot) {
       return `https://map.naver.com/p/search/${encodeURIComponent(spot.nameKr)}`;
@@ -971,56 +896,6 @@
       map.flyToBounds(bounds.pad(0.15), { duration: 0.9 });
     }
 
-    function selectCourse(courseKey) {
-      activeCourseKey = courseKey;
-      const course = COURSES[courseKey];
-      if (!course) return;
-
-      document.querySelectorAll(".course-btn").forEach((btn) => {
-        if (btn.getAttribute("data-course") === courseKey) {
-          btn.className = "course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-dancheong-coral text-white shadow-xs transition";
-        } else {
-          btn.className = "course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-slate-950 transition";
-        }
-      });
-
-      document.getElementById("course-title").textContent = course.title;
-      document.getElementById("course-subtitle").textContent = course.subtitle;
-      document.getElementById("course-duration-badge").textContent = course.duration;
-
-      const listEl = document.getElementById("course-steps-list");
-      listEl.innerHTML = course.steps.map((step) => `
-        <li onclick="focusSpot(${step.spotId})" class="relative pl-9 py-2.5 pr-3 rounded-xl bg-slate-50 hover:bg-rose-50/60 border border-slate-200/90 cursor-pointer transition">
-          <span class="absolute left-1.5 top-2.5 w-4 h-4 rounded-full ${step.color} text-[10px] font-bold flex items-center justify-center shadow-2xs">${step.badge}</span>
-          <div class="text-xs font-bold text-slate-900">${step.title}</div>
-          <div class="text-[11px] text-slate-600">${step.desc}</div>
-        </li>
-      `).join("");
-
-      drawCourseRoute();
-    }
-
-    function drawCourseRoute() {
-      const course = COURSES[activeCourseKey];
-      if (!course) return;
-      const coords = course.steps
-        .map((st) => SPOTS.find((s) => s.id === st.spotId))
-        .filter(Boolean)
-        .map((s) => [s.lat, s.lng]);
-
-      if (routeLine) {
-        map.removeLayer(routeLine);
-      }
-      routeLine = L.polyline(coords, {
-        color: "#FF385C",
-        weight: 4,
-        dashArray: "8, 8",
-        opacity: 0.95
-      }).addTo(map);
-
-      map.flyToBounds(routeLine.getBounds().pad(0.25), { duration: 1.0 });
-    }
-
     function copyAddress(addressKr, nameKr) {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(`${nameKr} (${addressKr})`).catch(() => {});
@@ -1051,7 +926,6 @@
       initMap();
       renderWorkChips();
       renderCards();
-      selectCourse("seoul-central");
       applyUrlParams();
     });
   </script>
