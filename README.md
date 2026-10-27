@@ -82,3 +82,13 @@
      };
      ```
    - Entering partner IDs in `AFFILIATE_CONFIG` automatically activates affiliate tracking parameters across all 102+ cards and the right-side map panel.
+
+## 6. Daily Public-Data Regional Blog & Google AdSense Pipeline (`[t628u]`)
+- **On-Page Section**: `#travel-blog` (`Daily Korea Regional & K-Drama Filming Travel Blog`) is linked in the top navigation bar (`📰 Daily K-Travel Blog`) and renders long-form English regional guides from `/workspace/kspot-map/data/blog-posts.json` with an inline full-article modal reader AND standalone SEO URLs.
+- **Standalone SEO Article Pages (`/blog/*.html`)**:
+  1. `/blog/jongno-bukchon-seoul-kdrama-palace-hanok-filming-guide.html`
+  2. `/blog/suwon-hwaseong-haenggung-dong-kdrama-filming-guide.html`
+  3. `/blog/gangneung-jumunjin-east-coast-goblin-bts-filming-guide.html`
+  4. `/blog/itaewon-namsan-yongsan-seoul-skyline-kdrama-guide.html`
+- **Daily Automation Script (`/workspace/kspot-map/scripts/publish_daily_blog.py`)**:
+  - Run `python3 /workspace/kspot-map/scripts/publish_daily_blog.py --generate-next` to select the next unposted district/city cluster from the 15,034-row KCISA public dataset (`/workspace/kspot-map/data/kcisa_filming_locations_utf8.csv`), prepend a new regional travel guide to `data/blog-posts.json`, and update `sitemap.xml`.

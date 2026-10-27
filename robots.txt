@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Allow: /data/spots.json
 
 Sitemap: https://kspotkorea.co.kr/sitemap.xml
-Host: https://kspotkorea.co.kr

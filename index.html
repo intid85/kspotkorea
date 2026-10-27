@@ -156,6 +156,9 @@
       transition: opacity 0.35s ease, transform 0.6s ease;
     }
   </style>
+  <!-- Travelpayouts Monetization & Google AdSense Config -->
+  <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false" src="https://emrldtp.cc/NTkxMjc3.js?t=591277" async></script>
+  <script>window.ADSENSE_CLIENT_ID = "ca-pub-XXXXXXXXXXXXXXXX";</script>
 </head>
 <body class="antialiased selection:bg-dancheong-coral selection:text-white">
 
@@ -184,6 +187,9 @@
       </nav>
 
       <div class="flex items-center gap-2">
+        <a href="#travel-blog" class="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-dancheong-coral border border-rose-200 shadow-2xs transition">
+          <span>📰</span> Daily K-Travel Blog
+        </a>
         <a href="#interactive-map" class="inline-flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white shadow-xs transition">
           <span>🗺️</span> Interactive Map
         </a>
@@ -474,6 +480,60 @@
         </div>
       </div>
     </section>
+
+    <!-- Daily K-Spot & Regional Filming Travel Blog Section (Google AdSense & SEO Editorial Hub) -->
+    <section id="travel-blog" aria-label="Daily K-Spot & Regional Travel Guide Blog" class="rounded-3xl bg-white border border-slate-200/90 shadow-lg p-6 sm:p-8 space-y-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-slate-200 pb-5">
+        <div class="space-y-1.5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-dancheong-coral text-xs font-mono font-bold">
+            <span>📰 DAILY PUBLIC-DATA REGIONAL TRAVEL SERIES</span>
+            <span>·</span>
+            <span>KCISA 15,034-Spot Archive</span>
+          </div>
+          <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900">
+            Daily Korea Regional &amp; K-Drama Filming Travel Blog
+          </h2>
+          <p class="text-sm text-slate-600 max-w-3xl">
+            In-depth neighborhood itineraries, verified Korean taxi addresses, subway exits, and local food specialties curated daily from Korea's public cultural filming dataset. Click any guide to read the full article inline or open its standalone SEO page.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <a href="./data/blog-posts.json" target="_blank" class="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-mono font-semibold text-slate-700 transition">
+            📂 Blog JSON Feed
+          </a>
+        </div>
+      </div>
+
+      
+      <!-- Clean Google AdSense Responsive Display Slot -->
+      <div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-3 text-center" data-adsense-slot="home-blog-banner">
+        <div class="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-1">Sponsored · Travel Partner &amp; Google AdSense Display Unit</div>
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      </div>
+
+      <!-- Dynamic Blog Cards Grid -->
+      <div id="blog-posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Populated by renderBlogPosts() -->
+      </div>
+    </section>
+
+    <!-- Full-Article Reader Modal for On-Page Reading -->
+    <div id="blog-reader-modal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-sm overflow-y-auto p-4 sm:p-6 lg:p-10">
+      <div class="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden my-4">
+        <div class="sticky top-0 z-20 px-5 py-3.5 bg-white/95 backdrop-blur-md border-b border-slate-200 flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-0.5 rounded-full bg-rose-50 border border-rose-200 text-dancheong-coral text-xs font-mono font-bold">📖 K-Spot Regional Guide Reader</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <a id="blog-modal-standalone-link" href="#" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 transition">🔗 Open Standalone URL</a>
+            <button onclick="closeBlogModal()" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white transition">✕ Close</button>
+          </div>
+        </div>
+        <div id="blog-modal-body" class="p-6 sm:p-10">
+          <!-- Populated by openBlogModal(slug) -->
+        </div>
+      </div>
+    </div>
   </main>
 
   <!-- Toast Notification for Copy Korean Address -->
@@ -490,7 +550,12 @@
         <p>Verified Korean K-Drama, K-Pop &amp; Movie Filming Locations Travel Guide.</p>
         <p class="text-[11px] text-slate-400">All drama/movie/artist titles are property of their respective creators, studios, and broadcasters; used for editorial travel guide reference.</p>
       </div>
-      <div class="flex flex-wrap gap-3 font-mono text-[11px]">
+      <div class="flex flex-wrap gap-2.5 font-mono text-[11px]">
+        <a href="./about-privacy-disclaimer.html#about" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-semibold">About Us &amp; Editorial Policy</a>
+        <a href="./about-privacy-disclaimer.html#privacy" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 font-semibold">Privacy Policy (AdSense)</a>
+        <a href="./about-privacy-disclaimer.html#terms" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700">Terms &amp; Disclaimer</a>
+        <a href="mailto:duckcheonkorea@gmail.com" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700">Contact: duckcheonkorea@gmail.com</a>
+        <a href="#travel-blog" class="px-2.5 py-1 rounded bg-rose-50 hover:bg-rose-100 border border-rose-200 text-dancheong-coral font-semibold">📰 Daily Blog</a>
         <a href="./data/spots.json" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700">JSON API (102 Spots)</a>
         <a href="./sitemap.xml" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700">Sitemap.xml</a>
         <a href="./robots.txt" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700">Robots.txt</a>
@@ -1951,10 +2016,126 @@
       } catch (e) {
         console.error("Failed to load spots.json", e);
       }
+
+    let BLOG_POSTS = [];
+
+    async function loadBlogPosts() {
+      try {
+        const res = await fetch("./data/blog-posts.json");
+        BLOG_POSTS = await res.json();
+        renderBlogPosts();
+      } catch (e) {
+        console.error("Failed to load blog-posts.json", e);
+      }
+    }
+
+    function renderBlogPosts() {
+      const grid = document.getElementById("blog-posts-grid");
+      if (!grid || !BLOG_POSTS.length) return;
+      grid.innerHTML = BLOG_POSTS.map((post) => {
+        const worksBadges = (post.featuredWorks || []).slice(0, 4).map(
+          (w) => `<span class="px-2 py-0.5 rounded-md bg-rose-50 border border-rose-200 text-dancheong-coral text-[11px] font-bold">${w}</span>`
+        ).join("");
+        return `
+          <article class="rounded-2xl border border-slate-200/90 bg-slate-50/50 hover:bg-white hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col justify-between">
+            <div>
+              <div class="relative h-48 bg-slate-900 overflow-hidden">
+                <img src="${post.heroImage}" alt="${post.title}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" loading="lazy" />
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/25 to-transparent"></div>
+                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                  <span class="px-2.5 py-1 rounded-full bg-slate-900/85 backdrop-blur-md text-white text-[11px] font-mono font-bold">📍 ${post.region}</span>
+                  <span class="px-2.5 py-1 rounded-full bg-white/90 text-slate-900 text-[11px] font-mono font-bold">⏱️ ${post.readTime}</span>
+                </div>
+                <div class="absolute bottom-3 left-3 right-3 text-white">
+                  <div class="text-[11px] font-mono text-amber-300">📅 ${post.date} · ${post.district}</div>
+                </div>
+              </div>
+              <div class="p-5 space-y-3">
+                <div class="flex flex-wrap gap-1.5">${worksBadges}</div>
+                <h3 class="font-display font-extrabold text-lg sm:text-xl text-slate-900 leading-snug">
+                  <a href="./blog/${post.slug}.html" class="hover:text-dancheong-coral transition">${post.title}</a>
+                </h3>
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">${post.summary}</p>
+              </div>
+            </div>
+            <div class="px-5 pb-5 pt-2 flex flex-wrap items-center justify-between gap-2 border-t border-slate-200/60 mt-2">
+              <button onclick="openBlogModal('${post.slug}')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold shadow-xs transition">
+                <span>📖 Read Full Guide Here</span>
+              </button>
+              <a href="./blog/${post.slug}.html" class="inline-flex items-center gap-1 px-3 py-2 rounded-xl bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 text-xs font-bold transition">
+                <span>🔗 Full Article Page</span>
+                <span>→</span>
+              </a>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function openBlogModal(slug) {
+      const post = BLOG_POSTS.find((p) => p.slug === slug);
+      if (!post) return;
+      const modal = document.getElementById("blog-reader-modal");
+      const body = document.getElementById("blog-modal-body");
+      const link = document.getElementById("blog-modal-standalone-link");
+      link.href = `./blog/${post.slug}.html`;
+
+      const highlightsHtml = (post.spotHighlights || []).map((h) => `
+        <div class="rounded-xl bg-slate-50 border border-slate-200 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <span class="text-[11px] font-mono font-bold text-rose-600">${h.work}</span>
+            <div class="font-display font-bold text-sm text-slate-900">${h.name}</div>
+            <div class="text-xs font-mono text-slate-600">📍 ${h.addressKr} · 🚇 ${h.subway}</div>
+          </div>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <a href="https://map.naver.com/p/search/${encodeURIComponent(h.name)}" target="_blank" rel="noopener" class="px-2.5 py-1.5 rounded-lg bg-[#03C75A] text-white text-xs font-bold">🟢 Naver Map</a>
+            <a href="https://map.kakao.com/link/search/${encodeURIComponent(h.addressKr)}" target="_blank" rel="noopener" class="px-2.5 py-1.5 rounded-lg bg-[#FEE500] text-slate-900 text-xs font-bold">🟡 KakaoMap</a>
+          </div>
+        </div>
+      `).join("");
+
+      const sectionsHtml = (post.sections || []).map((sec) => `
+        <div class="space-y-3 mb-6">
+          <h3 class="font-display font-bold text-xl text-slate-900">${sec.heading}</h3>
+          ${(sec.paragraphs || []).map((p) => `<p class="text-sm sm:text-base text-slate-700 leading-relaxed">${p}</p>`).join("")}
+        </div>
+      `).join("");
+
+      body.innerHTML = `
+        <div class="space-y-6">
+          <div class="space-y-2 border-b border-slate-200 pb-5">
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-dancheong-coral font-bold">
+              <span>📍 ${post.region} · ${post.district}</span>
+              <span>·</span>
+              <span>📅 ${post.date}</span>
+              <span>·</span>
+              <span>⏱️ ${post.readTime}</span>
+            </div>
+            <h2 class="font-display font-extrabold text-2xl sm:text-3xl text-slate-900">${post.title}</h2>
+            <p class="text-base text-slate-600 font-medium">${post.subtitle}</p>
+          </div>
+          <div class="space-y-2.5">
+            <h3 class="font-display font-bold text-base text-slate-900">🎬 Key Verified Filming Locations in This Guide</h3>
+            ${highlightsHtml}
+          </div>
+          <div>${sectionsHtml}</div>
+        </div>
+      `;
+      modal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeBlogModal() {
+      const modal = document.getElementById("blog-reader-modal");
+      if (modal) modal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+
       renderWorkChips();
       renderCards(false);
       initMap();
       applyUrlParams();
+      loadBlogPosts();
     });
   </script>
 </body>
