@@ -63,3 +63,9 @@ If you are a new agent session picking up work on **K-Spot Korea (`https://kspot
 - **Google AdSense Ready**:
   - Legal & Editorial Policies Page: `/workspace/kspot-map/about-privacy-disclaimer.html` (`About Us & Editorial Policy`, `Privacy Policy` with Google AdSense DoubleClick DART cookie disclosure, `Terms & Travel Disclaimer`, and `Contact: duckcheonkorea@gmail.com`) linked in the footer of every page.
   - AdSense Publisher ID placeholder (`window.ADSENSE_CLIENT_ID = "ca-pub-XXXXXXXXXXXXXXXX"`) and `<ins class="adsbygoogle" ...>` containers on `index.html` and inside each `/blog/*.html` article.
+
+## 9. Daily Post Workflow (since 2026-10-28)
+- Write the day's post as a draft JSON in `data/drafts/YYYY-MM-DD-<area>.json` (fields documented at the top of `scripts/render_post_html.py`).
+- Run `python3 scripts/render_post_html.py data/drafts/<file>.json` to build `blog/<slug>.html`, prepend to `data/blog-posts.json`, and add the URL to `sitemap.xml`.
+- Covered so far: Jongno/Bukchon, Suwon Haenggung-dong, Gangneung/Jumunjin, Itaewon/Yongsan, Mapo-gu (Hongdae/Yeonnam/Mangwon). Next candidates by KCISA record count: Gangnam-gu, Jung-gu (Myeongdong/Euljiro), Yeongdeungpo-gu, Paju, Goyang, Incheon Jung-gu, Jeju-si.
+- The traveler-tips widget starts empty; do not seed it with invented reviews.
