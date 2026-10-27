@@ -864,14 +864,33 @@
       }
     }
 
+    let mapResizeObserver = null;
+
+    function syncMapLayoutSize() {
+      if (mapEngine === "KAKAO" && kakaoMap) {
+        kakaoMap.relayout();
+      } else if (leafletMap) {
+        leafletMap.invalidateSize();
+      }
+    }
+
     function initMap() {
       const container = document.getElementById("korea-map");
       if (!container) return;
+
+      if (window.ResizeObserver && !mapResizeObserver) {
+        mapResizeObserver = new ResizeObserver(() => {
+          syncMapLayoutSize();
+        });
+        mapResizeObserver.observe(container);
+      }
 
       if (window.kakao && window.kakao.maps) {
         window.kakao.maps.load(() => {
           try {
             initKakaoMap(container);
+            requestAnimationFrame(() => syncMapLayoutSize());
+            setTimeout(() => syncMapLayoutSize(), 120);
           } catch (err) {
             console.warn("Kakao Maps init failed, falling back to OSM:", err);
             initLeafletFallback(container);
@@ -1310,7 +1329,7 @@
                 class="py-2 px-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center justify-center gap-1 shadow-xs"
                 title="Zoom deep into street level on the map"
               >
-                <span>🔍</span> Zoom 17x
+                <span>🔍</span> Zoom Close
               </button>
               <a
                 href="${getNaverUrl(spot)}"
@@ -1350,6 +1369,15 @@
           panelCard.classList.add("panel-flash");
         }
       }
+
+      requestAnimationFrame(() => {
+        if (kakaoMap) kakaoMap.relayout();
+        if (leafletMap) leafletMap.invalidateSize();
+      });
+      setTimeout(() => {
+        if (kakaoMap) kakaoMap.relayout();
+        if (leafletMap) leafletMap.invalidateSize();
+      }, 120);
     }
 
     function selectSpotOnMap(spotId, opts = {}) {
