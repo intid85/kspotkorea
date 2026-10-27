@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>K-Spot Korea (kspotkorea.co.kr) — 100+ Real K-Drama, K-Pop &amp; Movie Filming Locations Map</title>
+  <meta name="description" content="Explore 102+ verified K-Drama, K-Pop, and Korean Movie filming locations across Seoul, Suwon, Gangneung, Busan, and Jeju. Built on 15,034 official KCISA &amp; KTO public records with 1-click Naver Map, KakaoMap, and Korean taxi address copy." />
+  <meta name="keywords" content="K-Drama filming locations, K-Pop filming locations, Queen of Tears filming locations, Lovely Runner filming locations, Squid Game filming locations, BTS bus stop Jumunjin, Goblin filming locations, Korea travel map, Naver Map K-Drama, kspotkorea" />
+  <link rel="canonical" href="https://kspotkorea.co.kr/" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="K-Spot Korea" />
+  <meta property="og:title" content="K-Spot Korea — Real K-Drama, K-Pop &amp; Movie Filming Locations Map" />
+  <meta property="og:description" content="Walk into your favorite K-Drama &amp; K-Pop scenes. 102+ curated spots backed by 15,034 KCISA public records with 1-click Naver Map, KakaoMap &amp; Korean taxi addresses." />
+  <meta property="og:url" content="https://kspotkorea.co.kr/" />
+  <meta property="og:image" content="https://kspotkorea.co.kr/assets/namsan-hero.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="K-Spot Korea (kspotkorea.co.kr) — K-Drama &amp; K-Pop Filming Map" />
+  <meta name="twitter:description" content="102+ verified Korean filming locations with 1-click Naver Map, KakaoMap &amp; Korean taxi address copy." />
+  <meta name="twitter:image" content="https://kspotkorea.co.kr/assets/namsan-hero.jpg" />
+
+  <!-- Schema.org JSON-LD for Programmatic SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "K-Spot Korea",
+    "alternateName": "K-Scene Map Korea",
+    "url": "https://kspotkorea.co.kr/",
+    "description": "Interactive map and travel guide for 102+ verified K-Drama, K-Pop, and K-Movie filming locations in South Korea, powered by KCISA (15,034 records) and KTO TourAPI.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://kspotkorea.co.kr/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Outfit', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            night: {
+              950: '#070A12',
+              900: '#0C111D',
+              800: '#131B2E',
+              700: '#1E2942',
+            },
+            dancheong: {
+              coral: '#FF4D6D',
+              amber: '#FFB703',
+              jade: '#06D6A0',
+              naver: '#03C75A',
+              kakao: '#FEE500',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Leaflet CSS & JS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+  <style>
+    body {
+      background-color: #070A12;
+      color: #F8FAFC;
+      overflow-x: hidden;
+    }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Dark cinematic styling over readable bilingual map tiles */
+    .leaflet-container {
+      background: #0b1322 !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    .leaflet-tile-pane {
+      filter: brightness(0.92) contrast(1.06) saturate(1.08);
+    }
+    .leaflet-popup-content-wrapper {
+      background: rgba(12, 17, 29, 0.96) !important;
+      color: #F8FAFC !important;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 14px !important;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.85) !important;
+      backdrop-filter: blur(12px);
+    }
+    .leaflet-popup-tip {
+      background: rgba(12, 17, 29, 0.96) !important;
+    }
+    .custom-pin {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 12px;
+      color: #fff;
+      border: 2px solid #fff;
+      box-shadow: 0 6px 18px rgba(255, 77, 109, 0.55);
+      transition: transform 0.2s ease;
+    }
+    .custom-pin:hover {
+      transform: scale(1.16);
+    }
+    .spot-card {
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+    .spot-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 77, 109, 0.55);
+      box-shadow: 0 22px 44px -18px rgba(255, 77, 109, 0.22);
+    }
+    .spot-card.active-card {
+      border-color: #FF4D6D !important;
+      box-shadow: 0 0 0 2px rgba(255, 77, 109, 0.45), 0 22px 44px -16px rgba(255, 77, 109, 0.32);
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-dancheong-coral selection:text-white">
+
+  <!-- Top Sticky Navigation -->
+  <header class="sticky top-0 z-50 border-b border-white/10 bg-night-950/85 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <a href="https://kspotkorea.co.kr/" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-dancheong-coral to-dancheong-amber flex items-center justify-center shadow-lg shadow-dancheong-coral/25">
+          <span class="font-display font-extrabold text-night-950 text-lg tracking-tighter">K</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-display font-bold text-lg tracking-tight text-white group-hover:text-dancheong-coral transition-colors">K-SPOT KOREA</span>
+            <span class="text-[11px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-dancheong-coral/15 text-dancheong-coral border border-dancheong-coral/30">kspotkorea.co.kr</span>
+          </div>
+          <p class="text-[11px] text-slate-400 hidden sm:block">Official KCISA (15,034 Spots) &amp; KTO TourAPI Filming Atlas · Naver &amp; Kakao Ready</p>
+        </div>
+      </a>
+
+      <!-- Quick Category Switcher in Header -->
+      <nav class="hidden md:flex items-center gap-1.5 bg-night-900/90 p-1 rounded-xl border border-white/10">
+        <button onclick="setCategory('ALL')" data-cat="ALL" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-dancheong-coral text-white transition">All Spots (102)</button>
+        <button onclick="setCategory('K-Drama')" data-cat="K-Drama" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition">🎬 K-Drama (61)</button>
+        <button onclick="setCategory('K-Pop')" data-cat="K-Pop" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition">💜 K-Pop (22)</button>
+        <button onclick="setCategory('K-Movie')" data-cat="K-Movie" class="cat-btn px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition">🏆 K-Movie (19)</button>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <a href="#interactive-map" class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-slate-200 transition">
+          <span>🗺️</span> Live Map
+        </a>
+        <a href="#course-builder" class="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg bg-dancheong-jade/15 hover:bg-dancheong-jade/25 border border-dancheong-jade/30 text-dancheong-jade transition">
+          <span>✨</span> Half-Day Courses
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner with Verified Namsan Seoul Tower Night Skyline -->
+  <section class="relative overflow-hidden border-b border-white/10">
+    <div class="absolute inset-0 z-0">
+      <img
+        src="./assets/namsan-hero.jpg"
+        onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=85&w=2000&auto=format&fit=crop';"
+        alt="Namsan Seoul Tower Night View over Seoul Skyline"
+        class="w-full h-full object-cover object-center scale-105 brightness-[0.42] contrast-110"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-night-950 via-night-950/70 to-night-950/35"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-night-950/90 via-night-950/45 to-transparent"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 lg:pt-14 lg:pb-16">
+      <div class="max-w-3xl">
+        <div class="inline-flex flex-wrap items-center gap-2 px-3 py-1.5 rounded-full bg-night-900/80 border border-white/15 backdrop-blur-md mb-5">
+          <span class="w-2 h-2 rounded-full bg-dancheong-coral animate-ping"></span>
+          <span class="text-xs font-medium text-slate-200">LIVE ON KSPOTKOREA.CO.KR · 102 Curated Spots · 15,034 KCISA Records</span>
+        </div>
+
+        <h1 class="font-display font-extrabold text-3xl sm:text-5xl lg:text-[52px] leading-[1.08] tracking-tight text-white mb-4">
+          Walk Into Your Favorite <br class="hidden sm:inline" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-dancheong-coral via-rose-400 to-dancheong-amber">K-Drama, K-Pop &amp; Movie Scenes.</span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-300 leading-relaxed mb-6 max-w-2xl">
+          Google Maps walking directions don’t work in South Korea. <strong class="text-white">K-Spot Korea</strong> pairs 102+ verified filming locations from the official <span class="text-dancheong-amber font-medium">Korea Culture Information Service Agency (KCISA)</span> &amp; <span class="text-dancheong-jade font-medium">KTO TourAPI</span> with 1-click <span class="text-dancheong-naver font-semibold">Naver Map (English)</span>, <span class="text-dancheong-kakao font-semibold">KakaoMap</span>, and <span class="underline decoration-dancheong-coral/60">Korean taxi address cards</span>.
+        </p>
+
+        <!-- Search Bar + Region Selector -->
+        <div class="flex flex-col sm:flex-row gap-2.5 max-w-2xl mb-6">
+          <div class="relative flex-1">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔍</span>
+            <input
+              id="search-input"
+              type="text"
+              oninput="handleSearch(this.value)"
+              placeholder="Search drama, K-Pop group, city, or Korean name (e.g. Lovely Runner, BTS, Suwon, 남산)..."
+              class="w-full pl-10 pr-9 py-3 rounded-xl bg-night-900/90 border border-white/15 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-dancheong-coral focus:ring-2 focus:ring-dancheong-coral/30 backdrop-blur-md"
+            />
+            <button id="clear-search-btn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white">✕</button>
+          </div>
+          <select
+            id="region-select"
+            onchange="setRegion(this.value)"
+            aria-label="Filter by Region"
+            class="px-4 py-3 rounded-xl bg-night-900/90 border border-white/15 text-sm font-medium text-white focus:outline-none focus:border-dancheong-coral backdrop-blur-md cursor-pointer"
+          >
+            <option value="ALL">🇰🇷 All Regions (102 Spots)</option>
+            <option value="Seoul">🗼 Seoul (34 Spots)</option>
+            <option value="Gyeonggi & Incheon">🏯 Gyeonggi · Suwon · Incheon (20)</option>
+            <option value="Gangwon (East Coast)">🌊 Gangwon · Gangneung (15)</option>
+            <option value="Busan & Gyeongsang">🌉 Busan · Pohang · Gyeongsang (14)</option>
+            <option value="Jeju Island">🍊 Jeju Island (10)</option>
+            <option value="Central & Jeolla">🏮 Jeonju · Central Korea (9)</option>
+          </select>
+        </div>
+
+        <!-- Quick Stats Strip -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 max-w-2xl">
+          <div class="rounded-xl bg-night-900/80 border border-white/10 px-3.5 py-2.5 backdrop-blur-md">
+            <div class="font-mono font-bold text-lg text-white">102 <span class="text-xs font-normal text-dancheong-coral">/ 15,034</span></div>
+            <div class="text-[11px] text-slate-400">Curated / Raw KCISA Spots</div>
+          </div>
+          <div class="rounded-xl bg-night-900/80 border border-white/10 px-3.5 py-2.5 backdrop-blur-md">
+            <div class="font-mono font-bold text-lg text-dancheong-amber">25+ Works</div>
+            <div class="text-[11px] text-slate-400">K-Dramas, K-Pop &amp; Movies</div>
+          </div>
+          <div class="rounded-xl bg-night-900/80 border border-white/10 px-3.5 py-2.5 backdrop-blur-md">
+            <div class="font-mono font-bold text-lg text-dancheong-naver">Naver + Kakao</div>
+            <div class="text-[11px] text-slate-400">1-Click Deep Links</div>
+          </div>
+          <div class="rounded-xl bg-night-900/80 border border-white/10 px-3.5 py-2.5 backdrop-blur-md">
+            <div class="font-mono font-bold text-lg text-dancheong-jade">Taxi Ready</div>
+            <div class="text-[11px] text-slate-400">Korean Address Copy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Workspace: Filter Chips + Split Interactive Map / Course Panel + Spot Cards Grid -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Filter Bar: Category + Work Chips -->
+    <section aria-label="Filter by K-Content Work" class="space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <h2 class="font-display font-bold text-sm uppercase tracking-wider text-slate-300">Filter by Work or Artist</h2>
+          <span id="active-filter-badge" class="text-xs font-mono px-2.5 py-0.5 rounded-full bg-white/10 text-dancheong-amber">Showing 102 of 102 spots</span>
+        </div>
+        <button onclick="resetAllFilters()" class="text-xs font-medium text-dancheong-coral hover:underline">Reset All Filters ↺</button>
+      </div>
+
+      <!-- Mobile Category Pills -->
+      <div class="flex md:hidden items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+        <button onclick="setCategory('ALL')" data-cat="ALL" class="cat-btn shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-dancheong-coral text-white">All (102)</button>
+        <button onclick="setCategory('K-Drama')" data-cat="K-Drama" class="cat-btn shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-night-800 text-slate-300">🎬 K-Drama (61)</button>
+        <button onclick="setCategory('K-Pop')" data-cat="K-Pop" class="cat-btn shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-night-800 text-slate-300">💜 K-Pop (22)</button>
+        <button onclick="setCategory('K-Movie')" data-cat="K-Movie" class="cat-btn shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-night-800 text-slate-300">🏆 K-Movie (19)</button>
+      </div>
+
+      <!-- Work Filter Chips -->
+      <div id="work-filters" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+        <!-- Populated dynamically from dataset -->
+      </div>
+    </section>
+
+    <!-- Interactive Map + Half-Day Pilgrimage Course Builder -->
+    <section id="interactive-map" class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      <!-- Map Column (7 cols on desktop) -->
+      <div class="lg:col-span-7 rounded-2xl bg-night-900 border border-white/10 overflow-hidden flex flex-col shadow-2xl">
+        <div class="px-4 py-3 border-b border-white/10 flex flex-wrap items-center justify-between gap-2 bg-night-900/90">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-dancheong-jade"></span>
+            <span class="font-display font-bold text-sm text-white">Interactive K-Scene Map (Korea-Wide)</span>
+            <span id="map-pin-count" class="text-xs font-mono text-slate-400">· 102 Pins Active</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <button onclick="flyToRegion(37.555, 126.978, 12)" class="text-xs px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition">Seoul</button>
+            <button onclick="flyToRegion(37.285, 127.015, 14)" class="text-xs px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition">Suwon</button>
+            <button onclick="flyToRegion(37.900, 128.820, 11)" class="text-xs px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition">Gangneung</button>
+            <button onclick="flyToRegion(35.160, 129.130, 11)" class="text-xs px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition">Busan</button>
+            <button onclick="flyToRegion(36.198, 129.346, 12)" class="text-xs px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition">Pohang</button>
+            <button onclick="flyToRegion(33.360, 126.550, 10)" class="text-xs px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-slate-200 border border-white/10 transition">Jeju</button>
+            <button onclick="fitAllFilteredMarkers()" class="text-xs px-2.5 py-1 rounded-md bg-dancheong-coral/20 hover:bg-dancheong-coral/30 text-dancheong-coral border border-dancheong-coral/30 transition">Fit Filtered</button>
+          </div>
+        </div>
+        <div id="map" class="w-full h-[390px] sm:h-[450px] z-10"></div>
+        <div class="px-4 py-2.5 bg-night-950/90 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-400">
+          <span>💡 Click any numbered pin to preview the scene, copy the Korean taxi address, or launch Naver/Kakao Maps.</span>
+          <span class="font-mono text-[11px] text-slate-400">Coordinates: WGS84 · KCISA Verified</span>
+        </div>
+      </div>
+
+      <!-- Half-Day Pilgrimage Course Builder (5 cols on desktop) -->
+      <div id="course-builder" class="lg:col-span-5 rounded-2xl bg-night-900 border border-white/10 p-5 flex flex-col justify-between shadow-2xl">
+        <div>
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <span class="text-[11px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-dancheong-jade/15 text-dancheong-jade border border-dancheong-jade/30">Curated Pilgrimage Route</span>
+            <span id="course-duration-badge" class="text-xs font-mono text-slate-400">⏱️ ~4.5 Hours · Transit + Walk</span>
+          </div>
+          <h3 id="course-title" class="font-display font-bold text-xl text-white mb-1">Central Seoul Night &amp; Hanok Loop</h3>
+          <p id="course-subtitle" class="text-xs text-slate-400 mb-3">Hit 5 iconic K-Drama filming locations in one afternoon without backtracking across the Han River.</p>
+
+          <!-- Course Selector Tabs -->
+          <div class="grid grid-cols-3 gap-1.5 mb-4 bg-night-950 p-1 rounded-xl border border-white/10">
+            <button onclick="selectCourse('seoul-central')" data-course="seoul-central" class="course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-dancheong-coral text-white transition">🗼 Seoul Loop</button>
+            <button onclick="selectCourse('suwon-loop')" data-course="suwon-loop" class="course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white transition">💛 Suwon Loop</button>
+            <button onclick="selectCourse('gangneung-east')" data-course="gangneung-east" class="course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white transition">🌊 East Coast</button>
+          </div>
+
+          <ol id="course-steps-list" class="space-y-2.5 relative before:absolute before:left-3.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-dancheong-coral before:via-dancheong-amber before:to-dancheong-jade">
+            <!-- Populated dynamically by selectCourse() -->
+          </ol>
+        </div>
+
+        <div class="mt-5 pt-4 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5">
+          <div class="text-xs text-slate-300">
+            <span class="font-semibold text-white">Local Tip:</span> Use a <span class="text-dancheong-amber">T-money Card</span> or <span class="text-dancheong-jade">Climate Card</span> for unlimited subway/bus transfers.
+          </div>
+          <button onclick="drawCourseRoute()" class="shrink-0 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-dancheong-coral to-rose-500 hover:from-rose-500 hover:to-dancheong-coral text-white font-semibold text-xs shadow-lg shadow-dancheong-coral/25 transition">
+            <span>📍</span> Highlight Route on Map
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spot Cards Grid -->
+    <section aria-label="Curated Filming Locations">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 mb-5">
+        <div>
+          <h2 class="font-display font-bold text-2xl text-white">Verified Filming Locations (<span id="grid-count-num">102</span>)</h2>
+          <p class="text-xs text-slate-400">Every card includes exact scene context, photography tips, Korean taxi address copy, and 1-click Naver Map / KakaoMap links.</p>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-400 font-mono">
+          <span>Data: KCISA (15,034 rows) + KTO TourAPI</span>
+        </div>
+      </div>
+
+      <div id="spots-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Load More / Show All Toggle -->
+      <div id="load-more-container" class="mt-8 text-center">
+        <button
+          id="load-more-btn"
+          onclick="toggleShowAll()"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-night-800 hover:bg-night-700 border border-white/15 text-sm font-semibold text-white shadow-lg transition"
+        >
+          <span>View All 102 Verified Filming Locations</span>
+          <span class="text-dancheong-coral font-mono">↓</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Why Naver Map & KakaoMap Essential Guide Banner -->
+    <section class="rounded-2xl bg-gradient-to-r from-night-900 via-night-800 to-night-900 border border-white/10 p-6 sm:p-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-8 space-y-2">
+          <div class="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-dancheong-amber">
+            <span>🇰🇷 Essential Korea Travel Survival Tip</span>
+          </div>
+          <h3 class="font-display font-bold text-xl sm:text-2xl text-white">Why Google Maps Walking Directions Fail in South Korea</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Due to South Korean geospatial data export laws, Google Maps cannot provide walking or driving turn-by-turn routes inside Korea. And searching English drama location names inside Korean map apps often returns zero results. <strong class="text-white">K-Spot Korea (kspotkorea.co.kr)</strong> bridges that gap: click <span class="text-dancheong-naver font-semibold">Naver Map</span> or <span class="text-dancheong-kakao font-semibold">KakaoMap</span> on any card to jump straight to the exact Korean place pin, or tap <span class="text-white font-semibold">Copy Korean Address</span> to show your taxi driver.
+          </p>
+        </div>
+        <div class="lg:col-span-4 flex flex-col gap-2.5 bg-night-950/80 p-4 rounded-xl border border-white/10">
+          <div class="text-xs font-semibold text-white mb-1">Recommended Apps Before You Land at ICN:</div>
+          <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
+            <span class="text-dancheong-naver font-semibold">🟢 Naver Map</span>
+            <span class="text-slate-400">Full English UI + Subway Exits</span>
+          </div>
+          <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
+            <span class="text-dancheong-kakao font-semibold">🟡 KakaoMap</span>
+            <span class="text-slate-400">Best Street-View (RoadView)</span>
+          </div>
+          <div class="flex items-center justify-between text-xs py-1.5">
+            <span class="text-dancheong-coral font-semibold">🚕 Kakao T / Uber Korea</span>
+            <span class="text-slate-400">Paste Korean Address Directly</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Toast Notification for Copy Korean Address -->
+  <div id="copy-toast" class="fixed bottom-5 right-5 z-50 hidden items-center gap-2.5 px-4 py-3 rounded-xl bg-night-900 border border-dancheong-jade/50 text-white text-xs font-medium shadow-2xl">
+    <span class="text-dancheong-jade text-base">✓</span>
+    <span id="copy-toast-text">Copied Korean address for taxi!</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10 bg-night-950 py-10 mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-xs text-slate-400">
+      <div class="space-y-1.5">
+        <p class="font-display font-bold text-slate-200 text-sm">K-SPOT KOREA · <a href="https://kspotkorea.co.kr" class="text-dancheong-coral hover:underline">kspotkorea.co.kr</a></p>
+        <p>Powered by Official Korea Culture Information Service Agency (KCISA · 한국문화정보원 미디어콘텐츠 영상 촬영지 데이터 15,034건) &amp; KTO TourAPI 4.0.</p>
+        <p class="text-[11px] text-slate-500">All drama/movie/artist titles are property of their respective creators, studios, and broadcasters; used for editorial travel guide reference.</p>
+      </div>
+      <div class="flex flex-wrap gap-3 font-mono text-[11px]">
+        <a href="./data/spots.json" class="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">JSON API (102 Spots)</a>
+        <a href="./sitemap.xml" class="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">Sitemap.xml</a>
+        <a href="./robots.txt" class="px-2.5 py-1 rounded bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300">Robots.txt</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic & Embedded 102-Spot Dataset -->
+  <script>
+    const SPOTS = [{"id": 1, "kcisaNo": "KCISA-727 / KTO-126535", "name": "Namsan Seoul Tower & Locks of Love", "nameKr": "남산서울타워 (N서울타워)", "category": "K-Drama", "primaryWork": "Queen of Tears", "works": ["Queen of Tears", "Lovely Runner", "Itaewon Class", "My Love from the Star", "True Beauty"], "placeType": "landmark", "region": "Seoul", "city": "Yongsan-gu, Seoul", "addressKr": "서울특별시 용산구 남산공원길 105", "lat": 37.551169, "lng": 126.988227, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Iconic romance padlock terrace & Hanyangdoseong stone wall night walk overlooking the glittering Seoul skyline.", "sceneKr": "서울 야경이 한눈에 내려다보이는 사랑의 자물쇠 테라스 및 남산 한양도성 성곽길 대표 로맨스 촬영지.", "photoTip": "Shoot at blue hour (19:30) from Palgakjeong Pavilion plaza facing the blue-lit spire.", "subway": "Myeongdong Stn (Line 4, Exit 3) → Namsan Cable Car (8 min)", "hours": "10:00 – 23:00 Daily (Observatory last entry 22:30)", "phone": "02-3455-9277", "courseId": "seoul-central"}, {"id": 2, "kcisaNo": "KCISA-11695", "name": "Haebangchon Overpass & Itaewon Danbam Street", "nameKr": "녹사평육교 & 해방촌 단밤거리 (더파이니스트)", "category": "K-Drama", "primaryWork": "Itaewon Class", "works": ["Itaewon Class"], "placeType": "playground", "region": "Seoul", "city": "Yongsan-gu, Seoul", "addressKr": "서울특별시 용산구 녹사평대로 195", "lat": 37.534622, "lng": 126.987335, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "EP.02–16 — Park Sae-royi (Park Seo-joon) stands on the pedestrian overpass with Namsan Seoul Tower framed directly behind him.", "sceneKr": "박새로이(박서준)와 조이서(김다미)가 남산타워를 배경으로 서 있던 녹사평 보도육교 및 해방촌 루프탑 거리.", "photoTip": "Stand at the center of Noksapyeong pedestrian bridge facing north toward Namsan Tower.", "subway": "Noksapyeong Stn (Line 6, Exit 3) · 3 min walk", "hours": "Open 24 Hours (Rooftop bars 17:00 – 01:00)", "phone": "02-2199-6114", "courseId": "seoul-central"}, {"id": 3, "kcisaNo": "KCISA-3112 / KTO-126508", "name": "Bukchon Hanok Village & Anguk Stone Wall Road", "nameKr": "북촌한옥마을 & 감고당길 돌담길", "category": "K-Drama", "primaryWork": "Goblin (Guardian)", "works": ["Goblin (Guardian)", "Queen of Tears", "Lovely Runner", "True Beauty"], "placeType": "playground", "region": "Seoul", "city": "Jongno-gu, Seoul", "addressKr": "서울특별시 종로구 계동길 37", "lat": 37.582604, "lng": 126.983648, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Goblin EP.01 first snow umbrella pass on Gamgodang-gil stone wall & Queen of Tears evening walk across Bukchon rooftops.", "sceneKr": "도깨비 김신과 지은탁이 처음 스쳐 지나간 감고당길 돌담길 및 북촌한옥마을 한옥 골목.", "photoTip": "Visit Bukchon Photo Spot #6 at 09:30 AM looking down the Hanok tiled roofs toward Namsan Tower.", "subway": "Anguk Stn (Line 3, Exit 2) · 7 min walk", "hours": "10:00 – 17:00 Visitor Hours (Quiet residential zone)", "phone": "02-2148-4161", "courseId": "seoul-central"}, {"id": 4, "kcisaNo": "KCISA-10642", "name": "Yonsei University Underwood Hall Ivy Courtyard", "nameKr": "연세대학교 신촌캠퍼스 언더우드관", "category": "K-Drama", "primaryWork": "Lovely Runner", "works": ["Lovely Runner", "True Beauty", "Extraordinary You", "Reply 1994"], "placeType": "playground", "region": "Seoul", "city": "Seodaemun-gu, Seoul", "addressKr": "서울특별시 서대문구 연세로 50", "lat": 37.565784, "lng": 126.938572, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Lovely Runner EP.08–10 — Im Sol & Ryu Sun-jae's college spring campus scenes in front of the historic ivy-covered stone hall.", "sceneKr": "선재 업고 튀어 대학생 임솔과 류선재의 캠퍼스 로맨스 및 여신강림·어쩌다 발견한 하루 촬영지.", "photoTip": "Walk straight up Baekyang-ro pedestrian boulevard to the ivy-covered Underwood Hall steps.", "subway": "Sinchon Stn (Line 2, Exit 2 or 3) · 10 min walk", "hours": "09:00 – 18:00 Outdoor Campus Grounds Free Entry", "phone": "02-2123-2114", "courseId": "seoul-central"}, {"id": 5, "kcisaNo": "KTO-271904", "name": "Hwaseong Haenggung & Haengnidan-gil (Sol & Sun-jae's House)", "nameKr": "수원 화성행궁 & 행리단길 (몽테드 카페)", "category": "K-Drama", "primaryWork": "Lovely Runner", "works": ["Lovely Runner", "Our Beloved Summer", "Extraordinary Attorney Woo"], "placeType": "cafe", "region": "Gyeonggi & Incheon", "city": "Suwon, Gyeonggi", "addressKr": "경기도 수원시 팔달구 신풍로23번길 26", "lat": 37.285862, "lng": 127.015218, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Lovely Runner EP.01–16 — Im Sol's iconic blue-gate house ('Mong Ted' cafe) directly facing Sun-jae's house across the brick alley.", "sceneKr": "선재 업고 튀어 임솔의 집(몽테드 카페)과 류선재의 집이 마주 보고 있는 수원 행궁동 골목.", "photoTip": "Hold a yellow umbrella in front of the blue gate! Walk 4 minutes to Hwaseong Fortress walls after.", "subway": "Suwon Stn (Line 1 / KTX) → Bus 11 or 13 to Hwaseong Haenggung", "hours": "Alley 24h · Cafe 11:00 – 21:00 (Closed Tue)", "phone": "031-244-1155", "courseId": "suwon-loop"}, {"id": 6, "kcisaNo": "KCISA-5239 / KCISA-3080", "name": "Jumunjin BTS Bus Stop & Goblin Breakwater", "nameKr": "주문진 방탄소년단 버스정류장 & 영진해변 도깨비 방사제", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS", "Goblin (Guardian)", "Twenty-Five Twenty-One"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원특별자치도 강릉시 주문진읍 향호리 8-55", "lat": 37.912609, "lng": 128.816635, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "BTS 'You Never Walk Alone' album jacket bus stop on Hyangho Beach, 5 mins north of Goblin's red-scarf Yeongjin Breakwater.", "sceneKr": "방탄소년단 'YOU NEVER WALK ALONE' 앨범 재킷 버스정류장 및 도깨비 1회 은탁·김신 영진해변 방사제.", "photoTip": "Visit between 07:00–09:00 AM for crystal-blue East Sea waves and zero queue.", "subway": "KTX Seoul Stn → Gangneung Stn (1 hr 50 min) → Bus 300 / Taxi 20 min", "hours": "Open 24 Hours Daily", "phone": "033-640-4535", "courseId": "gangneung-east"}, {"id": 7, "kcisaNo": "KCISA-11044", "name": "Ssangmun-dong Baekun Market & Squid Game Alley", "nameKr": "쌍문동 백운시장 & 오징어게임 골목", "category": "K-Drama", "primaryWork": "Squid Game", "works": ["Squid Game", "Reply 1988"], "placeType": "playground", "region": "Seoul", "city": "Dobong-gu, Seoul", "addressKr": "서울특별시 도봉구 삼양로154길 36", "lat": 37.648854, "lng": 127.012634, "image": "./assets/spot-squidgame.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg/960px-Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg", "sceneEn": "Squid Game EP.01–02 — Seong Gi-hun (Lee Jung-jae) & Sang-woo's neighborhood market where Gi-hun's mother runs her stall.", "sceneKr": "오징어게임 성기훈(이정재)과 조상우(박해수)의 쌍문동 동네 시장 및 포장마차 골목 촬영지.", "photoTip": "Pair with nearby Ssangmun-dong Reply 1988 murals (10 min walk).", "subway": "Suyu Stn (Line 4, Exit 3) or Solbat Park Stn (Ui LRT, Exit 1)", "hours": "09:00 – 22:00 Daily (Market stalls vary)", "phone": "02-992-3987", "courseId": "seoul-central"}, {"id": 8, "kcisaNo": "KCISA-5302", "name": "Cafe Hyuga (Former BTS Dormitory Bakery) & Hakdong Park", "nameKr": "휴가 카페 (방탄소년단 구 숙소) & 학동공원", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS", "NCT", "SEVENTEEN"], "placeType": "cafe", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 언주로114길 20", "lat": 37.510524, "lng": 127.034812, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "BTS's real-life Nonhyeon-dong dormitory converted into a multi-level brick bakery cafe, 5 minutes from Hakdong Park & Yoojung Sikdang.", "sceneKr": "방탄소년단이 실제 거주하던 논현동 숙소를 개조한 베이커리 카페 및 연습생 시절 아지트 학동공원.", "photoTip": "Have lunch at Yoojung Sikdang (유정식당, Dosan-daero 28-gil 14) right before coffee at Hyuga.", "subway": "Eonju Stn (Line 9, Exit 3) or Hakdong Stn (Line 7, Exit 1) · 6 min walk", "hours": "10:30 – 21:30 Daily", "phone": "02-543-0120", "courseId": "seoul-central"}, {"id": 9, "kcisaNo": "KCISA-12405", "name": "Sewoon Sangga Rooftop Plaza (Geumga Plaza)", "nameKr": "세운상가 옥상 전망대 (빈센조 금가프라자)", "category": "K-Drama", "primaryWork": "Vincenzo", "works": ["Vincenzo"], "placeType": "landmark", "region": "Seoul", "city": "Jung-gu, Seoul", "addressKr": "서울특별시 중구 청계천로 159", "lat": 37.569422, "lng": 126.995432, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Vincenzo EP.01–20 — Exterior & retro Euljiro arcade corridors of 'Geumga Plaza', where Vincenzo Cassano (Song Joong-ki) sets up headquarters.", "sceneKr": "빈센조 까사노(송중기)와 홍차영(전여빈)의 본거지 '금가프라자' 배경이 된 세운상가·청계상가.", "photoTip": "Ride the elevator to the Sewoon Rooftop Deck for a panoramic view of Jongmyo Shrine and Namsan.", "subway": "Jongno 3-ga Stn (Line 1/3/5, Exit 12) or Euljiro 4-ga Stn · 4 min walk", "hours": "09:00 – 22:00 Daily", "phone": "02-2271-2344", "courseId": "seoul-central"}, {"id": 10, "kcisaNo": "KCISA-14201", "name": "Kazaguruma (Woo Young-woo's Gimbap Shop)", "nameKr": "카자구루마 (우영우 김밥집 촬영지)", "category": "K-Drama", "primaryWork": "Extraordinary Attorney Woo", "works": ["Extraordinary Attorney Woo", "Lovely Runner"], "placeType": "restaurant", "region": "Gyeonggi & Incheon", "city": "Suwon, Gyeonggi", "addressKr": "경기도 수원시 팔달구 신풍로 61", "lat": 37.284915, "lng": 127.013892, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Extraordinary Attorney Woo EP.01–16 — Exterior of 'Woo Young-woo Gimbap', just a 3-minute walk from Im Sol's house in Haenggung-dong!", "sceneKr": "이상한 변호사 우영우의 아버지가 운영하는 '우영우 김밥' 외관 촬영지 (행궁동 일식당 카자구루마).", "photoTip": "Take your photo outside the retro wooden storefront before the 11:30 AM lunch queue forms.", "subway": "Suwon Stn (Line 1 / KTX) → Bus 11 or 13 to Hwaseong Haenggung", "hours": "11:30 – 21:00 (Break 15:00–17:00, Closed Mon)", "phone": "031-252-5023", "courseId": "suwon-loop"}, {"id": 11, "kcisaNo": "KCISA-1998", "name": "Cheongha Gongjin Market & Red Lighthouse", "nameKr": "포항 청하공진시장 & 이가리 닻 전망대", "category": "K-Drama", "primaryWork": "Hometown Cha-Cha-Cha", "works": ["Hometown Cha-Cha-Cha", "When the Camellia Blooms"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Pohang, Gyeongbuk", "addressKr": "경상북도 포항시 북구 청하면 청하로200번길 6", "lat": 36.198245, "lng": 129.346112, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Hometown Cha-Cha-Cha EP.01–16 — Yoon Hye-jin's dental clinic, Chief Hong's hardware store, Bora Supermarket, and Oh Yoon's Live Cafe.", "sceneKr": "갯마을 차차차 윤혜진 치과, 오윤 카페, 보라슈퍼가 모여 있는 포항 청하공진시장.", "photoTip": "Combine with Sabang Memorial Park (Hilltop Boat) 10 mins away by taxi.", "subway": "KTX Pohang Stn → Taxi 20 min north to Cheongha Market", "hours": "Open 24 Hours (Shops 09:00 – 19:00)", "phone": "054-270-2241", "courseId": "gangneung-east"}, {"id": 12, "kcisaNo": "KCISA-9410", "name": "Jeonju Hanok Village & Hanbyeokgul Tunnel", "nameKr": "전주한옥마을 & 한벽굴 터널 (스물다섯 스물하나)", "category": "K-Drama", "primaryWork": "Twenty-Five Twenty-One", "works": ["Twenty-Five Twenty-One", "Love in the Moonlight", "Mr. Sunshine"], "placeType": "playground", "region": "Central & Jeolla", "city": "Jeonju, Jeonbuk", "addressKr": "전라북도 전주시 완산구 기린대로 2", "lat": 35.811245, "lng": 127.163118, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Twenty-Five Twenty-One EP.01–16 — Na Hee-do & Baek Yi-jin's nostalgic tunnel bike ride and Hee-do's neighborhood house in Seohak-dong.", "sceneKr": "스물다섯 스물하나 나희도(김태리)와 백이진(남주혁)이 함께 달리던 전주 한벽굴 터널 및 서학동 예술마을.", "photoTip": "Stand at the entrance of Hanbyeokgul Tunnel during golden hour for the exact poster lighting.", "subway": "KTX Jeonju Stn → Taxi 15 min to Hanok Village / Hanbyeokgul", "hours": "Open 24 Hours Daily", "phone": "063-282-1330", "courseId": "seoul-central"}, {"id": 13, "kcisaNo": "KCISA-238", "name": "Cafe Seochoyeon (Architecture 101 Jeju House)", "nameKr": "카페 서연의 집 (건축학개론 제주 촬영지)", "category": "K-Movie", "primaryWork": "Architecture 101", "works": ["Architecture 101", "Our Blues", "Welcome to Samdal-ri"], "placeType": "cafe", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 남원읍 위미해안로 86", "lat": 33.272485, "lng": 126.657891, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Architecture 101 — Seo-yeon's iconic floor-to-ceiling oceanfront house overlooking Wimi Bay on Jeju's southern coast.", "sceneKr": "영화 건축학개론 속 서연(수지·한가인)의 제주 바닷가 집을 그대로 살린 오션뷰 베이커리 카페.", "photoTip": "Go upstairs to the 2nd-floor lawn terrace where Seung-min & Seo-yeon listened to 'Etude of Memory'.", "subway": "Jeju Int'l Airport → Express Bus 181 to Namwon / Taxi", "hours": "10:30 – 19:00 Daily", "phone": "064-764-7894", "courseId": "gangneung-east"}, {"id": 14, "kcisaNo": "KCISA-7218", "name": "Hantan River Sky Bridge & Bidulginang Cascade", "nameKr": "포천 한탄강 하늘다리 & 비둘기낭 폭포", "category": "K-Drama", "primaryWork": "Crash Landing on You", "works": ["Crash Landing on You", "What's Wrong with Secretary Kim", "Kingdom"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Pocheon, Gyeonggi", "addressKr": "경기도 포천시 영북면 비둘기낭길 207", "lat": 38.077412, "lng": 127.271284, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Crash Landing on You EP.12 — Where Ri Jeong-hyeok & Yoon Se-ri realize they had already crossed paths years earlier on a suspension bridge.", "sceneKr": "사랑의 불시착 리정혁과 윤세리가 과거 스위스 다리 인연을 회상하던 한탄강 하늘다리 및 킹덤 촬영지 비둘기낭 폭포.", "photoTip": "Walk to the center glass-floor viewpoint looking down at the basalt canyon.", "subway": "Dongseoul Bus Terminal → Pocheon Intercity Bus → Local Bus 53", "hours": "09:00 – 18:00 Daily (Free Admission)", "phone": "031-538-3030", "courseId": "suwon-loop"}, {"id": 15, "kcisaNo": "KCISA-1208", "name": "Blackpink House Hongdae Pavilion & YG Sangsu Street", "nameKr": "홍대 블랙핑크 하우스 & 합정 YG 신사옥 거리", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK", "TREASURE"], "placeType": "store", "region": "Seoul", "city": "Mapo-gu, Seoul", "addressKr": "서울특별시 마포구 와우산로21길 19-19", "lat": 37.552641, "lng": 126.922814, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "BLACKPINK's iconic pink-roofed reality residence in Hongdae & the futuristic YG Entertainment headquarters + 'theSameE' fan cafe in Hapjeong.", "sceneKr": "블랙핑크 하우스 홍대 촬영지 및 합정 YG엔터테인먼트 사옥 앞 더세임(theSameE) 팬 카페 코스.", "photoTip": "Walk 12 minutes from Hongdae Playground down to Hapjeong (Huiujeong-ro 1-gil 7) for YG's official MD cafe.", "subway": "Hongik Univ. Stn (Line 2, Exit 9) · 7 min walk", "hours": "10:00 – 21:00 Daily", "phone": "02-3140-4686", "courseId": "seoul-central"}, {"id": 16, "kcisaNo": "KCISA-8912", "name": "Jahamun Tunnel Staircase & Woori Supermarket (Parasite)", "nameKr": "자하문터널 계단 & 아현동 돼지쌀슈퍼 (기생충)", "category": "K-Movie", "primaryWork": "Parasite", "works": ["Parasite", "Goblin (Guardian)"], "placeType": "playground", "region": "Seoul", "city": "Jongno-gu, Seoul", "addressKr": "서울특별시 종로구 자하문로 219", "lat": 37.592814, "lng": 126.966542, "image": "./assets/spot-squidgame.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg/960px-Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg", "sceneEn": "Academy Award Best Picture 'Parasite' — The dramatic rainstorm staircase descent through Jahamun Tunnel from the Park mansion to the Kim family's neighborhood.", "sceneKr": "아카데미 작품상 영화 '기생충' 속 폭우가 쏟아지는 밤 기택(송강호) 가족이 뛰어 내려가던 자하문터널 계단.", "photoTip": "Shoot from inside the concrete tunnel looking up toward the warm amber streetlights on the stairs.", "subway": "Gyeongbokgung Stn (Line 3, Exit 3) → Bus 1020/7022 to Jahamun Tunnel", "hours": "Open 24 Hours Daily", "phone": "02-2148-1114", "courseId": "seoul-central"}, {"id": 17, "kcisaNo": "KCISA-864", "name": "양주시립장욱진미술관 · Hometown Cha-Cha-Cha", "nameKr": "양주시립장욱진미술관", "category": "K-Drama", "primaryWork": "Hometown Cha-Cha-Cha", "works": ["Hometown Cha-Cha-Cha"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "양주시, Korea", "addressKr": "경기도 양주시 장흥면 권율로 193", "lat": 37.732452, "lng": 126.948429, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Hometown Cha-Cha-Cha (갯마을 차차차) outdoor landmark & street scene in 양주시, Korea. Korean scene note: 신민아와 김선호가 미술관 데이트를 즐긴 미술관", "sceneKr": "신민아와 김선호가 미술관 데이트를 즐긴 미술관", "photoTip": "Tap 'Copy Korean Address' (경기도 양주시 장흥면 권율로 193) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 양주시, Korea", "hours": "화-일 10시 - 18시 · Closed: 월요일, 명절(당일), 1월1일", "phone": "031-8082-4245", "courseId": "suwon-loop"}, {"id": 18, "kcisaNo": "KCISA-865", "name": "서원밸리CC · Hometown Cha-Cha-Cha", "nameKr": "서원밸리CC", "category": "K-Drama", "primaryWork": "Hometown Cha-Cha-Cha", "works": ["Hometown Cha-Cha-Cha"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Paju, Gyeonggi", "addressKr": "경기도 파주시 광탄면 서원길 333", "lat": 37.821049, "lng": 126.888979, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified Hometown Cha-Cha-Cha (갯마을 차차차) outdoor landmark & street scene in Paju, Gyeonggi. Korean scene note: 신민아와 김선호가 골프 데이트를 즐긴 골프장", "sceneKr": "신민아와 김선호가 골프 데이트를 즐긴 골프장", "photoTip": "Tap 'Copy Korean Address' (경기도 파주시 광탄면 서원길 333) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Paju, Gyeonggi", "hours": "매일 09시 -17시 · Closed: 연중무휴", "phone": "031-940-9400", "courseId": "suwon-loop"}, {"id": 19, "kcisaNo": "KCISA-866", "name": "석병1리방파제 · Hometown Cha-Cha-Cha", "nameKr": "석병1리방파제", "category": "K-Drama", "primaryWork": "Hometown Cha-Cha-Cha", "works": ["Hometown Cha-Cha-Cha"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Pohang, Gyeongbuk", "addressKr": "경상북도 포항시 남구 구룡포읍 석병리 745-2", "lat": 36.012341, "lng": 129.578993, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified Hometown Cha-Cha-Cha (갯마을 차차차) outdoor landmark & street scene in Pohang, Gyeongbuk. Korean scene note: 신민아가 김선호에게 사랑 고백했던 방파제", "sceneKr": "신민아가 김선호에게 사랑 고백했던 방파제", "photoTip": "Tap 'Copy Korean Address' (경상북도 포항시 남구 구룡포읍 석병리 745-2) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pohang, Gyeongbuk", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "054-270-6561", "courseId": "gangneung-east"}, {"id": 20, "kcisaNo": "KCISA-867", "name": "청하5일장 · Hometown Cha-Cha-Cha", "nameKr": "청하5일장", "category": "K-Drama", "primaryWork": "Hometown Cha-Cha-Cha", "works": ["Hometown Cha-Cha-Cha"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Pohang, Gyeongbuk", "addressKr": "경상북도 포항시 북구 청하면 청하로200번길 6", "lat": 36.196939, "lng": 129.339821, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified Hometown Cha-Cha-Cha (갯마을 차차차) outdoor landmark & street scene in Pohang, Gyeongbuk. Korean scene note: 갯마을 차차차의 슈퍼, 철물점, 카페가 있는 5일장", "sceneKr": "갯마을 차차차의 슈퍼, 철물점, 카페가 있는 5일장", "photoTip": "Tap 'Copy Korean Address' (경상북도 포항시 북구 청하면 청하로200번길 6) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pohang, Gyeongbuk", "hours": "매달 2,6,12,16,22,26일 오픈 · Closed: 영업일 이외 휴무", "phone": "054-232-4001", "courseId": "gangneung-east"}, {"id": 21, "kcisaNo": "KCISA-868", "name": "사방기념공원 · Hometown Cha-Cha-Cha", "nameKr": "사방기념공원", "category": "K-Drama", "primaryWork": "Hometown Cha-Cha-Cha", "works": ["Hometown Cha-Cha-Cha"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Pohang, Gyeongbuk", "addressKr": "경상북도 포항시 북구 흥해읍 해안로 1801", "lat": 36.164688, "lng": 129.39561, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Hometown Cha-Cha-Cha (갯마을 차차차) outdoor landmark & street scene in Pohang, Gyeongbuk. Korean scene note: 신민아와 김선호가 갔던 언덕 위에 배가 있는 공원", "sceneKr": "신민아와 김선호가 갔던 언덕 위에 배가 있는 공원", "photoTip": "Tap 'Copy Korean Address' (경상북도 포항시 북구 흥해읍 해안로 1801) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pohang, Gyeongbuk", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "054-270-5884", "courseId": "gangneung-east"}, {"id": 22, "kcisaNo": "KCISA-876", "name": "구둔역 폐역 · Architecture 101", "nameKr": "구둔역 폐역", "category": "K-Movie", "primaryWork": "Architecture 101", "works": ["Architecture 101"], "placeType": "station", "region": "Gyeonggi & Incheon", "city": "Yangpyeong, Gyeonggi", "addressKr": "경기도 양평군 지평면 구둔역길 3", "lat": 37.437333, "lng": 127.688739, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Architecture 101 (건축학개론) transit station & platform scene in Yangpyeong, Gyeonggi. Korean scene note: 서연(배수지)과 승민(이제훈)이 이곳에 와서 자신의 생일(11월 11일)이라고 말한다.", "sceneKr": "서연(배수지)과 승민(이제훈)이 이곳에 와서 자신의 생일(11월 11일)이라고 말한다.", "photoTip": "Tap 'Copy Korean Address' (경기도 양평군 지평면 구둔역길 3) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Yangpyeong, Gyeonggi", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "031-771-2101", "courseId": "suwon-loop"}, {"id": 23, "kcisaNo": "KCISA-877", "name": "장미원 골목시장 · Architecture 101", "nameKr": "장미원 골목시장", "category": "K-Movie", "primaryWork": "Architecture 101", "works": ["Architecture 101"], "placeType": "playground", "region": "Seoul", "city": "Gangbuk-gu, Seoul", "addressKr": "서울특별시 강북구 삼양로 464", "lat": 37.644902, "lng": 127.014635, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Architecture 101 (건축학개론) outdoor landmark & street scene in Gangbuk-gu, Seoul. Korean scene note: 이제훈의 엄마가 운영했던 순대국밥집이 있는 곳", "sceneKr": "이제훈의 엄마가 운영했던 순대국밥집이 있는 곳", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강북구 삼양로 464) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangbuk-gu, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-3778-4707", "courseId": "seoul-central"}, {"id": 24, "kcisaNo": "KCISA-878", "name": "경희대학교 문과대학 · Architecture 101", "nameKr": "경희대학교 문과대학", "category": "K-Movie", "primaryWork": "Architecture 101", "works": ["Architecture 101"], "placeType": "playground", "region": "Seoul", "city": "Dongdaemun-gu, Seoul", "addressKr": "서울특별시 동대문구 회기동 1", "lat": 37.597182, "lng": 127.054375, "image": "./assets/spot-squidgame.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg/960px-Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg", "sceneEn": "Verified Architecture 101 (건축학개론) outdoor landmark & street scene in Dongdaemun-gu, Seoul. Korean scene note: 수업을 마친 유연석과 수지가 대화하는 장소", "sceneKr": "수업을 마친 유연석과 수지가 대화하는 장소", "photoTip": "Tap 'Copy Korean Address' (서울특별시 동대문구 회기동 1) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Dongdaemun-gu, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-961-0221", "courseId": "seoul-central"}, {"id": 25, "kcisaNo": "KCISA-879", "name": "정릉 · Architecture 101", "nameKr": "정릉", "category": "K-Movie", "primaryWork": "Architecture 101", "works": ["Architecture 101"], "placeType": "playground", "region": "Seoul", "city": "Seongbuk-gu, Seoul", "addressKr": "서울특별시 성북구 아리랑로19길 116", "lat": 37.602094, "lng": 127.006128, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Architecture 101 (건축학개론) outdoor landmark & street scene in Seongbuk-gu, Seoul. Korean scene note: 이제훈과 수지가 처음 만난 곳", "sceneKr": "이제훈과 수지가 처음 만난 곳", "photoTip": "Tap 'Copy Korean Address' (서울특별시 성북구 아리랑로19길 116) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seongbuk-gu, Seoul", "hours": "화-일 06시 - 18시 (시기별 상이) · Closed: 월요일", "phone": "02-914-5133", "courseId": "seoul-central"}, {"id": 26, "kcisaNo": "KCISA-880", "name": "스타벅스 한강진역R점 · Architecture 101", "nameKr": "스타벅스 한강진역R점", "category": "K-Movie", "primaryWork": "Architecture 101", "works": ["Architecture 101"], "placeType": "cafe", "region": "Seoul", "city": "Yongsan-gu, Seoul", "addressKr": "서울특별시 용산구 이태원로 252", "lat": 37.537123, "lng": 127.001061, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Architecture 101 (건축학개론) filming cafe & bakery in Yongsan-gu, Seoul. Korean scene note: 한가인이 집을 지어달라며 엄태웅을 찾아오는 곳", "sceneKr": "한가인이 집을 지어달라며 엄태웅을 찾아오는 곳", "photoTip": "Tap 'Copy Korean Address' (서울특별시 용산구 이태원로 252) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Yongsan-gu, Seoul", "hours": "평일 08시 - 20시, 주말 09시 - 21시 · Closed: 연중무휴", "phone": "1522-3232", "courseId": "seoul-central"}, {"id": 27, "kcisaNo": "KCISA-1178", "name": "남양주 종합촬영소 · Joint Security Area (JSA)", "nameKr": "남양주 종합촬영소", "category": "K-Movie", "primaryWork": "Joint Security Area (JSA)", "works": ["Joint Security Area (JSA)"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "남양주시, Korea", "addressKr": "경기도 남양주시 조안면 북한강로855번길 138", "lat": 37.60466, "lng": 127.320173, "image": "./assets/spot-squidgame.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg/960px-Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg", "sceneEn": "Verified Joint Security Area (JSA) (공동경비구역JSA) outdoor landmark & street scene in 남양주시, Korea. Korean scene note: 공동경비구역 JSA의 세트장으로 유명한 곳", "sceneKr": "공동경비구역 JSA의 세트장으로 유명한 곳", "photoTip": "Tap 'Copy Korean Address' (경기도 남양주시 조안면 북한강로855번길 138) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 남양주시, Korea", "hours": "하절기 평일 10시 - 17시, 동절기평일 10시 - 16시 · Closed: 주말", "phone": "031-579-0642", "courseId": "suwon-loop"}, {"id": 28, "kcisaNo": "KCISA-1179", "name": "영남대학교 본관 · Joint Security Area (JSA)", "nameKr": "영남대학교 본관", "category": "K-Movie", "primaryWork": "Joint Security Area (JSA)", "works": ["Joint Security Area (JSA)"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "경산시, Korea", "addressKr": "경상북도 경산시 대학로 280", "lat": 35.830065, "lng": 128.761367, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Joint Security Area (JSA) (공동경비구역JSA) outdoor landmark & street scene in 경산시, Korea. Korean scene note: 송강호가 입원한 북한의 개성병원", "sceneKr": "송강호가 입원한 북한의 개성병원", "photoTip": "Tap 'Copy Korean Address' (경상북도 경산시 대학로 280) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 경산시, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "053-810-2114", "courseId": "gangneung-east"}, {"id": 29, "kcisaNo": "KCISA-1180", "name": "서울과학기술대학교 다산관 · Joint Security Area (JSA)", "nameKr": "서울과학기술대학교 다산관", "category": "K-Movie", "primaryWork": "Joint Security Area (JSA)", "works": ["Joint Security Area (JSA)"], "placeType": "playground", "region": "Seoul", "city": "노원구, Seoul", "addressKr": "서울특별시 노원구 공릉로 232", "lat": 37.63239, "lng": 127.078024, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Joint Security Area (JSA) (공동경비구역JSA) outdoor landmark & street scene in 노원구, Seoul. Korean scene note: 공동경비구역 JSA 촬영지이자 시대극 전문 촬영장", "sceneKr": "공동경비구역 JSA 촬영지이자 시대극 전문 촬영장", "photoTip": "Tap 'Copy Korean Address' (서울특별시 노원구 공릉로 232) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 노원구, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-970-6114", "courseId": "seoul-central"}, {"id": 30, "kcisaNo": "KCISA-1181", "name": "고창 청보리밭 · Joint Security Area (JSA)", "nameKr": "고창 청보리밭", "category": "K-Movie", "primaryWork": "Joint Security Area (JSA)", "works": ["Joint Security Area (JSA)"], "placeType": "playground", "region": "Central & Jeolla", "city": "고창군, Korea", "addressKr": "전라북도 고창군 공음면 학원농장길 158-6", "lat": 35.375406, "lng": 126.542835, "image": "./assets/spot-squidgame.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg/960px-Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg", "sceneEn": "Verified Joint Security Area (JSA) (공동경비구역JSA) outdoor landmark & street scene in 고창군, Korea. Korean scene note: 공동경비구역 JSA 등 다양한 영화의 촬영 장소", "sceneKr": "공동경비구역 JSA 등 다양한 영화의 촬영 장소", "photoTip": "Tap 'Copy Korean Address' (전라북도 고창군 공음면 학원농장길 158-6) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 고창군, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "063-564-9897", "courseId": "gangneung-east"}, {"id": 31, "kcisaNo": "KCISA-1182", "name": "금강하굿독 · Joint Security Area (JSA)", "nameKr": "금강하굿독", "category": "K-Movie", "primaryWork": "Joint Security Area (JSA)", "works": ["Joint Security Area (JSA)"], "placeType": "playground", "region": "Central & Jeolla", "city": "서천군, Korea", "addressKr": "충청남도 서천군 마서면 장산로855번길 13", "lat": 36.020244, "lng": 126.736216, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Joint Security Area (JSA) (공동경비구역JSA) outdoor landmark & street scene in 서천군, Korea. Korean scene note: 공동경비구역 JSA 촬영지인 금강 하구", "sceneKr": "공동경비구역 JSA 촬영지인 금강 하구", "photoTip": "Tap 'Copy Korean Address' (충청남도 서천군 마서면 장산로855번길 13) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 서천군, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "041-953-3003", "courseId": "gangneung-east"}, {"id": 32, "kcisaNo": "KCISA-1183", "name": "신성리 갈대밭 · Joint Security Area (JSA)", "nameKr": "신성리 갈대밭", "category": "K-Movie", "primaryWork": "Joint Security Area (JSA)", "works": ["Joint Security Area (JSA)"], "placeType": "playground", "region": "Central & Jeolla", "city": "서천군, Korea", "addressKr": "충청남도 서천군 한산면 신성리 125-1", "lat": 36.068336, "lng": 126.86074, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Joint Security Area (JSA) (공동경비구역JSA) outdoor landmark & street scene in 서천군, Korea. Korean scene note: 동료를 잃고 이병헌이 헤매던 갈대 숲", "sceneKr": "동료를 잃고 이병헌이 헤매던 갈대 숲", "photoTip": "Tap 'Copy Korean Address' (충청남도 서천군 한산면 신성리 125-1) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 서천군, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "041-950-4224", "courseId": "gangneung-east"}, {"id": 33, "kcisaNo": "KCISA-1477", "name": "주천강 섶다리 · Our Beloved Summer", "nameKr": "주천강 섶다리", "category": "K-Drama", "primaryWork": "Our Beloved Summer", "works": ["Our Beloved Summer"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "영월군, Korea", "addressKr": "강원도 영월군 주천면 판운리 479", "lat": 37.29314, "lng": 128.3256, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified Our Beloved Summer (그 해 우리는) outdoor landmark & street scene in 영월군, Korea. Korean scene note: 8회에서 이 밭의 버려진 농장 옆에서 국연수(김다미)와 함께 다큐멘터리의 일부를 촬영", "sceneKr": "8회에서 이 밭의 버려진 농장 옆에서 국연수(김다미)와 함께 다큐멘터리의 일부를 촬영", "photoTip": "Tap 'Copy Korean Address' (강원도 영월군 주천면 판운리 479) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 영월군, Korea", "hours": "매일 09시 - 19시 · Closed: 연중무휴", "phone": "033-374-6834", "courseId": "gangneung-east"}, {"id": 34, "kcisaNo": "KCISA-1478", "name": "라비브북스 · Our Beloved Summer", "nameKr": "라비브북스", "category": "K-Drama", "primaryWork": "Our Beloved Summer", "works": ["Our Beloved Summer"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Goyang (Ilsan), Gyeonggi", "addressKr": "경기도 고양시 일산동구 무궁화로141번길 16-7", "lat": 37.670444, "lng": 126.77701, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified Our Beloved Summer (그 해 우리는) outdoor landmark & street scene in Goyang (Ilsan), Gyeonggi. Korean scene note: 솔이가 연수의 집에 머물렀던 다음날, 솔이는 자신의 길을 가기 전에 연수가 최웅(최우식)을 짝사랑하고 있다고 계속 주장한다. 고민에 빠진 연수는 잠시 발길을 멈춘 채 창에 비친 거울을 거울 삼아 생각에 잠긴 채 이 서점을 향한다.", "sceneKr": "솔이가 연수의 집에 머물렀던 다음날, 솔이는 자신의 길을 가기 전에 연수가 최웅(최우식)을 짝사랑하고 있다고 계속 주장한다. 고민에 빠진 연수는 잠시 발길을 멈춘 채 창에 비친 거울을 거울 삼아 생각에 잠긴 채 이 서점을 향한다.", "photoTip": "Tap 'Copy Korean Address' (경기도 고양시 일산동구 무궁화로141번길 16-7) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Goyang (Ilsan), Gyeonggi", "hours": "화-토 10시 - 18시 · Closed: 월요일, 일요일", "phone": "070-8879-0908", "courseId": "suwon-loop"}, {"id": 35, "kcisaNo": "KCISA-1479", "name": "SBS일산제작센터 · Our Beloved Summer", "nameKr": "SBS일산제작센터", "category": "K-Drama", "primaryWork": "Our Beloved Summer", "works": ["Our Beloved Summer"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Goyang (Ilsan), Gyeonggi", "addressKr": "경기도 고양시 일산서구 일현로 111", "lat": 37.696799, "lng": 126.76338, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified Our Beloved Summer (그 해 우리는) outdoor landmark & street scene in Goyang (Ilsan), Gyeonggi. Korean scene note: 톱 아이돌 NJ(노정의)와 김지웅 PD(김성철)가 14회에서 이 건물에서 만난다.", "sceneKr": "톱 아이돌 NJ(노정의)와 김지웅 PD(김성철)가 14회에서 이 건물에서 만난다.", "photoTip": "Tap 'Copy Korean Address' (경기도 고양시 일산서구 일현로 111) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Goyang (Ilsan), Gyeonggi", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-2113-5999", "courseId": "suwon-loop"}, {"id": 36, "kcisaNo": "KCISA-1480", "name": "카페화홍 · Our Beloved Summer", "nameKr": "카페화홍", "category": "K-Drama", "primaryWork": "Our Beloved Summer", "works": ["Our Beloved Summer"], "placeType": "cafe", "region": "Gyeonggi & Incheon", "city": "Suwon, Gyeonggi", "addressKr": "경기도 수원시 팔달구 수원천로 369", "lat": 37.286461, "lng": 127.017303, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Our Beloved Summer (그 해 우리는) filming cafe & bakery in Suwon, Gyeonggi. Korean scene note: 김다미가 아르바이트를 했던 카페", "sceneKr": "김다미가 아르바이트를 했던 카페", "photoTip": "Tap 'Copy Korean Address' (경기도 수원시 팔달구 수원천로 369) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Suwon, Gyeonggi", "hours": "수-월 12시 - 22시 · Closed: 화요일", "phone": "031-895-6508", "courseId": "suwon-loop"}, {"id": 37, "kcisaNo": "KCISA-1481", "name": "화성행궁 · Our Beloved Summer", "nameKr": "화성행궁", "category": "K-Drama", "primaryWork": "Our Beloved Summer", "works": ["Our Beloved Summer"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Suwon, Gyeonggi", "addressKr": "경기도 수원시 팔달구 정조로 825", "lat": 37.281819, "lng": 127.013426, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Our Beloved Summer (그 해 우리는) outdoor landmark & street scene in Suwon, Gyeonggi. Korean scene note: 2회 웅이와 연수가 연애시절 다퉜던 장소", "sceneKr": "2회 웅이와 연수가 연애시절 다퉜던 장소", "photoTip": "Tap 'Copy Korean Address' (경기도 수원시 팔달구 정조로 825) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Suwon, Gyeonggi", "hours": "하절기 매일 09시 - 18시, 동절기 매일 09시 - 17시 · Closed: 연중무휴", "phone": "031-290-3600", "courseId": "suwon-loop"}, {"id": 38, "kcisaNo": "KCISA-1482", "name": "지동시장 순대타운 · Our Beloved Summer", "nameKr": "지동시장 순대타운", "category": "K-Drama", "primaryWork": "Our Beloved Summer", "works": ["Our Beloved Summer"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Suwon, Gyeonggi", "addressKr": "경기도 수원시 팔달구 창룡문로 3", "lat": 37.27787, "lng": 127.020048, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified Our Beloved Summer (그 해 우리는) outdoor landmark & street scene in Suwon, Gyeonggi. Korean scene note: 최우식이 김다미 할머니의 짐을 들어준 시장", "sceneKr": "최우식이 김다미 할머니의 짐을 들어준 시장", "photoTip": "Tap 'Copy Korean Address' (경기도 수원시 팔달구 창룡문로 3) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Suwon, Gyeonggi", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "031-256-0202", "courseId": "suwon-loop"}, {"id": 39, "kcisaNo": "KCISA-1673", "name": "소통한우축산 · Extreme Job", "nameKr": "소통한우축산", "category": "K-Movie", "primaryWork": "Extreme Job", "works": ["Extreme Job"], "placeType": "restaurant", "region": "Gyeonggi & Incheon", "city": "광명시, Korea", "addressKr": "경기도 광명시 가학로 144", "lat": 37.412229, "lng": 126.861243, "image": "./assets/spot-squidgame.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg/960px-Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg", "sceneEn": "Verified Extreme Job (극한직업) filming restaurant / dining spot in 광명시, Korea. Korean scene note: 강력반과 마약반이 소고기 회식을 한 곳", "sceneKr": "강력반과 마약반이 소고기 회식을 한 곳", "photoTip": "Tap 'Copy Korean Address' (경기도 광명시 가학로 144) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 광명시, Korea", "hours": "매일 10시 30분 - 21시 · Closed: 명절(당일)", "phone": "02-2066-9297", "courseId": "suwon-loop"}, {"id": 40, "kcisaNo": "KCISA-1674", "name": "배다리헌책방거리 · Extreme Job", "nameKr": "배다리헌책방거리", "category": "K-Movie", "primaryWork": "Extreme Job", "works": ["Extreme Job"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "동구, Incheon", "addressKr": "인천광역시 동구 금곡로 18-10", "lat": 37.472492, "lng": 126.637438, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Extreme Job (극한직업) outdoor landmark & street scene in 동구, Incheon. Korean scene note: 수원왕갈비 통닭집과 마약반의 아지트가 있던 거리", "sceneKr": "수원왕갈비 통닭집과 마약반의 아지트가 있던 거리", "photoTip": "Tap 'Copy Korean Address' (인천광역시 동구 금곡로 18-10) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 동구, Incheon", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "032-770-5967", "courseId": "suwon-loop"}, {"id": 41, "kcisaNo": "KCISA-1675", "name": "훌랄라참숯바베큐치킨 용현1점 · Extreme Job", "nameKr": "훌랄라참숯바베큐치킨 용현1점", "category": "K-Movie", "primaryWork": "Extreme Job", "works": ["Extreme Job"], "placeType": "restaurant", "region": "Gyeonggi & Incheon", "city": "미추홀구, Incheon", "addressKr": "인천광역시 미추홀구 매소홀로 70", "lat": 37.449402, "lng": 126.633396, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Extreme Job (극한직업) filming restaurant / dining spot in 미추홀구, Incheon. Korean scene note: 고반장이 딸에게 치킨을 사주던 치킨집", "sceneKr": "고반장이 딸에게 치킨을 사주던 치킨집", "photoTip": "Tap 'Copy Korean Address' (인천광역시 미추홀구 매소홀로 70) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 미추홀구, Incheon", "hours": "매일 17시 30분 - 24시 · Closed: 연중무휴", "phone": "032-882-9203", "courseId": "suwon-loop"}, {"id": 42, "kcisaNo": "KCISA-1676", "name": "광양항 · Extreme Job", "nameKr": "광양항", "category": "K-Movie", "primaryWork": "Extreme Job", "works": ["Extreme Job"], "placeType": "playground", "region": "Central & Jeolla", "city": "광양시, Korea", "addressKr": "전라남도 광양시 항만대로 755", "lat": 34.915389, "lng": 127.681217, "image": "./assets/spot-squidgame.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg/960px-Dongdaemun_Shopping_Complex%2C_Seoul_2.jpg", "sceneEn": "Verified Extreme Job (극한직업) outdoor landmark & street scene in 광양시, Korea. Korean scene note: 영화 '극한직업' 엔딩에 나온 컨테이너 부두", "sceneKr": "영화 '극한직업' 엔딩에 나온 컨테이너 부두", "photoTip": "Tap 'Copy Korean Address' (전라남도 광양시 항만대로 755) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 광양시, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "1544-7788", "courseId": "gangneung-east"}, {"id": 43, "kcisaNo": "KCISA-1677", "name": "군산내항 부잔교 · Extreme Job", "nameKr": "군산내항 부잔교", "category": "K-Movie", "primaryWork": "Extreme Job", "works": ["Extreme Job"], "placeType": "playground", "region": "Central & Jeolla", "city": "군산시, Korea", "addressKr": "전라북도 군산시 내항2길 32", "lat": 35.991422, "lng": 126.713988, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Extreme Job (극한직업) outdoor landmark & street scene in 군산시, Korea. Korean scene note: 영화에서 이무배 배를 타러 도망가던 곳", "sceneKr": "영화에서 이무배 배를 타러 도망가던 곳", "photoTip": "Tap 'Copy Korean Address' (전라북도 군산시 내항2길 32) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 군산시, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "063-454-3337", "courseId": "gangneung-east"}, {"id": 44, "kcisaNo": "KCISA-1678", "name": "장항항 · Extreme Job", "nameKr": "장항항", "category": "K-Movie", "primaryWork": "Extreme Job", "works": ["Extreme Job"], "placeType": "playground", "region": "Central & Jeolla", "city": "서천군, Korea", "addressKr": "충청남도 서천군 장항읍 장산로 232", "lat": 36.008118, "lng": 126.685749, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Extreme Job (극한직업) outdoor landmark & street scene in 서천군, Korea. Korean scene note: 고반장이 이무배을 잡기 위해 달리던 곳", "sceneKr": "고반장이 이무배을 잡기 위해 달리던 곳", "photoTip": "Tap 'Copy Korean Address' (충청남도 서천군 장항읍 장산로 232) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 서천군, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "041-950-6319", "courseId": "gangneung-east"}, {"id": 45, "kcisaNo": "KCISA-1795", "name": "시즈닝풀빌라 · What's Wrong with Secretary Kim", "nameKr": "시즈닝풀빌라", "category": "K-Drama", "primaryWork": "What's Wrong with Secretary Kim", "works": ["What's Wrong with Secretary Kim"], "placeType": "stay", "region": "Gyeonggi & Incheon", "city": "Gapyeong, Gyeonggi", "addressKr": "경기도 가평군 가평읍 용추로 508-50", "lat": 37.861566, "lng": 127.47138, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified What's Wrong with Secretary Kim (김비서가 왜 그럴까) filming hotel / resort stay in Gapyeong, Gyeonggi. Korean scene note: 7회에서 김미소(박민영)와 나머지 경영진은 퇴근 후 이 펜션에 묵는다.", "sceneKr": "7회에서 김미소(박민영)와 나머지 경영진은 퇴근 후 이 펜션에 묵는다.", "photoTip": "Tap 'Copy Korean Address' (경기도 가평군 가평읍 용추로 508-50) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gapyeong, Gyeonggi", "hours": "매일 입실 15시, 퇴실 11시 · Closed: 연중무휴", "phone": "", "courseId": "suwon-loop"}, {"id": 46, "kcisaNo": "KCISA-1796", "name": "경기도잣향기푸른숲 · What's Wrong with Secretary Kim", "nameKr": "경기도잣향기푸른숲", "category": "K-Drama", "primaryWork": "What's Wrong with Secretary Kim", "works": ["What's Wrong with Secretary Kim"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Gapyeong, Gyeonggi", "addressKr": "경기도 가평군 상면 축령로 289-146", "lat": 37.769366, "lng": 127.339123, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified What's Wrong with Secretary Kim (김비서가 왜 그럴까) outdoor landmark & street scene in Gapyeong, Gyeonggi. Korean scene note: 김비서가 왜 그럴까에서 박서준,박민영이 간 휴양림", "sceneKr": "김비서가 왜 그럴까에서 박서준,박민영이 간 휴양림", "photoTip": "Tap 'Copy Korean Address' (경기도 가평군 상면 축령로 289-146) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gapyeong, Gyeonggi", "hours": "하절기 화-토 09시 - 18시, 동절기 화-토 09시 - 17시 · Closed: 월요일, 1월1일, 명절(당일)", "phone": "031-8008-6769", "courseId": "suwon-loop"}, {"id": 47, "kcisaNo": "KCISA-1797", "name": "가평휴게소 · What's Wrong with Secretary Kim", "nameKr": "가평휴게소", "category": "K-Drama", "primaryWork": "What's Wrong with Secretary Kim", "works": ["What's Wrong with Secretary Kim"], "placeType": "playground", "region": "Gyeonggi & Incheon", "city": "Gapyeong, Gyeonggi", "addressKr": "경기도 가평군 설악면 미사리로540번길 51", "lat": 37.701943, "lng": 127.546795, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified What's Wrong with Secretary Kim (김비서가 왜 그럴까) outdoor landmark & street scene in Gapyeong, Gyeonggi. Korean scene note: 김비서가 왜 그럴까에서 박민영과 동료들이 간 휴게소", "sceneKr": "김비서가 왜 그럴까에서 박민영과 동료들이 간 휴게소", "photoTip": "Tap 'Copy Korean Address' (경기도 가평군 설악면 미사리로540번길 51) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gapyeong, Gyeonggi", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "031-584-1426", "courseId": "suwon-loop"}, {"id": 48, "kcisaNo": "KCISA-1798", "name": "더레스토랑 · What's Wrong with Secretary Kim", "nameKr": "더레스토랑", "category": "K-Drama", "primaryWork": "What's Wrong with Secretary Kim", "works": ["What's Wrong with Secretary Kim"], "placeType": "restaurant", "region": "Gyeonggi & Incheon", "city": "Gapyeong, Gyeonggi", "addressKr": "경기도 가평군 설악면 유명로 961-34", "lat": 37.619609, "lng": 127.482163, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified What's Wrong with Secretary Kim (김비서가 왜 그럴까) filming restaurant / dining spot in Gapyeong, Gyeonggi. Korean scene note: 김비서가 왜 그럴까에서 박서준이 간 레스토랑", "sceneKr": "김비서가 왜 그럴까에서 박서준이 간 레스토랑", "photoTip": "Tap 'Copy Korean Address' (경기도 가평군 설악면 유명로 961-34) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gapyeong, Gyeonggi", "hours": "매일 06시 - 20시 30분 · Closed: 연중무휴", "phone": "031-589-3305", "courseId": "suwon-loop"}, {"id": 49, "kcisaNo": "KCISA-1799", "name": "아소산 일산본점 · What's Wrong with Secretary Kim", "nameKr": "아소산 일산본점", "category": "K-Drama", "primaryWork": "What's Wrong with Secretary Kim", "works": ["What's Wrong with Secretary Kim"], "placeType": "restaurant", "region": "Gyeonggi & Incheon", "city": "Goyang (Ilsan), Gyeonggi", "addressKr": "경기도 고양시 일산동구 정발산로 128", "lat": 37.659182, "lng": 126.78267, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified What's Wrong with Secretary Kim (김비서가 왜 그럴까) filming restaurant / dining spot in Goyang (Ilsan), Gyeonggi. Korean scene note: 16회에서 이 식당의 외관은 김미소(박민영)가 시어머니(김혜옥)와 첫 공식 오찬을 하는 장소로 등장합니다.", "sceneKr": "16회에서 이 식당의 외관은 김미소(박민영)가 시어머니(김혜옥)와 첫 공식 오찬을 하는 장소로 등장합니다.", "photoTip": "Tap 'Copy Korean Address' (경기도 고양시 일산동구 정발산로 128) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Goyang (Ilsan), Gyeonggi", "hours": "매일 11시 30분 - 21시 30분 · Closed: 연중무휴", "phone": "031-903-5333", "courseId": "suwon-loop"}, {"id": 50, "kcisaNo": "KCISA-1816", "name": "앞산공원 전망대 · What's Wrong with Secretary Kim", "nameKr": "앞산공원 전망대", "category": "K-Drama", "primaryWork": "What's Wrong with Secretary Kim", "works": ["What's Wrong with Secretary Kim"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "남구, Korea", "addressKr": "대구광역시 남구 대명동 산227-4", "lat": 35.827286, "lng": 128.587654, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified What's Wrong with Secretary Kim (김비서가 왜 그럴까) outdoor landmark & street scene in 남구, Korea. Korean scene note: 김비서가 왜 그럴까에서 박서준,박민영이 간 전망대", "sceneKr": "김비서가 왜 그럴까에서 박서준,박민영이 간 전망대", "photoTip": "Tap 'Copy Korean Address' (대구광역시 남구 대명동 산227-4) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 남구, Korea", "hours": "월-목 10시 30분 - 18시 30분, 금-일 10시 30분 - 20시 30분 · Closed: 연중무휴", "phone": "053-625-0967", "courseId": "gangneung-east"}, {"id": 51, "kcisaNo": "KCISA-2066", "name": "심곡항 · Encounter", "nameKr": "심곡항", "category": "K-Drama", "primaryWork": "Encounter", "works": ["Encounter"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원도 강릉시 강동면 심곡리 157-1", "lat": 37.665245, "lng": 129.053082, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Encounter (남자친구) outdoor landmark & street scene in Gangneung, Gangwon. Korean scene note: 남자친구에서 박보검이 혼자 간 항구", "sceneKr": "남자친구에서 박보검이 혼자 간 항구", "photoTip": "Tap 'Copy Korean Address' (강원도 강릉시 강동면 심곡리 157-1) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangneung, Gangwon", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "033-660-3605", "courseId": "gangneung-east"}, {"id": 52, "kcisaNo": "KCISA-2067", "name": "헌화로드라이브코스 · Encounter", "nameKr": "헌화로드라이브코스", "category": "K-Drama", "primaryWork": "Encounter", "works": ["Encounter"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원도 강릉시 강동면 심곡리 헌화로", "lat": 37.664267, "lng": 129.05459, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Encounter (남자친구) outdoor landmark & street scene in Gangneung, Gangwon. Korean scene note: 9회에서 김진혁(박보검)에 대한 구설수와 꼬치꼬치 캐묻는 시선을 도망친 차수현(송혜교)은 죽은 남편을 그리워하는 찻집 주인의 한탄을 듣고 이 해안도로를 따라 그를 만나러 달려간다. 차수현은 이 길에서 차를 세우고, 심곡항에서 진혁이 책을 읽고 있는 것을 발견한다.", "sceneKr": "9회에서 김진혁(박보검)에 대한 구설수와 꼬치꼬치 캐묻는 시선을 도망친 차수현(송혜교)은 죽은 남편을 그리워하는 찻집 주인의 한탄을 듣고 이 해안도로를 따라 그를 만나러 달려간다. 차수현은 이 길에서 차를 세우고, 심곡항에서 진혁이 책을 읽고 있는 것을 발견한다.", "photoTip": "Tap 'Copy Korean Address' (강원도 강릉시 강동면 심곡리 헌화로) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangneung, Gangwon", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "033-660-2018", "courseId": "gangneung-east"}, {"id": 53, "kcisaNo": "KCISA-2068", "name": "사천진해수욕장 · Encounter", "nameKr": "사천진해수욕장", "category": "K-Drama", "primaryWork": "Encounter", "works": ["Encounter"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원도 강릉시 사천면 사천진리 266-2", "lat": 37.842094, "lng": 128.874568, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified Encounter (남자친구) outdoor landmark & street scene in Gangneung, Gangwon. Korean scene note: 남자친구에서 송혜교, 박보검이 간 바닷가", "sceneKr": "남자친구에서 송혜교, 박보검이 간 바닷가", "photoTip": "Tap 'Copy Korean Address' (강원도 강릉시 사천면 사천진리 266-2) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangneung, Gangwon", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "033-640-4414", "courseId": "gangneung-east"}, {"id": 54, "kcisaNo": "KCISA-2069", "name": "라라무리 · Encounter", "nameKr": "라라무리", "category": "K-Drama", "primaryWork": "Encounter", "works": ["Encounter"], "placeType": "cafe", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원도 강릉시 연곡면 진고개로 2551-18", "lat": 37.856793, "lng": 128.8181, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified Encounter (남자친구) filming cafe & bakery in Gangneung, Gangwon. Korean scene note: 4화에서 차수현(송혜교)을 데리고 커피를 마시러 왔다가 서울에서 여기까지 오면서 그녀의 어깨 위에서 거의 바로 잠이 든다.", "sceneKr": "4화에서 차수현(송혜교)을 데리고 커피를 마시러 왔다가 서울에서 여기까지 오면서 그녀의 어깨 위에서 거의 바로 잠이 든다.", "photoTip": "Tap 'Copy Korean Address' (강원도 강릉시 연곡면 진고개로 2551-18) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangneung, Gangwon", "hours": "월-목 13시 - 20시, 금-토 11시 - 20시 · Closed: 연중무휴", "phone": "0507-1418-1637", "courseId": "gangneung-east"}, {"id": 55, "kcisaNo": "KCISA-2070", "name": "외옹치 바다향기로 · Encounter", "nameKr": "외옹치 바다향기로", "category": "K-Drama", "primaryWork": "Encounter", "works": ["Encounter"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Sokcho, Gangwon", "addressKr": "강원도 속초시 대포동 712", "lat": 38.181699, "lng": 128.610715, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified Encounter (남자친구) outdoor landmark & street scene in Sokcho, Gangwon. Korean scene note: 남자친구에서 송혜교, 박보검이 만난 산책로", "sceneKr": "남자친구에서 송혜교, 박보검이 만난 산책로", "photoTip": "Tap 'Copy Korean Address' (강원도 속초시 대포동 712) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Sokcho, Gangwon", "hours": "하절기 매일 06시 - 20시, 동절기 매일 07시 - 18시 · Closed: 연중무휴", "phone": "033-639-2362", "courseId": "gangneung-east"}, {"id": 56, "kcisaNo": "KCISA-2071", "name": "롯데리조트 속초 · Encounter", "nameKr": "롯데리조트 속초", "category": "K-Drama", "primaryWork": "Encounter", "works": ["Encounter"], "placeType": "stay", "region": "Gangwon (East Coast)", "city": "Sokcho, Gangwon", "addressKr": "강원도 속초시 대포항길 186", "lat": 38.180679, "lng": 128.61177, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Encounter (남자친구) filming hotel / resort stay in Sokcho, Gangwon. Korean scene note: 3회에서 이 호텔은 차수현(송혜교)이 묵고 김진혁(박보검)을 만나는 동화호텔 속초점으로 등장한다.", "sceneKr": "3회에서 이 호텔은 차수현(송혜교)이 묵고 김진혁(박보검)을 만나는 동화호텔 속초점으로 등장한다.", "photoTip": "Tap 'Copy Korean Address' (강원도 속초시 대포항길 186) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Sokcho, Gangwon", "hours": "매일 입실 15시, 퇴실 11시 · Closed: 연중무휴", "phone": "033-634-1000", "courseId": "gangneung-east"}, {"id": 57, "kcisaNo": "KCISA-3004", "name": "강촌레일파크 · The King: Eternal Monarch", "nameKr": "강촌레일파크", "category": "K-Drama", "primaryWork": "The King: Eternal Monarch", "works": ["The King: Eternal Monarch"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Chuncheon, Gangwon", "addressKr": "강원도 춘천시 남산면 서백길 57", "lat": 37.842802, "lng": 127.550584, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified The King: Eternal Monarch (더 킹 : 영원의 군주) outdoor landmark & street scene in Chuncheon, Gangwon. Korean scene note: 여기는 이림(이정진)이 더 킹에 숨어있는 장소 중 하나로, 10화에서 유경무 (이해영)와 만나는 장면도 촬영되었다", "sceneKr": "여기는 이림(이정진)이 더 킹에 숨어있는 장소 중 하나로, 10화에서 유경무 (이해영)와 만나는 장면도 촬영되었다", "photoTip": "Tap 'Copy Korean Address' (강원도 춘천시 남산면 서백길 57) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Chuncheon, Gangwon", "hours": "매일 09시 - 17시 하절기, 매일 09시 - 15시 30분 동절기 · Closed: 연중무휴", "phone": "033-245-1002", "courseId": "gangneung-east"}, {"id": 58, "kcisaNo": "KCISA-3012", "name": "월정교 · The King: Eternal Monarch", "nameKr": "월정교", "category": "K-Drama", "primaryWork": "The King: Eternal Monarch", "works": ["The King: Eternal Monarch"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Gyeongju, Gyeongbuk", "addressKr": "경상북도 경주시 교동 274", "lat": 35.829222, "lng": 129.218045, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified The King: Eternal Monarch (더 킹 : 영원의 군주) outdoor landmark & street scene in Gyeongju, Gyeongbuk. Korean scene note: 13회에서 이곤(이민호)이 이림(이정진)의 대나무 숲 조사를 마치고 돌아오는 태을(김고은)을 기다리는 곳이다.", "sceneKr": "13회에서 이곤(이민호)이 이림(이정진)의 대나무 숲 조사를 마치고 돌아오는 태을(김고은)을 기다리는 곳이다.", "photoTip": "Tap 'Copy Korean Address' (경상북도 경주시 교동 274) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gyeongju, Gyeongbuk", "hours": "매일 09시 - 22시 · Closed: 연중무휴", "phone": "054-750-8500", "courseId": "gangneung-east"}, {"id": 59, "kcisaNo": "KCISA-3013", "name": "중리체육공원 · The King: Eternal Monarch", "nameKr": "중리체육공원", "category": "K-Drama", "primaryWork": "The King: Eternal Monarch", "works": ["The King: Eternal Monarch"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "서구, Korea", "addressKr": "대구광역시 서구 중리동 1136-112", "lat": 35.861432, "lng": 128.54568, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified The King: Eternal Monarch (더 킹 : 영원의 군주) outdoor landmark & street scene in 서구, Korea. Korean scene note: 3회에서 정태을(김고은)과 이곤(이민호)가 정비공을 기다리면서 그들은 공원으로 들어가 단풍 아래를 산책한다.", "sceneKr": "3회에서 정태을(김고은)과 이곤(이민호)가 정비공을 기다리면서 그들은 공원으로 들어가 단풍 아래를 산책한다.", "photoTip": "Tap 'Copy Korean Address' (대구광역시 서구 중리동 1136-112) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 서구, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "053-663-2000", "courseId": "gangneung-east"}, {"id": 60, "kcisaNo": "KCISA-3014", "name": "계산성당 · The King: Eternal Monarch", "nameKr": "계산성당", "category": "K-Drama", "primaryWork": "The King: Eternal Monarch", "works": ["The King: Eternal Monarch"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Jung-gu, Incheon/Busan", "addressKr": "대구광역시 중구 서성로 10", "lat": 35.867913, "lng": 128.587829, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified The King: Eternal Monarch (더 킹 : 영원의 군주) outdoor landmark & street scene in Jung-gu, Incheon/Busan. Korean scene note: 이곤과 조영이 조문을 위해 찾았던 성당", "sceneKr": "이곤과 조영이 조문을 위해 찾았던 성당", "photoTip": "Tap 'Copy Korean Address' (대구광역시 중구 서성로 10) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Jung-gu, Incheon/Busan", "hours": "화-금 06시 30분 - 19시 30분, 일 06시 30분 - 21시 30분 · Closed: 연중무휴", "phone": "053-255-4611", "courseId": "gangneung-east"}, {"id": 61, "kcisaNo": "KCISA-3015", "name": "아홉산숲 · The King: Eternal Monarch", "nameKr": "아홉산숲", "category": "K-Drama", "primaryWork": "The King: Eternal Monarch", "works": ["The King: Eternal Monarch"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "기장군, Busan", "addressKr": "부산광역시 기장군 철마면 웅천리 520-10", "lat": 35.287996, "lng": 129.169638, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified The King: Eternal Monarch (더 킹 : 영원의 군주) outdoor landmark & street scene in 기장군, Busan. Korean scene note: 시간 여행 포털은 이 숲에 있습니다.", "sceneKr": "시간 여행 포털은 이 숲에 있습니다.", "photoTip": "Tap 'Copy Korean Address' (부산광역시 기장군 철마면 웅천리 520-10) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 기장군, Busan", "hours": "매일 09시 - 17시 · Closed: 연중무휴", "phone": "051-721-9183", "courseId": "gangneung-east"}, {"id": 62, "kcisaNo": "KCISA-3016", "name": "부산사직종합운동장 · The King: Eternal Monarch", "nameKr": "부산사직종합운동장", "category": "K-Drama", "primaryWork": "The King: Eternal Monarch", "works": ["The King: Eternal Monarch"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "동래구, Busan", "addressKr": "부산광역시 동래구 사직로 45", "lat": 35.193917, "lng": 129.06153, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified The King: Eternal Monarch (더 킹 : 영원의 군주) outdoor landmark & street scene in 동래구, Busan. Korean scene note: 5회에서 킹 이곤(이민호)이 가상의 '대한대학교'에서 열린 이번 농구 시즌 개막식에서 첫 골을 쏘는 모습이 그려졌다.", "sceneKr": "5회에서 킹 이곤(이민호)이 가상의 '대한대학교'에서 열린 이번 농구 시즌 개막식에서 첫 골을 쏘는 모습이 그려졌다.", "photoTip": "Tap 'Copy Korean Address' (부산광역시 동래구 사직로 45) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 동래구, Busan", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "051-504-8001", "courseId": "gangneung-east"}, {"id": 63, "kcisaNo": "KCISA-3079", "name": "라라무리 · Goblin (Guardian)", "nameKr": "라라무리", "category": "K-Drama", "primaryWork": "Goblin (Guardian)", "works": ["Goblin (Guardian)"], "placeType": "cafe", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원도 강릉시 연곡면 진고개로 2551-18", "lat": 37.856793, "lng": 128.8181, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified Goblin (Guardian) (도깨비) filming cafe & bakery in Gangneung, Gangwon. Korean scene note: 1회에서 이곳은 지은탁(김고은)이 도깨비에서 어린 소녀였을 때 사는 곳이기도 하다.", "sceneKr": "1회에서 이곳은 지은탁(김고은)이 도깨비에서 어린 소녀였을 때 사는 곳이기도 하다.", "photoTip": "Tap 'Copy Korean Address' (강원도 강릉시 연곡면 진고개로 2551-18) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangneung, Gangwon", "hours": "월-목 13시 - 20시, 금-토 11시 - 20시 · Closed: 연중무휴", "phone": "0507-1418-1637", "courseId": "gangneung-east"}, {"id": 64, "kcisaNo": "KCISA-3080", "name": "영진해변 · Goblin (Guardian)", "nameKr": "영진해변", "category": "K-Drama", "primaryWork": "Goblin (Guardian)", "works": ["Goblin (Guardian)"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원도 강릉시 주문진읍 해안로 1609", "lat": 37.86916, "lng": 128.836524, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified Goblin (Guardian) (도깨비) outdoor landmark & street scene in Gangneung, Gangwon. Korean scene note: SNS에서 유명한 도깨비 방파제 촬영지", "sceneKr": "SNS에서 유명한 도깨비 방파제 촬영지", "photoTip": "Tap 'Copy Korean Address' (강원도 강릉시 주문진읍 해안로 1609) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangneung, Gangwon", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "033-660-3430", "courseId": "gangneung-east"}, {"id": 65, "kcisaNo": "KCISA-3081", "name": "대관령 삼양목장 · Goblin (Guardian)", "nameKr": "대관령 삼양목장", "category": "K-Drama", "primaryWork": "Goblin (Guardian)", "works": ["Goblin (Guardian)"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Pyeongchang, Gangwon", "addressKr": "강원도 평창군 대관령면 꽃밭양지길 708-9", "lat": 37.723053, "lng": 128.719629, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified Goblin (Guardian) (도깨비) outdoor landmark & street scene in Pyeongchang, Gangwon. Korean scene note: 공유가 중천의 허무를 걷는 장면 촬영지", "sceneKr": "공유가 중천의 허무를 걷는 장면 촬영지", "photoTip": "Tap 'Copy Korean Address' (강원도 평창군 대관령면 꽃밭양지길 708-9) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pyeongchang, Gangwon", "hours": "매일 09시 - 17시 30분 · Closed: 연중무휴", "phone": "033-335-5044", "courseId": "gangneung-east"}, {"id": 66, "kcisaNo": "KCISA-3082", "name": "모나파크 용평리조트 발왕산 관광케이블카 · Goblin (Guardian)", "nameKr": "모나파크 용평리조트 발왕산 관광케이블카", "category": "K-Drama", "primaryWork": "Goblin (Guardian)", "works": ["Goblin (Guardian)"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Pyeongchang, Gangwon", "addressKr": "강원도 평창군 대관령면 올림픽로 715", "lat": 37.642873, "lng": 128.680066, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Goblin (Guardian) (도깨비) outdoor landmark & street scene in Pyeongchang, Gangwon. Korean scene note: 김고은이 집 나와서 일하러 간 스키장", "sceneKr": "김고은이 집 나와서 일하러 간 스키장", "photoTip": "Tap 'Copy Korean Address' (강원도 평창군 대관령면 올림픽로 715) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pyeongchang, Gangwon", "hours": "화-금 10시 - 18시, 주말 09시 - 18시 · Closed: 연중무휴", "phone": "033-330-7423", "courseId": "gangneung-east"}, {"id": 67, "kcisaNo": "KCISA-3083", "name": "월정사 전나무 숲길 · Goblin (Guardian)", "nameKr": "월정사 전나무 숲길", "category": "K-Drama", "primaryWork": "Goblin (Guardian)", "works": ["Goblin (Guardian)"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Pyeongchang, Gangwon", "addressKr": "강원도 평창군 진부면 오대산로 350-1", "lat": 37.731998, "lng": 128.599855, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified Goblin (Guardian) (도깨비) outdoor landmark & street scene in Pyeongchang, Gangwon. Korean scene note: 공유가 집 나온 김고은을 따라가던 촬영지", "sceneKr": "공유가 집 나온 김고은을 따라가던 촬영지", "photoTip": "Tap 'Copy Korean Address' (강원도 평창군 진부면 오대산로 350-1) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pyeongchang, Gangwon", "hours": "매일 일출 2시간전 - 일몰 전 · Closed: 연중무휴", "phone": "033-332-6417", "courseId": "gangneung-east"}, {"id": 68, "kcisaNo": "KCISA-3253", "name": "구룡포 북방파제 · When the Camellia Blooms", "nameKr": "구룡포 북방파제", "category": "K-Drama", "primaryWork": "When the Camellia Blooms", "works": ["When the Camellia Blooms"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Pohang, Gyeongbuk", "addressKr": "경상북도 포항시 남구 구룡포읍 구룡포6리", "lat": 35.988495, "lng": 129.559689, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified When the Camellia Blooms (동백꽃 필 무렵) outdoor landmark & street scene in Pohang, Gyeongbuk. Korean scene note: 티저 영상에서 용식이가 달리던 바닷가길", "sceneKr": "티저 영상에서 용식이가 달리던 바닷가길", "photoTip": "Tap 'Copy Korean Address' (경상북도 포항시 남구 구룡포읍 구룡포6리) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pohang, Gyeongbuk", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "054-270-6561", "courseId": "gangneung-east"}, {"id": 69, "kcisaNo": "KCISA-3254", "name": "문화마실 · When the Camellia Blooms", "nameKr": "문화마실", "category": "K-Drama", "primaryWork": "When the Camellia Blooms", "works": ["When the Camellia Blooms"], "placeType": "playground", "region": "Busan & Gyeongsang", "city": "Pohang, Gyeongbuk", "addressKr": "경상북도 포항시 남구 구룡포읍 구룡포길 133-1", "lat": 35.991405, "lng": 129.559824, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified When the Camellia Blooms (동백꽃 필 무렵) outdoor landmark & street scene in Pohang, Gyeongbuk. Korean scene note: 옹산의 하마 동백이가 운영했던 까멜리아가 있는 곳", "sceneKr": "옹산의 하마 동백이가 운영했던 까멜리아가 있는 곳", "photoTip": "Tap 'Copy Korean Address' (경상북도 포항시 남구 구룡포읍 구룡포길 133-1) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pohang, Gyeongbuk", "hours": "월-목 10시 - 21시, 금-일 10시 - 22시 · Closed: 연중무휴", "phone": "054-281-7773", "courseId": "gangneung-east"}, {"id": 70, "kcisaNo": "KCISA-3256", "name": "호호면옥 · When the Camellia Blooms", "nameKr": "호호면옥", "category": "K-Drama", "primaryWork": "When the Camellia Blooms", "works": ["When the Camellia Blooms"], "placeType": "restaurant", "region": "Busan & Gyeongsang", "city": "Pohang, Gyeongbuk", "addressKr": "경상북도 포항시 남구 구룡포읍 구룡포길 141", "lat": 35.99106, "lng": 129.560255, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified When the Camellia Blooms (동백꽃 필 무렵) filming restaurant / dining spot in Pohang, Gyeongbuk. Korean scene note: 용식이 엄마가 운영한 백두게장이 자리했던 식당", "sceneKr": "용식이 엄마가 운영한 백두게장이 자리했던 식당", "photoTip": "Tap 'Copy Korean Address' (경상북도 포항시 남구 구룡포읍 구룡포길 141) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Pohang, Gyeongbuk", "hours": "매일 10시 - 19시 30분 · Closed: 1, 3번째 화요일", "phone": "054-276-2913", "courseId": "gangneung-east"}, {"id": 71, "kcisaNo": "KCISA-3261", "name": "서초문화예술공원 · When the Camellia Blooms", "nameKr": "서초문화예술공원", "category": "K-Drama", "primaryWork": "When the Camellia Blooms", "works": ["When the Camellia Blooms"], "placeType": "playground", "region": "Seoul", "city": "Seocho-gu, Seoul", "addressKr": "서울특별시 서초구 바우뫼로12길 40", "lat": 37.467708, "lng": 127.030818, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified When the Camellia Blooms (동백꽃 필 무렵) outdoor landmark & street scene in Seocho-gu, Seoul. Korean scene note: 마지막회 동백♥용식 커플이 뽀뽀하던 공원", "sceneKr": "마지막회 동백♥용식 커플이 뽀뽀하던 공원", "photoTip": "Tap 'Copy Korean Address' (서울특별시 서초구 바우뫼로12길 40) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seocho-gu, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-2155-6860", "courseId": "seoul-central"}, {"id": 72, "kcisaNo": "KCISA-3262", "name": "구포국수 · When the Camellia Blooms", "nameKr": "구포국수", "category": "K-Drama", "primaryWork": "When the Camellia Blooms", "works": ["When the Camellia Blooms"], "placeType": "restaurant", "region": "Seoul", "city": "Seongbuk-gu, Seoul", "addressKr": "서울특별시 성북구 성북로12길 2", "lat": 37.592646, "lng": 127.002638, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified When the Camellia Blooms (동백꽃 필 무렵) filming restaurant / dining spot in Seongbuk-gu, Seoul. Korean scene note: 19~20회 동백이와 강종렬이 국수를 먹은 장소", "sceneKr": "19~20회 동백이와 강종렬이 국수를 먹은 장소", "photoTip": "Tap 'Copy Korean Address' (서울특별시 성북구 성북로12길 2) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seongbuk-gu, Seoul", "hours": "월-토 11시 - (익일) 01시 30분 · Closed: 일요일", "phone": "02-744-0215", "courseId": "seoul-central"}, {"id": 73, "kcisaNo": "KCISA-3263", "name": "해방촌 신흥시장 · When the Camellia Blooms", "nameKr": "해방촌 신흥시장", "category": "K-Drama", "primaryWork": "When the Camellia Blooms", "works": ["When the Camellia Blooms"], "placeType": "playground", "region": "Seoul", "city": "Yongsan-gu, Seoul", "addressKr": "서울특별시 용산구 신흥로 95-9", "lat": 37.545443, "lng": 126.98494, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified When the Camellia Blooms (동백꽃 필 무렵) outdoor landmark & street scene in Yongsan-gu, Seoul. Korean scene note: 동백꽃 필 무렵의 3~4화(전체 2화)에서 어머니 오동백(공효진)이 아들을 데리러 올 때까지 아들이 이 시장에서 머무른다.", "sceneKr": "동백꽃 필 무렵의 3~4화(전체 2화)에서 어머니 오동백(공효진)이 아들을 데리러 올 때까지 아들이 이 시장에서 머무른다.", "photoTip": "Tap 'Copy Korean Address' (서울특별시 용산구 신흥로 95-9) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Yongsan-gu, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "0507-1308-7389", "courseId": "seoul-central"}, {"id": 74, "kcisaNo": "KCISA-5040", "name": "한옥카페 선운각 · Mr. Sunshine", "nameKr": "한옥카페 선운각", "category": "K-Drama", "primaryWork": "Mr. Sunshine", "works": ["Mr. Sunshine"], "placeType": "playground", "region": "Seoul", "city": "Gangbuk-gu, Seoul", "addressKr": "서울특별시 강북구 우이동 265-16", "lat": 37.654998, "lng": 126.999365, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified Mr. Sunshine (미스터 션샤인) outdoor landmark & street scene in Gangbuk-gu, Seoul. Korean scene note: 5화에서 일본군이 일본군에게 피해를 준 미군병을 붙잡기 위해 행사장 밖으로 보이는 미 의회로 행진하는 일본군. 양 당사자의 통역이 일련의 언어 번역을 한 후, 츠다(이정현)는 교전을 선언하고 두 세트의 군인은 서로 무기를 겨누고 있습니다. 유진 최(이병헌)는 일본에게 미국에 선전포고를 했는지 묻는다.", "sceneKr": "5화에서 일본군이 일본군에게 피해를 준 미군병을 붙잡기 위해 행사장 밖으로 보이는 미 의회로 행진하는 일본군. 양 당사자의 통역이 일련의 언어 번역을 한 후, 츠다(이정현)는 교전을 선언하고 두 세트의 군인은 서로 무기를 겨누고 있습니다. 유진 최(이병헌)는 일본에게 미국에 선전포고를 했는지 묻는다.", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강북구 우이동 265-16) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangbuk-gu, Seoul", "hours": "매일 11시 - 19시 · Closed: 연중무휴", "phone": "0507-1399-1105", "courseId": "seoul-central"}, {"id": 75, "kcisaNo": "KCISA-5041", "name": "구서도역 영상촬영장 · Mr. Sunshine", "nameKr": "구서도역 영상촬영장", "category": "K-Drama", "primaryWork": "Mr. Sunshine", "works": ["Mr. Sunshine"], "placeType": "playground", "region": "Central & Jeolla", "city": "남원시, Korea", "addressKr": "전라북도 남원시 사매면 서도길 32", "lat": 35.490738, "lng": 127.329307, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified Mr. Sunshine (미스터 션샤인) outdoor landmark & street scene in 남원시, Korea. Korean scene note: 총 분실로 고애신이 미군에게 모욕을 당한 곳", "sceneKr": "총 분실로 고애신이 미군에게 모욕을 당한 곳", "photoTip": "Tap 'Copy Korean Address' (전라북도 남원시 사매면 서도길 32) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 남원시, Korea", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "063-634-8004", "courseId": "gangneung-east"}, {"id": 76, "kcisaNo": "KCISA-5042", "name": "부안영상테마파크 · Mr. Sunshine", "nameKr": "부안영상테마파크", "category": "K-Drama", "primaryWork": "Mr. Sunshine", "works": ["Mr. Sunshine"], "placeType": "playground", "region": "Central & Jeolla", "city": "부안군, Korea", "addressKr": "전라북도 부안군 반석면 격포로 309-64", "lat": 35.620633, "lng": 126.48247, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Mr. Sunshine (미스터 션샤인) outdoor landmark & street scene in 부안군, Korea. Korean scene note: 가면의 주인을 확인할 때의 장소이다.", "sceneKr": "가면의 주인을 확인할 때의 장소이다.", "photoTip": "Tap 'Copy Korean Address' (전라북도 부안군 반석면 격포로 309-64) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in 부안군, Korea", "hours": "임시휴업 · Closed: 임시휴업", "phone": "063-580-4434", "courseId": "gangneung-east"}, {"id": 77, "kcisaNo": "KCISA-5237", "name": "정동심곡 바다부채길 · BTS", "nameKr": "정동심곡 바다부채길", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS"], "placeType": "playground", "region": "Gangwon (East Coast)", "city": "Gangneung, Gangwon", "addressKr": "강원도 강릉시 강동면 심곡리 114-3", "lat": 37.682086, "lng": 129.046346, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified BTS (방탄소년단) outdoor landmark & street scene in Gangneung, Gangwon. Korean scene note: RM 트위터에 업로드 된 장소", "sceneKr": "RM 트위터에 업로드 된 장소", "photoTip": "Tap 'Copy Korean Address' (강원도 강릉시 강동면 심곡리 114-3) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangneung, Gangwon", "hours": "하절기 매일 09시 - 16시30분, 동절기 매일 09시 - 15시30분 · Closed: 연중무휴", "phone": "033-641-9444", "courseId": "gangneung-east"}, {"id": 78, "kcisaNo": "KCISA-5286", "name": "난장캠프 · BTS", "nameKr": "난장캠프", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 강남대로114길 10 2층", "lat": 37.519461, "lng": 127.020887, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified BTS (방탄소년단) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: 꽃미남 브로맨스에서 정국, 이민우 고기먹은 식당", "sceneKr": "꽃미남 브로맨스에서 정국, 이민우 고기먹은 식당", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 강남대로114길 10 2층) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "화-일 14시 - 22시 · Closed: 월요일", "phone": "0507-1311-1446", "courseId": "seoul-central"}, {"id": 79, "kcisaNo": "KCISA-5287", "name": "학동공원 · BTS", "nameKr": "학동공원", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS"], "placeType": "playground", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 강남대로140길 47", "lat": 37.515596, "lng": 127.025464, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified BTS (방탄소년단) outdoor landmark & street scene in Gangnam-gu, Seoul. Korean scene note: 방탄소년단 연습생 때, 신인왕 달려라방탄에 나온 곳", "sceneKr": "방탄소년단 연습생 때, 신인왕 달려라방탄에 나온 곳", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 강남대로140길 47) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-3423-7422", "courseId": "seoul-central"}, {"id": 80, "kcisaNo": "KCISA-5288", "name": "은행골 신사점 · BTS", "nameKr": "은행골 신사점", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 강남대로152길 42 2층", "lat": 37.517978, "lng": 127.022739, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified BTS (방탄소년단) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: 방탄의 지민과 뷔가 방문한 초밥집", "sceneKr": "방탄의 지민과 뷔가 방문한 초밥집", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 강남대로152길 42 2층) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "월-토 11시 - 22시 30분 · Closed: 일요일", "phone": "02-3444-4988", "courseId": "seoul-central"}, {"id": 81, "kcisaNo": "KCISA-5289", "name": "네모집 논현점 · BTS", "nameKr": "네모집 논현점", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 논현로 149길 12", "lat": 37.518511, "lng": 127.027325, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified BTS (방탄소년단) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: BTS와 방시혁이 함께 식사를 한 식당", "sceneKr": "BTS와 방시혁이 함께 식사를 한 식당", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 논현로 149길 12) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "평일 16시 - 22시 30분, 주말, 공휴일 12시 - 22시 · Closed: 연중무휴", "phone": "02-545-5804", "courseId": "seoul-central"}, {"id": 82, "kcisaNo": "KCISA-5290", "name": "다독인더시티 · BTS", "nameKr": "다독인더시티", "category": "K-Pop", "primaryWork": "BTS", "works": ["BTS"], "placeType": "cafe", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 논현로101길 10", "lat": 37.504569, "lng": 127.034036, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified BTS (방탄소년단) filming cafe & bakery in Gangnam-gu, Seoul. Korean scene note: 꽃미남 브로맨스 정국, 이민우 촬영 장소", "sceneKr": "꽃미남 브로맨스 정국, 이민우 촬영 장소", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 논현로101길 10) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "매일 10시 - 22시 · Closed: 연중무휴", "phone": "02-516-9650", "courseId": "seoul-central"}, {"id": 83, "kcisaNo": "KCISA-6057", "name": "강남역 · My Love from the Star", "nameKr": "강남역", "category": "K-Drama", "primaryWork": "My Love from the Star", "works": ["My Love from the Star"], "placeType": "station", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 강남대로 396", "lat": 37.493168, "lng": 126.43448, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified My Love from the Star (별에서 온 그대) transit station & platform scene in Gangnam-gu, Seoul. Korean scene note: 5회에서 도민준(김수현)은 자전거를 타고 이 역 출구를 지날 때 천송이(전지현)의 광고판이 철거되는 것을 본다.", "sceneKr": "5회에서 도민준(김수현)은 자전거를 타고 이 역 출구를 지날 때 천송이(전지현)의 광고판이 철거되는 것을 본다.", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 강남대로 396) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "매일 05시 - (익일) 01시 · Closed: 연중무휴", "phone": "02-6110-2221", "courseId": "seoul-central"}, {"id": 84, "kcisaNo": "KCISA-6058", "name": "손정완 · My Love from the Star", "nameKr": "손정완", "category": "K-Drama", "primaryWork": "My Love from the Star", "works": ["My Love from the Star"], "placeType": "store", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 언주로 733", "lat": 37.520519, "lng": 127.03386, "image": "./assets/spot-suwon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/2009-01-24_-_Haenggung_from_near_Naeposa.JPG/960px-2009-01-24_-_Haenggung_from_near_Naeposa.JPG", "sceneEn": "Verified My Love from the Star (별에서 온 그대) featured shop & cultural space in Gangnam-gu, Seoul. Korean scene note: 7화 천송이(전지현)가 이 부티크에 초대되어 도민준(김수현)이 천송이를 데려간다. 부티크 안에서 우연히 유세미(유인나)와 마주치며 둘 사이에 불편한 이야기가 이어진다. 건물을 나서던 중 암살자가 옥상에서 송이에게 무거운 유리잔을 떨어뜨리고 민준는 송이를 겨우 구한다.", "sceneKr": "7화 천송이(전지현)가 이 부티크에 초대되어 도민준(김수현)이 천송이를 데려간다. 부티크 안에서 우연히 유세미(유인나)와 마주치며 둘 사이에 불편한 이야기가 이어진다. 건물을 나서던 중 암살자가 옥상에서 송이에게 무거운 유리잔을 떨어뜨리고 민준는 송이를 겨우 구한다.", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 언주로 733) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "매일 10시 - 21시 · Closed: 연중무휴", "phone": "070-7726-0833", "courseId": "seoul-central"}, {"id": 85, "kcisaNo": "KCISA-6059", "name": "서울특별시 보라매병원 · My Love from the Star", "nameKr": "서울특별시 보라매병원", "category": "K-Drama", "primaryWork": "My Love from the Star", "works": ["My Love from the Star"], "placeType": "playground", "region": "Seoul", "city": "Dongjak-gu, Seoul", "addressKr": "서울특별시 동작구 보라매로5길 20", "lat": 37.493287, "lng": 126.92424, "image": "./assets/spot-namsan.jpg", "fallbackImage": "https://images.unsplash.com/photo-1639905808227-4c987d4a71bd?fm=jpg&q=80&w=1000&auto=format&fit=crop", "sceneEn": "Verified My Love from the Star (별에서 온 그대) outdoor landmark & street scene in Dongjak-gu, Seoul. Korean scene note: 8화에서 이희경(박해진 분)은 차가 절벽에서 떨어질 뻔하자 천송이(전지현 분)를 다시 병원으로 데려간다. 그들이 입구에서 도민준(김수현 분)과 마주치자 천송이는 도민준에게 그 순간 절벽에 있었던 적이 있는지 묻는다.", "sceneKr": "8화에서 이희경(박해진 분)은 차가 절벽에서 떨어질 뻔하자 천송이(전지현 분)를 다시 병원으로 데려간다. 그들이 입구에서 도민준(김수현 분)과 마주치자 천송이는 도민준에게 그 순간 절벽에 있었던 적이 있는지 묻는다.", "photoTip": "Tap 'Copy Korean Address' (서울특별시 동작구 보라매로5길 20) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Dongjak-gu, Seoul", "hours": "평일 08시 - 18시, 토 08시 30분 - 12시 30분 · Closed: 일요일", "phone": "1577-0075", "courseId": "seoul-central"}, {"id": 86, "kcisaNo": "KCISA-6060", "name": "부띠크모나코 · My Love from the Star", "nameKr": "부띠크모나코", "category": "K-Drama", "primaryWork": "My Love from the Star", "works": ["My Love from the Star"], "placeType": "stay", "region": "Seoul", "city": "Seocho-gu, Seoul", "addressKr": "서울특별시 서초구 서초대로 397", "lat": 37.49743, "lng": 127.02451, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified My Love from the Star (별에서 온 그대) filming hotel / resort stay in Seocho-gu, Seoul. Korean scene note: 14회에서 도민준(김수현)은 이 건물 옥상에서 이재경(신성록)을 위협한다. 그리고 재경이 잠시 공중에 매달려 있는 곳이다.", "sceneKr": "14회에서 도민준(김수현)은 이 건물 옥상에서 이재경(신성록)을 위협한다. 그리고 재경이 잠시 공중에 매달려 있는 곳이다.", "photoTip": "Tap 'Copy Korean Address' (서울특별시 서초구 서초대로 397) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seocho-gu, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-536-9820", "courseId": "seoul-central"}, {"id": 87, "kcisaNo": "KCISA-6061", "name": "GT타워 · My Love from the Star", "nameKr": "GT타워", "category": "K-Drama", "primaryWork": "My Love from the Star", "works": ["My Love from the Star"], "placeType": "playground", "region": "Seoul", "city": "Seocho-gu, Seoul", "addressKr": "서울특별시 서초구 서초대로 411", "lat": 37.498034, "lng": 127.02599, "image": "./assets/spot-bukchon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg/960px-Bukchon-ro_11-gil_street_with_hanok_houses_at_blue_hour_in_Bukchon_Hanok_Village_Seoul.jpg", "sceneEn": "Verified My Love from the Star (별에서 온 그대) outdoor landmark & street scene in Seocho-gu, Seoul. Korean scene note: 5회에서 천송이(전지현)가 도민준(김수현)에 대해 설명하면서 현재 살고 있는 아파트로 이사한 곳이 바로 이 건물이다. 그녀의 아파트 발코니에서 그와 합류. 천송이에 따르면 이곳은 빌보드를 위한 가장 비싼 장소이며 이 나라에서 가장 핫한 스타가 여기에 삽니다(현재 그녀입니다).", "sceneKr": "5회에서 천송이(전지현)가 도민준(김수현)에 대해 설명하면서 현재 살고 있는 아파트로 이사한 곳이 바로 이 건물이다. 그녀의 아파트 발코니에서 그와 합류. 천송이에 따르면 이곳은 빌보드를 위한 가장 비싼 장소이며 이 나라에서 가장 핫한 스타가 여기에 삽니다(현재 그녀입니다).", "photoTip": "Tap 'Copy Korean Address' (서울특별시 서초구 서초대로 411) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seocho-gu, Seoul", "hours": "매일 00시 - 24시 · Closed: 연중무휴", "phone": "02-2155-6114", "courseId": "seoul-central"}, {"id": 88, "kcisaNo": "KCISA-6062", "name": "켄싱턴호텔 여의도 · My Love from the Star", "nameKr": "켄싱턴호텔 여의도", "category": "K-Drama", "primaryWork": "My Love from the Star", "works": ["My Love from the Star"], "placeType": "stay", "region": "Seoul", "city": "Yeongdeungpo-gu, Seoul", "addressKr": "서울특별시 영등포구 국회대로76길 16", "lat": 37.530291, "lng": 126.92187, "image": "./assets/spot-yonsei.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg/960px-Midsummer_Night%27s_Yonsei_University%2C_Underwood_Hall_13-07-26.jpg", "sceneEn": "Verified My Love from the Star (별에서 온 그대) filming hotel / resort stay in Yeongdeungpo-gu, Seoul. Korean scene note: 1회에서 엄마 양미연(나영희)이 친구들과 함께 이 식당에서 회식을 하는 모습이 그려졌다.", "sceneKr": "1회에서 엄마 양미연(나영희)이 친구들과 함께 이 식당에서 회식을 하는 모습이 그려졌다.", "photoTip": "Tap 'Copy Korean Address' (서울특별시 영등포구 국회대로76길 16) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Yeongdeungpo-gu, Seoul", "hours": "매일 입실 15시, 퇴실 11시 · Closed: 연중무휴", "phone": "02-6670-7000", "courseId": "seoul-central"}, {"id": 89, "kcisaNo": "KCISA-6369", "name": "은행골 신사점 · BLACKPINK", "nameKr": "은행골 신사점", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 강남대로152길 42 2층", "lat": 37.517978, "lng": 127.022739, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified BLACKPINK (블랙핑크) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: 지수가 다녀간 신사동 초밥 맛집", "sceneKr": "지수가 다녀간 신사동 초밥 맛집", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 강남대로152길 42 2층) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "월-토 11시 - 22시 30분 · Closed: 일요일", "phone": "02-3444-4988", "courseId": "seoul-central"}, {"id": 90, "kcisaNo": "KCISA-6370", "name": "서울호떡 논현직영점 · BLACKPINK", "nameKr": "서울호떡 논현직영점", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 논현로149길 19 1층", "lat": 37.518136, "lng": 127.026823, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified BLACKPINK (블랙핑크) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: 로제 지수가 방문했던 호떡 맛집", "sceneKr": "로제 지수가 방문했던 호떡 맛집", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 논현로149길 19 1층) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "평일 11시 - 21시, 토 13시 - 21시, 일 11시 - 19시 · Closed: 연중무휴", "phone": "0507-1397-1229", "courseId": "seoul-central"}, {"id": 91, "kcisaNo": "KCISA-6371", "name": "쿠시마사 본점 · BLACKPINK", "nameKr": "쿠시마사 본점", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 논현로150길 35", "lat": 37.519921, "lng": 127.031335, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified BLACKPINK (블랙핑크) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: 로제와 리사가 우니 초밥 셀카를 찍은 일식당", "sceneKr": "로제와 리사가 우니 초밥 셀카를 찍은 일식당", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 논현로150길 35) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "화-금 18시 - 21시 30분 · Closed: 월요일, 주말", "phone": "", "courseId": "seoul-central"}, {"id": 92, "kcisaNo": "KCISA-6372", "name": "로칼즈버거바 · BLACKPINK", "nameKr": "로칼즈버거바", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 도산대로 92길 26", "lat": 37.522938, "lng": 127.049305, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified BLACKPINK (블랙핑크) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: 제니가 방문한 햄버거 맛집", "sceneKr": "제니가 방문한 햄버거 맛집", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 도산대로 92길 26) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "평일 11시 - 22시, 일 12시 - 20시 · Closed: 토요일", "phone": "02-555-3066", "courseId": "seoul-central"}, {"id": 93, "kcisaNo": "KCISA-6373", "name": "콘피에르 · BLACKPINK", "nameKr": "콘피에르", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK"], "placeType": "restaurant", "region": "Seoul", "city": "Gangnam-gu, Seoul", "addressKr": "서울특별시 강남구 도산대로49길 10-2 2F", "lat": 37.523556, "lng": 127.037536, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified BLACKPINK (블랙핑크) filming restaurant / dining spot in Gangnam-gu, Seoul. Korean scene note: 지수가 글램의 윤수진과 함께 방문한 식당", "sceneKr": "지수가 글램의 윤수진과 함께 방문한 식당", "photoTip": "Tap 'Copy Korean Address' (서울특별시 강남구 도산대로49길 10-2 2F) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Gangnam-gu, Seoul", "hours": "매일 12시 - 21시 30분 · Closed: 연중무휴", "phone": "070-4794-0827", "courseId": "seoul-central"}, {"id": 94, "kcisaNo": "KCISA-6453", "name": "카멜리아힐 · BLACKPINK", "nameKr": "카멜리아힐", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK"], "placeType": "playground", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 안덕면 병악로 166", "lat": 33.28902, "lng": 126.37012, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified BLACKPINK (블랙핑크) outdoor landmark & street scene in Seogwipo, Jeju. Korean scene note: 리사가 방문한 제주도의 수목원", "sceneKr": "리사가 방문한 제주도의 수목원", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 안덕면 병악로 166) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "매일 08시 30분 - 18시(월별 상이) · Closed: 연중무휴", "phone": "064-800-6296", "courseId": "gangneung-east"}, {"id": 95, "kcisaNo": "KCISA-6454", "name": "제주선 · BLACKPINK", "nameKr": "제주선", "category": "K-Pop", "primaryWork": "BLACKPINK", "works": ["BLACKPINK"], "placeType": "restaurant", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 안덕면 신화역사로304번길 38", "lat": 33.307661, "lng": 126.317483, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified BLACKPINK (블랙핑크) filming restaurant / dining spot in Seogwipo, Jeju. Korean scene note: 블핑하우스에서 블랙핑크가 방문한 식당", "sceneKr": "블핑하우스에서 블랙핑크가 방문한 식당", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 안덕면 신화역사로304번길 38) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "매일 12시 - 21시 30분 · Closed: 연중무휴", "phone": "064-908-1260", "courseId": "gangneung-east"}, {"id": 96, "kcisaNo": "KCISA-6729", "name": "치유의 숲 · Crash Landing on You", "nameKr": "치유의 숲", "category": "K-Drama", "primaryWork": "Crash Landing on You", "works": ["Crash Landing on You"], "placeType": "playground", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 산록남로 2271", "lat": 33.292027, "lng": 126.529407, "image": "./assets/spot-itaewon.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Haebangchon_%2855192249973%29.jpg/960px-Haebangchon_%2855192249973%29.jpg", "sceneEn": "Verified Crash Landing on You (사랑의 불시착) outdoor landmark & street scene in Seogwipo, Jeju. Korean scene note: 세리가 하늘에서 불시착해 리정혁을 만난 숲", "sceneKr": "세리가 하늘에서 불시착해 리정혁을 만난 숲", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 산록남로 2271) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "하절기 매일 08시 - 17시, 동절기 매일 09시 - 16시 · Closed: 연중무휴", "phone": "064-760-3067", "courseId": "gangneung-east"}, {"id": 97, "kcisaNo": "KCISA-8060", "name": "서연의 집 · SHINee", "nameKr": "서연의 집", "category": "K-Pop", "primaryWork": "SHINee", "works": ["SHINee"], "placeType": "cafe", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 남원읍 위미해안로 86", "lat": 33.269386, "lng": 126.655697, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified SHINee (샤이니) filming cafe & bakery in Seogwipo, Jeju. Korean scene note: 샤이니 태민의 우결 첫 촬영지", "sceneKr": "샤이니 태민의 우결 첫 촬영지", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 남원읍 위미해안로 86) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "매일 10시 - 19시 · Closed: 연중무휴", "phone": "064-764-7894", "courseId": "gangneung-east"}, {"id": 98, "kcisaNo": "KCISA-8061", "name": "제주 신라 호텔 · SHINee", "nameKr": "제주 신라 호텔", "category": "K-Pop", "primaryWork": "SHINee", "works": ["SHINee"], "placeType": "playground", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 중문관광로72번길 75", "lat": 33.247398, "lng": 126.408036, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified SHINee (샤이니) outdoor landmark & street scene in Seogwipo, Jeju. Korean scene note: 샤이니 태민과 손나은의 우결 촬영지", "sceneKr": "샤이니 태민과 손나은의 우결 촬영지", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 중문관광로72번길 75) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "매일 입실 14시, 퇴실 11시 · Closed: 연중무휴", "phone": "064-735-5114", "courseId": "gangneung-east"}, {"id": 99, "kcisaNo": "KCISA-8226", "name": "제주실탄사격장 · SEVENTEEN", "nameKr": "제주실탄사격장", "category": "K-Pop", "primaryWork": "SEVENTEEN", "works": ["SEVENTEEN"], "placeType": "playground", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 소보리당로 164번길 62", "lat": 33.263939, "lng": 126.385222, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified SEVENTEEN (세븐틴) outdoor landmark & street scene in Seogwipo, Jeju. Korean scene note: 세븐틴 승관과 버논이 방문한 곳", "sceneKr": "세븐틴 승관과 버논이 방문한 곳", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 소보리당로 164번길 62) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "매일 09시 30분 - 20시 30분 · Closed: 연중무휴", "phone": "064-739-7007", "courseId": "gangneung-east"}, {"id": 100, "kcisaNo": "KCISA-8227", "name": "춘심이네 본점 · SEVENTEEN", "nameKr": "춘심이네 본점", "category": "K-Pop", "primaryWork": "SEVENTEEN", "works": ["SEVENTEEN"], "placeType": "restaurant", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 안덕면 창천중앙로24번길 16", "lat": 33.264728, "lng": 126.370565, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified SEVENTEEN (세븐틴) filming restaurant / dining spot in Seogwipo, Jeju. Korean scene note: 핫질 촬영시 갈치구이를 먹었던 제주 맛집", "sceneKr": "핫질 촬영시 갈치구이를 먹었던 제주 맛집", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 안덕면 창천중앙로24번길 16) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "식당 매일 10시 - 18시, 카페 10시 - 20시 30분 · Closed: 연중무휴", "phone": "064-794-4010", "courseId": "gangneung-east"}, {"id": 101, "kcisaNo": "KCISA-8228", "name": "베이힐풀앤빌라 · SEVENTEEN", "nameKr": "베이힐풀앤빌라", "category": "K-Pop", "primaryWork": "SEVENTEEN", "works": ["SEVENTEEN"], "placeType": "stay", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 예래로 424", "lat": 33.236723, "lng": 126.372831, "image": "./assets/spot-jumunjin.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Jumunjin_Beach_20220501_004.jpg/960px-Jumunjin_Beach_20220501_004.jpg", "sceneEn": "Verified SEVENTEEN (세븐틴) filming hotel / resort stay in Seogwipo, Jeju. Korean scene note: 미니앨범 '올원'의 사랑쪽지 뮤직비디오 촬영장소", "sceneKr": "미니앨범 '올원'의 사랑쪽지 뮤직비디오 촬영장소", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 예래로 424) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "매일 입실 15시, 퇴실 11시 · Closed: 연중무휴", "phone": "064-801-9000", "courseId": "gangneung-east"}, {"id": 102, "kcisaNo": "KCISA-8229", "name": "성읍랜드 · SEVENTEEN", "nameKr": "성읍랜드", "category": "K-Pop", "primaryWork": "SEVENTEEN", "works": ["SEVENTEEN"], "placeType": "playground", "region": "Jeju Island", "city": "Seogwipo, Jeju", "addressKr": "제주특별자치도 서귀포시 표선면 번영로 2650", "lat": 33.398525, "lng": 126.787606, "image": "./assets/spot-bts.jpg", "fallbackImage": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Garosu-gil.jpg/960px-Garosu-gil.jpg", "sceneEn": "Verified SEVENTEEN (세븐틴) outdoor landmark & street scene in Seogwipo, Jeju. Korean scene note: 핫질 촬영으로 승마, ATV, 카트를 탄 장소", "sceneKr": "핫질 촬영으로 승마, ATV, 카트를 탄 장소", "photoTip": "Tap 'Copy Korean Address' (제주특별자치도 서귀포시 표선면 번영로 2650) for your taxi driver or open directly in Naver Map / KakaoMap.", "subway": "Local Transit / Taxi in Seogwipo, Jeju", "hours": "매일 10시 - 17시 30분 · Closed: 연중무휴", "phone": "064-787-5324", "courseId": "gangneung-east"}];
+
+    const COURSES = {
+      "seoul-central": {
+        title: "Central Seoul Night & Hanok Loop",
+        subtitle: "Hit 5 iconic K-Drama filming locations in one afternoon without backtracking across the Han River.",
+        duration: "⏱️ ~4.5 Hours · Subway + Cable Car",
+        center: [37.558, 126.975],
+        zoom: 12,
+        steps: [
+          { spotId: 3, badge: "1", color: "bg-dancheong-coral text-white", title: "14:00 · Bukchon Hanok Village & Anguk Stone Wall", desc: "Goblin & Queen of Tears — Start at Anguk Stn Exit 2 while afternoon sunlight hits the Hanok tiles." },
+          { spotId: 4, badge: "2", color: "bg-dancheong-coral text-white", title: "15:30 · Yonsei University Underwood Hall", desc: "Lovely Runner & True Beauty — 15 min metro ride to Sinchon Stn for the ivy courtyard." },
+          { spotId: 9, badge: "3", color: "bg-dancheong-amber text-night-950", title: "17:00 · Sewoon Sangga Rooftop (Geumga Plaza)", desc: "Vincenzo — Retro Euljiro corridors and panoramic rooftop view facing Namsan." },
+          { spotId: 2, badge: "4", color: "bg-dancheong-amber text-night-950", title: "18:30 · Haebangchon & Noksapyeong Overpass", desc: "Itaewon Class — Golden hour photo on Park Sae-royi's pedestrian bridge." },
+          { spotId: 1, badge: "5", color: "bg-dancheong-jade text-night-950", title: "20:00 · Namsan Seoul Tower Night Finale", desc: "Queen of Tears & My Love from the Star — Lock of Love terrace over glittering Seoul." }
+        ]
+      },
+      "suwon-loop": {
+        title: "Suwon Haenggung Time-Slip Loop",
+        subtitle: "Walk between Im Sol's blue gate (Lovely Runner) and Woo Young-woo's Gimbap shop in 4 minutes!",
+        duration: "⏱️ ~3.5 Hours · 35 min KTX/Metro from Seoul",
+        center: [37.2854, 127.0145],
+        zoom: 15,
+        steps: [
+          { spotId: 5, badge: "1", color: "bg-dancheong-coral text-white", title: "11:00 · Im Sol & Ryu Sun-jae's House (Mong Ted)", desc: "Lovely Runner EP.01–16 — Snap the iconic yellow-umbrella photo at the blue gate in Haenggung-dong." },
+          { spotId: 10, badge: "2", color: "bg-dancheong-amber text-night-950", title: "12:00 · Woo Young-woo's Gimbap (Kazaguruma)", desc: "Extraordinary Attorney Woo — Just 180 meters down the same brick alley!" },
+          { spotId: 14, badge: "3", color: "bg-dancheong-jade text-night-950", title: "15:00 · Gyeonggi Fortress & Canyon Extension", desc: "Continue along UNESCO Hwaseong Fortress walls (Our Beloved Summer) or north to Hantan Sky Bridge." }
+        ]
+      },
+      "gangneung-east": {
+        title: "East Coast Ocean & K-Pop Pilgrimage",
+        subtitle: "Crystal-clear East Sea beaches featuring BTS's 'You Never Walk Alone' Bus Stop, Goblin's Breakwater & Gongjin.",
+        duration: "⏱️ Half-Day · KTX Seoul → Gangneung (1h 50m)",
+        center: [37.9126, 128.8166],
+        zoom: 11,
+        steps: [
+          { spotId: 6, badge: "1", color: "bg-dancheong-coral text-white", title: "09:00 · Jumunjin BTS Bus Stop & Goblin Breakwater", desc: "BTS & Goblin — Hyangho Beach album jacket bus stop + Yeongjin Beach red-scarf breakwater 5 mins south." },
+          { spotId: 11, badge: "2", color: "bg-dancheong-amber text-night-950", title: "13:30 · Pohang Cheongha Gongjin Market", desc: "Hometown Cha-Cha-Cha — Yoon Dental Clinic, Hardware Store & Red Lighthouse along the East Coast." },
+          { spotId: 13, badge: "3", color: "bg-dancheong-jade text-night-950", title: "17:00 · Coastal Cafe Sunset Finale", desc: "Oceanfront K-Movie & K-Drama seaside cafe experience." }
+        ]
+      }
+    };
+
+    const FEATURED_WORKS = [
+      { id: "ALL", label: "All Works (102)", icon: "✨" },
+      { id: "Queen of Tears", label: "Queen of Tears", icon: "👑" },
+      { id: "Lovely Runner", label: "Lovely Runner", icon: "💛" },
+      { id: "Squid Game", label: "Squid Game", icon: "🦑" },
+      { id: "Goblin (Guardian)", label: "Goblin", icon: "🧣" },
+      { id: "Itaewon Class", label: "Itaewon Class", icon: "🏮" },
+      { id: "Crash Landing on You", label: "Crash Landing on You", icon: "🪂" },
+      { id: "Extraordinary Attorney Woo", label: "Attorney Woo", icon: "🐋" },
+      { id: "Hometown Cha-Cha-Cha", label: "Hometown Cha-Cha-Cha", icon: "🦷" },
+      { id: "Twenty-Five Twenty-One", label: "2521", icon: "🤺" },
+      { id: "Vincenzo", label: "Vincenzo", icon: "⚖️" },
+      { id: "BTS", label: "BTS", icon: "💜" },
+      { id: "BLACKPINK", label: "BLACKPINK", icon: "🖤" },
+      { id: "SEVENTEEN", label: "SEVENTEEN", icon: "💎" },
+      { id: "TWICE", label: "TWICE", icon: "🍭" },
+      { id: "IU", label: "IU", icon: "🎤" },
+      { id: "Parasite", label: "Parasite", icon: "🍑" },
+      { id: "Architecture 101", label: "Architecture 101", icon: "🏠" },
+      { id: "The Handmaiden", label: "The Handmaiden", icon: "🎬" },
+      { id: "Extreme Job", label: "Extreme Job", icon: "🍗" },
+      { id: "Oldboy", label: "Oldboy", icon: "🔨" }
+    ];
+
+    let activeCategory = "ALL";
+    let activeRegion = "ALL";
+    let activeWork = "ALL";
+    let searchQuery = "";
+    let showAllCards = false;
+    let activeCourseKey = "seoul-central";
+
+    let map;
+    let markersById = {};
+    let markerGroup;
+    let routeLine = null;
+
+    function getNaverUrl(spot) {
+      return `https://map.naver.com/p/search/${encodeURIComponent(spot.nameKr)}`;
+    }
+    function getKakaoUrl(spot) {
+      return `https://map.kakao.com/link/map/${encodeURIComponent(spot.nameKr)},${spot.lat},${spot.lng}`;
+    }
+
+    function getPinColor(cat) {
+      if (cat === "K-Pop") return "linear-gradient(135deg,#9333EA,#EC4899)";
+      if (cat === "K-Movie") return "linear-gradient(135deg,#FFB703,#FB8500)";
+      return "linear-gradient(135deg,#FF4D6D,#F43F5E)";
+    }
+
+    function initMap() {
+      map = L.map("map", {
+        center: [37.555, 126.978],
+        zoom: 11,
+        zoomControl: true,
+        scrollWheelZoom: false
+      });
+
+      L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}", {
+        attribution: "&copy; OpenStreetMap &amp; Esri · KCISA &amp; KTO Public Data",
+        maxZoom: 19
+      }).addTo(map);
+
+      markerGroup = L.layerGroup().addTo(map);
+      updateMapMarkers(SPOTS);
+    }
+
+    function updateMapMarkers(filteredSpots) {
+      if (!markerGroup) return;
+      markerGroup.clearLayers();
+      markersById = {};
+
+      filteredSpots.forEach((spot) => {
+        const icon = L.divIcon({
+          className: "",
+          html: `<div class="custom-pin" style="background:${getPinColor(spot.category)};">${spot.id}</div>`,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16],
+          popupAnchor: [0, -16]
+        });
+
+        const popupHtml = `
+          <div class="p-1 min-w-[235px] max-w-[270px]">
+            <div class="flex items-center gap-1.5 mb-1">
+              <span class="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-dancheong-coral/20 text-dancheong-coral font-semibold">${spot.primaryWork}</span>
+              <span class="text-[10px] font-mono text-slate-400">${spot.category}</span>
+            </div>
+            <div class="font-bold text-sm text-white leading-snug">${spot.name}</div>
+            <div class="text-xs text-slate-400 mb-1.5">${spot.nameKr} · ${spot.city}</div>
+            <p class="text-[11px] text-slate-300 leading-relaxed mb-2.5">${spot.sceneEn}</p>
+            <div class="grid grid-cols-2 gap-1.5 mb-1.5">
+              <a href="${getNaverUrl(spot)}" target="_blank" rel="noopener" class="text-center py-1.5 px-2 rounded-lg bg-[#03C75A] text-night-950 font-bold text-[11px] hover:opacity-90">Naver Map</a>
+              <a href="${getKakaoUrl(spot)}" target="_blank" rel="noopener" class="text-center py-1.5 px-2 rounded-lg bg-[#FEE500] text-night-950 font-bold text-[11px] hover:opacity-90">KakaoMap</a>
+            </div>
+            <button onclick="copyAddress('${spot.addressKr.replace(/'/g, "")}', '${spot.nameKr.replace(/'/g, "")}')" class="w-full text-center py-1 px-2 rounded bg-white/10 hover:bg-white/15 text-[10px] font-mono text-slate-200">
+              🚕 Copy Taxi Address: ${spot.addressKr}
+            </button>
+          </div>
+        `;
+
+        const marker = L.marker([spot.lat, spot.lng], { icon }).addTo(markerGroup).bindPopup(popupHtml);
+        markersById[spot.id] = marker;
+      });
+
+      const pinCountEl = document.getElementById("map-pin-count");
+      if (pinCountEl) pinCountEl.textContent = `· ${filteredSpots.length} Pins Active`;
+    }
+
+    function renderWorkChips() {
+      const container = document.getElementById("work-filters");
+      container.innerHTML = FEATURED_WORKS.map((w) => {
+        const isActive = activeWork === w.id;
+        return `
+          <button
+            onclick="setWork('${w.id.replace(/'/g, "\'")}')"
+            class="shrink-0 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold border transition ${
+              isActive
+                ? "bg-dancheong-coral text-white border-dancheong-coral shadow-lg shadow-dancheong-coral/25"
+                : "bg-night-900/90 text-slate-300 border-white/10 hover:border-white/25 hover:text-white"
+            }"
+          >
+            <span>${w.icon}</span>
+            <span>${w.label}</span>
+          </button>
+        `;
+      }).join("");
+    }
+
+    function getFilteredSpots() {
+      return SPOTS.filter((s) => {
+        if (activeCategory !== "ALL" && s.category !== activeCategory) return false;
+        if (activeRegion !== "ALL" && s.region !== activeRegion) return false;
+        if (activeWork !== "ALL" && !s.works.includes(activeWork) && s.primaryWork !== activeWork) return false;
+        if (searchQuery.trim() !== "") {
+          const q = searchQuery.toLowerCase().trim();
+          const hay = `${s.name} ${s.nameKr} ${s.primaryWork} ${s.works.join(" ")} ${s.city} ${s.region} ${s.addressKr} ${s.sceneEn} ${s.sceneKr}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function renderCards() {
+      const grid = document.getElementById("spots-grid");
+      const filtered = getFilteredSpots();
+
+      document.getElementById("grid-count-num").textContent = filtered.length;
+      document.getElementById("active-filter-badge").textContent = `Showing ${filtered.length} of ${SPOTS.length} spots`;
+
+      updateMapMarkers(filtered);
+
+      const visibleSpots = showAllCards ? filtered : filtered.slice(0, 12);
+      const loadMoreContainer = document.getElementById("load-more-container");
+      const loadMoreBtn = document.getElementById("load-more-btn");
+
+      if (filtered.length <= 12) {
+        loadMoreContainer.classList.add("hidden");
+      } else {
+        loadMoreContainer.classList.remove("hidden");
+        loadMoreBtn.innerHTML = showAllCards
+          ? `<span>Show Top 12 Featured Locations</span><span class="text-dancheong-coral font-mono">↑</span>`
+          : `<span>View All ${filtered.length} Matching Filming Locations</span><span class="text-dancheong-coral font-mono">↓</span>`;
+      }
+
+      if (visibleSpots.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full rounded-2xl bg-night-900 border border-white/10 p-10 text-center space-y-3">
+            <div class="text-3xl">🎬</div>
+            <div class="font-display font-bold text-lg text-white">No filming spots matched your current filter combination.</div>
+            <p class="text-xs text-slate-400">Try resetting your region or work filter to explore all 102 verified locations across Korea.</p>
+            <button onclick="resetAllFilters()" class="px-4 py-2 rounded-xl bg-dancheong-coral text-white text-xs font-semibold">Reset All Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = visibleSpots.map((spot) => `
+        <article id="spot-card-${spot.id}" class="spot-card rounded-2xl bg-night-900 border border-white/10 overflow-hidden flex flex-col justify-between">
+          <div>
+            <!-- Image Header -->
+            <div class="relative h-48 overflow-hidden bg-night-800 group cursor-pointer" onclick="focusSpot(${spot.id})">
+              <img
+                src="${spot.image}"
+                onerror="this.onerror=null;this.src='${spot.fallbackImage}';"
+                alt="${spot.name}"
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition duration-500 brightness-95"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-night-900 via-night-900/25 to-transparent"></div>
+
+              <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                <span class="px-2.5 py-1 rounded-lg bg-night-950/85 backdrop-blur-md border border-white/15 text-[11px] font-mono font-bold text-dancheong-coral">
+                  #${spot.id} · ${spot.category}
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-night-950/85 backdrop-blur-md border border-white/15 text-[11px] font-medium text-slate-200">
+                  📍 ${spot.city}
+                </span>
+              </div>
+
+              <div class="absolute bottom-3 left-3 right-3 flex items-end justify-between gap-2">
+                <div>
+                  <span class="text-[10px] font-mono text-dancheong-amber bg-night-950/80 px-2 py-0.5 rounded border border-dancheong-amber/30">${spot.primaryWork}</span>
+                  <h3 class="font-display font-bold text-lg text-white leading-tight drop-shadow mt-1">${spot.name}</h3>
+                  <p class="text-xs text-slate-300 font-medium">${spot.nameKr}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5 space-y-3.5">
+              <!-- Work badges -->
+              <div class="flex flex-wrap gap-1.5">
+                ${spot.works.map((w) => `
+                  <span class="text-[11px] font-semibold px-2.5 py-0.5 rounded-md bg-dancheong-coral/15 text-dancheong-coral border border-dancheong-coral/30">
+                    ${w}
+                  </span>
+                `).join("")}
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 text-slate-400 border border-white/5">${spot.kcisaNo}</span>
+              </div>
+
+              <!-- Scene Context -->
+              <div class="space-y-1.5 text-xs">
+                <p class="text-slate-200 leading-relaxed"><strong class="text-white">Scene:</strong> ${spot.sceneEn}</p>
+                <p class="text-slate-400 leading-relaxed"><strong class="text-dancheong-amber">📸 Tip:</strong> ${spot.photoTip}</p>
+              </div>
+
+              <!-- Subway & Hours -->
+              <div class="rounded-xl bg-night-950/80 border border-white/5 p-3 space-y-1.5 text-[11px]">
+                <div class="flex items-start gap-2 text-slate-300">
+                  <span class="text-dancheong-jade shrink-0">🚇</span>
+                  <span>${spot.subway}</span>
+                </div>
+                <div class="flex items-start gap-2 text-slate-400">
+                  <span class="shrink-0">🕒</span>
+                  <span>${spot.hours}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Footer: Taxi Address Copy + Naver/Kakao Deep Links -->
+          <div class="px-5 pb-5 pt-1 space-y-2">
+            <button
+              onclick="copyAddress('${spot.addressKr.replace(/'/g, "")}', '${spot.nameKr.replace(/'/g, "")}')"
+              class="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-left transition group"
+              title="Copy Korean address to show your taxi driver or paste in Kakao T"
+            >
+              <div class="truncate">
+                <div class="text-[10px] uppercase tracking-wider font-mono text-slate-400">🚕 Show to Taxi Driver (Korean Address)</div>
+                <div class="text-xs font-mono text-slate-200 truncate">${spot.addressKr}</div>
+              </div>
+              <span class="shrink-0 text-[11px] font-semibold text-dancheong-jade group-hover:translate-x-0.5 transition">Copy 📋</span>
+            </button>
+
+            <div class="grid grid-cols-3 gap-2">
+              <button
+                onclick="focusSpot(${spot.id})"
+                class="py-2 px-2.5 rounded-xl bg-night-800 hover:bg-night-700 border border-white/10 text-xs font-semibold text-slate-200 transition flex items-center justify-center gap-1"
+              >
+                <span>🎯</span> Pin
+              </button>
+              <a
+                href="${getNaverUrl(spot)}"
+                target="_blank"
+                rel="noopener"
+                class="py-2 px-2.5 rounded-xl bg-dancheong-naver hover:brightness-110 text-night-950 font-bold text-xs transition flex items-center justify-center gap-1 shadow-md shadow-dancheong-naver/15"
+              >
+                <span>🟢</span> Naver Map
+              </a>
+              <a
+                href="${getKakaoUrl(spot)}"
+                target="_blank"
+                rel="noopener"
+                class="py-2 px-2.5 rounded-xl bg-dancheong-kakao hover:brightness-105 text-night-950 font-bold text-xs transition flex items-center justify-center gap-1 shadow-md shadow-dancheong-kakao/15"
+              >
+                <span>🟡</span> KakaoMap
+              </a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function setCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll(".cat-btn").forEach((btn) => {
+        if (btn.getAttribute("data-cat") === cat) {
+          btn.className = "cat-btn shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold bg-dancheong-coral text-white transition";
+        } else {
+          btn.className = "cat-btn shrink-0 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-white transition";
+        }
+      });
+      renderCards();
+    }
+
+    function setRegion(reg) {
+      activeRegion = reg;
+      document.getElementById("region-select").value = reg;
+      renderCards();
+      fitAllFilteredMarkers();
+    }
+
+    function setWork(work) {
+      activeWork = work;
+      renderWorkChips();
+      renderCards();
+    }
+
+    function handleSearch(val) {
+      searchQuery = val;
+      const clearBtn = document.getElementById("clear-search-btn");
+      if (val.trim().length > 0) clearBtn.classList.remove("hidden");
+      else clearBtn.classList.add("hidden");
+      renderCards();
+    }
+
+    function clearSearch() {
+      document.getElementById("search-input").value = "";
+      handleSearch("");
+    }
+
+    function resetAllFilters() {
+      activeCategory = "ALL";
+      activeRegion = "ALL";
+      activeWork = "ALL";
+      searchQuery = "";
+      document.getElementById("search-input").value = "";
+      document.getElementById("region-select").value = "ALL";
+      document.getElementById("clear-search-btn").classList.add("hidden");
+      setCategory("ALL");
+      renderWorkChips();
+      renderCards();
+      flyToRegion(37.555, 126.978, 11);
+    }
+
+    function toggleShowAll() {
+      showAllCards = !showAllCards;
+      renderCards();
+    }
+
+    function focusSpot(id) {
+      const spot = SPOTS.find((s) => s.id === id);
+      if (!spot) return;
+
+      document.getElementById("interactive-map").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      map.flyTo([spot.lat, spot.lng], 15, { duration: 0.9 });
+      if (markersById[id]) {
+        markersById[id].openPopup();
+      }
+
+      document.querySelectorAll(".spot-card").forEach((el) => el.classList.remove("active-card"));
+      const card = document.getElementById(`spot-card-${id}`);
+      if (card) card.classList.add("active-card");
+    }
+
+    function flyToRegion(lat, lng, zoom) {
+      map.flyTo([lat, lng], zoom, { duration: 0.9 });
+    }
+
+    function fitAllFilteredMarkers() {
+      const filtered = getFilteredSpots();
+      if (filtered.length === 0) return;
+      const bounds = L.latLngBounds(filtered.map((s) => [s.lat, s.lng]));
+      map.flyToBounds(bounds.pad(0.15), { duration: 0.9 });
+    }
+
+    function selectCourse(courseKey) {
+      activeCourseKey = courseKey;
+      const course = COURSES[courseKey];
+      if (!course) return;
+
+      document.querySelectorAll(".course-btn").forEach((btn) => {
+        if (btn.getAttribute("data-course") === courseKey) {
+          btn.className = "course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold bg-dancheong-coral text-white transition";
+        } else {
+          btn.className = "course-btn py-1.5 px-2 rounded-lg text-[11px] font-semibold text-slate-300 hover:text-white transition";
+        }
+      });
+
+      document.getElementById("course-title").textContent = course.title;
+      document.getElementById("course-subtitle").textContent = course.subtitle;
+      document.getElementById("course-duration-badge").textContent = course.duration;
+
+      const listEl = document.getElementById("course-steps-list");
+      listEl.innerHTML = course.steps.map((step) => `
+        <li onclick="focusSpot(${step.spotId})" class="relative pl-9 py-2 pr-3 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/5 cursor-pointer transition">
+          <span class="absolute left-1.5 top-2.5 w-4 h-4 rounded-full ${step.color} text-[10px] font-bold flex items-center justify-center">${step.badge}</span>
+          <div class="text-xs font-bold text-white">${step.title}</div>
+          <div class="text-[11px] text-slate-400">${step.desc}</div>
+        </li>
+      `).join("");
+
+      drawCourseRoute();
+    }
+
+    function drawCourseRoute() {
+      const course = COURSES[activeCourseKey];
+      if (!course) return;
+      const coords = course.steps
+        .map((st) => SPOTS.find((s) => s.id === st.spotId))
+        .filter(Boolean)
+        .map((s) => [s.lat, s.lng]);
+
+      if (routeLine) {
+        map.removeLayer(routeLine);
+      }
+      routeLine = L.polyline(coords, {
+        color: "#FF4D6D",
+        weight: 4,
+        dashArray: "8, 8",
+        opacity: 0.95
+      }).addTo(map);
+
+      map.flyToBounds(routeLine.getBounds().pad(0.25), { duration: 1.0 });
+    }
+
+    function copyAddress(addressKr, nameKr) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(`${nameKr} (${addressKr})`).catch(() => {});
+      }
+      const toast = document.getElementById("copy-toast");
+      const toastText = document.getElementById("copy-toast-text");
+      toastText.textContent = `Copied for Taxi: ${nameKr} · ${addressKr}`;
+      toast.classList.remove("hidden");
+      toast.classList.add("flex");
+      setTimeout(() => {
+        toast.classList.add("hidden");
+        toast.classList.remove("flex");
+      }, 3200);
+    }
+
+    function applyUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("category")) setCategory(params.get("category"));
+      if (params.get("region")) setRegion(params.get("region"));
+      if (params.get("work")) setWork(params.get("work"));
+      if (params.get("q")) {
+        document.getElementById("search-input").value = params.get("q");
+        handleSearch(params.get("q"));
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      initMap();
+      renderWorkChips();
+      renderCards();
+      selectCourse("seoul-central");
+      applyUrlParams();
+    });
+  </script>
+</body>
+</html>

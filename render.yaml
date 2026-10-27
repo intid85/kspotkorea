@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: kspotkorea
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+    domains:
+      - kspotkorea.co.kr
+      - www.kspotkorea.co.kr
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=3600
