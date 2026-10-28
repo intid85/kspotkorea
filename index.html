@@ -159,6 +159,11 @@
   <!-- Travelpayouts Monetization & Google AdSense Config -->
   <script data-noptimize="1" data-cfasync="false" data-wpfc-render="false" src="https://emrldtp.cc/NTkxMjc3.js?t=591277" async></script>
   <script>window.ADSENSE_CLIENT_ID = "ca-pub-XXXXXXXXXXXXXXXX";</script>
+  <!-- Google Search Central Advanced SEO Meta -->
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <link rel="alternate" hreflang="en" href="https://kspotkorea.co.kr/" />
+  <link rel="alternate" hreflang="x-default" href="https://kspotkorea.co.kr/" />
+  <meta property="og:locale" content="en_US" />
 </head>
 <body class="antialiased selection:bg-dancheong-coral selection:text-white">
 
@@ -206,19 +211,19 @@
         src="./assets/hero-namsan-day.jpg"
         alt="Namsan Seoul Tower under a bright blue Seoul sky"
         class="hero-slide absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-[1.03] saturate-[1.08] transition-opacity duration-1000 opacity-100"
-      />
+       fetchpriority="high" decoding="async">
       <img
         id="hero-slide-1"
         src="./assets/hero-gyeongbokgung.jpg"
         alt="Geunjeongjeon Hall at Gyeongbokgung Palace under bright blue sky"
         class="hero-slide absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-[1.03] saturate-[1.08] transition-opacity duration-1000 opacity-0"
-      />
+       loading="lazy" decoding="async">
       <img
         id="hero-slide-2"
         src="./assets/hero-bukchon-namsan.jpg"
         alt="Traditional Korean Hanok roofs in Bukchon Hanok Village under golden sunlight"
         class="hero-slide absolute inset-0 w-full h-full object-cover object-center brightness-105 contrast-[1.03] saturate-[1.08] transition-opacity duration-1000 opacity-0"
-      />
+       loading="lazy" decoding="async">
       <!-- Subtle soft gradient only on the left for text legibility while keeping the landmark on the right 100% unobstructed and vivid -->
       <div class="absolute inset-0 bg-gradient-to-r from-slate-950/60 via-slate-950/25 to-transparent"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-slate-950/10"></div>
@@ -1230,7 +1235,7 @@
                 onerror="this.onerror=null;this.src='${spot.fallbackImage}';"
                 alt="${spot.name}"
                 class="w-full h-full object-cover brightness-105 transition duration-500"
-              />
+               loading="lazy" decoding="async">
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
 
               <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
