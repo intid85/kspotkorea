@@ -190,6 +190,7 @@ def render(post, others):
       document.getElementById('tip-text').value = '';
     }}
   </script>
+  <script src="/assets/kspot-tracker.js" defer></script>
 </body>
 </html>
 '''
