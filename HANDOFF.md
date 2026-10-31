@@ -67,5 +67,6 @@ If you are a new agent session picking up work on **K-Spot Korea (`https://kspot
 ## 9. Daily Post Workflow (since 2026-10-28)
 - Write the day's post as a draft JSON in `data/drafts/YYYY-MM-DD-<area>.json` (fields documented at the top of `scripts/render_post_html.py`).
 - Run `python3 scripts/render_post_html.py data/drafts/<file>.json` to build `blog/<slug>.html`, prepend to `data/blog-posts.json`, and add the URL to `sitemap.xml`.
-- Covered so far: Jongno/Bukchon, Suwon Haenggung-dong, Gangneung/Jumunjin, Itaewon/Yongsan, Mapo-gu (Hongdae/Yeonnam/Mangwon). Next candidates by KCISA record count: Gangnam-gu, Jung-gu (Myeongdong/Euljiro), Yeongdeungpo-gu, Paju, Goyang, Incheon Jung-gu, Jeju-si.
+- Covered so far: Jongno/Bukchon, Suwon Haenggung-dong, Gangneung/Jumunjin, Itaewon/Yongsan, Mapo-gu (Hongdae/Yeonnam/Mangwon), Gangnam-gu (Apgujeong/Cheongdam/COEX). Next candidates by KCISA record count: Jung-gu (Myeongdong/Euljiro), Yeongdeungpo-gu, Paju, Goyang, Incheon Jung-gu, Jeju-si.
+- Note: render_post_html.py does not yet add the 2026-10-28 SEO block (robots max-image-preview, BreadcrumbList JSON-LD, h2 ids + TOC, related-guides aside); apply it after rendering (done by hand for the Gangnam post).
 - The traveler-tips widget starts empty; do not seed it with invented reviews.
