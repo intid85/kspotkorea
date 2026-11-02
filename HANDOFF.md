@@ -70,3 +70,7 @@ If you are a new agent session picking up work on **K-Spot Korea (`https://kspot
 - Covered so far: Jongno/Bukchon, Suwon Haenggung-dong, Gangneung/Jumunjin, Itaewon/Yongsan, Mapo-gu (Hongdae/Yeonnam/Mangwon), Gangnam-gu (Apgujeong/Cheongdam/COEX), Jung-gu (Deoksugung/Myeongdong/Seoullo/DDP, 2026-11-01), Yeongdeungpo-gu (Yeouido/Han River bridges/Seonyudo/Mullae, 2026-11-02), Paju (Book City/Heyri/Byeokchoji/Imjingak, 2026-11-03). Next candidates by KCISA record count: Goyang, Incheon Jung-gu, Jeju-si.
 - SEO block: after rendering, run `upgrade_html_file()` from `/workspace/kp/seo_upgrade_helper.py` on the new post only (set its TODAY/TODAY_ISO to the post date first) to add robots max-image-preview, BreadcrumbList JSON-LD, h2 ids + TOC and the related-guides aside.
 - The traveler-tips widget starts empty; do not seed it with invented reviews.
+
+## Blog photo rule (2026-11-03)
+- Real photos of the actual place only: KTO/공공누리 (credit source), Wikimedia Commons CC (credit author + license link; get metadata via commons API), Unsplash/Pexels. Never drama/MV screenshots or unlicensed images; verify the photo shows the named place.
+- Save to assets/blog/<slug>/, ~1200px wide, JPG/WebP <300KB. Use <figure> + descriptive alt + width/height + loading=lazy (except hero) + <figcaption> credit/license. Hero = og:image/twitter:image + JSON-LD image + heroImage in data/blog-posts.json.
