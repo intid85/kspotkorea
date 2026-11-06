@@ -1,5 +1,175 @@
 [
   {
+    "slug": "jeju-island-hyeopjae-osulloc-camellia-hill-kdrama-kpop-filming-guide",
+    "title": "Jeju Island (Hyeopjae, O'Sulloc, Camellia Hill): K-Drama & K-Pop Filming Spots Guide",
+    "subtitle": "See Hyeopjae and Hamdeok beaches, O'Sulloc tea fields, BLACKPINK's Camellia Hill, Architecture 101's Seoyeon's House, Crash Landing on You's healing forest and SEVENTEEN's Seongeup Land, with exact Korean addresses for taxis and Naver Map.",
+    "region": "Jeju",
+    "district": "Jeju Island (Jeju-si & Seogwipo-si)",
+    "districtKr": "제주특별자치도",
+    "date": "2026-11-07",
+    "readTime": "9 min read",
+    "wordCount": "1366",
+    "heroImage": "https://kspotkorea.co.kr/assets/blog/jeju-island-hyeopjae-osulloc-camellia-hill-kdrama-kpop-filming-guide/hyeopjae-beach-jeju.jpg",
+    "featuredWorks": [
+      "Architecture 101",
+      "Crash Landing on You",
+      "Something in the Rain",
+      "Secret Garden",
+      "Dae Jang Geum",
+      "Our Blues",
+      "Welcome to Samdal-ri",
+      "Run On",
+      "BLACKPINK",
+      "BTS",
+      "SEVENTEEN",
+      "SHINee",
+      "TWICE",
+      "EXO",
+      "IU",
+      "G-Dragon",
+      "Girls' Generation",
+      "TXT",
+      "Apink",
+      "BoA"
+    ],
+    "relatedSpotIds": [
+      13,
+      94,
+      96,
+      97,
+      102
+    ],
+    "summary": "Jeju Island has about 451 records in Korea's public KCISA filming-location dataset, with heavy K-Pop and variety coverage plus key drama sites. This guide links Hyeopjae and Hamdeok beaches, O'Sulloc Tea Museum, Camellia Hill, Seoyeon's House, Seogwipo Healing Forest, Saryeoni Forest Path, Seongeup Land and Aewol cafes into a car-friendly route with Korean addresses for taxis and Naver/Kakao maps.",
+    "spotHighlights": [
+      {
+        "name": "Hyeopjae Beach (협재해수욕장)",
+        "work": "Something in the Rain · BLACKPINK · SEVENTEEN · Dae Jang Geum · 7 records",
+        "addressKr": "제주특별자치도 제주시 한림읍 한림로 329-10",
+        "subway": "Jeju Airport → westbound bus/taxi ~40–50 min (Hallim)"
+      },
+      {
+        "name": "Hamdeok Beach (함덕해수욕장)",
+        "work": "SEVENTEEN · TXT · Dreamcatcher · 4 records",
+        "addressKr": "제주특별자치도 제주시 조천읍 조함해안로 525",
+        "subway": "Jeju Airport → taxi/bus toward Jocheon ~30 min"
+      },
+      {
+        "name": "O'Sulloc Tea Museum (오설록 티 뮤지엄)",
+        "work": "TWICE · BoA · APRIL",
+        "addressKr": "제주특별자치도 서귀포시 안덕면 신화역사로 15",
+        "subway": "Taxi/rental from airport ~40–50 min; pair with Camellia Hill"
+      },
+      {
+        "name": "Camellia Hill (카멜리아힐)",
+        "work": "BLACKPINK · BTS · Girls' Generation",
+        "addressKr": "제주특별자치도 서귀포시 안덕면 병악로 166",
+        "subway": "Taxi from O'Sulloc ~10 min; ticketed garden"
+      },
+      {
+        "name": "Seoyeon's House / Cafe Seochoyeon (서연의 집)",
+        "work": "Architecture 101 · SHINee · Our Blues",
+        "addressKr": "제주특별자치도 서귀포시 남원읍 위미해안로 86",
+        "subway": "Taxi from Seogwipo / Namwon-eup"
+      },
+      {
+        "name": "Seogwipo Healing Forest (치유의 숲)",
+        "work": "Crash Landing on You",
+        "addressKr": "제주특별자치도 서귀포시 산록남로 2271",
+        "subway": "Taxi from Seogwipo ~20–30 min"
+      },
+      {
+        "name": "Saryeoni Forest Path (사려니 숲길)",
+        "work": "Secret Garden · IU · AKMU",
+        "addressKr": "제주특별자치도 제주시 조천읍 교래리 산 137-1",
+        "subway": "Taxi/bus toward Gyorae; easy flat trail"
+      },
+      {
+        "name": "Seongeup Land (성읍랜드)",
+        "work": "SEVENTEEN · EXO · Apink · Loco · 6 records",
+        "addressKr": "제주특별자치도 서귀포시 표선면 번영로 2650",
+        "subway": "Taxi toward Pyoseon; next to Folk Village"
+      },
+      {
+        "name": "Monsant de Aewol (몽상드애월)",
+        "work": "G-Dragon · IU · Gray · APRIL",
+        "addressKr": "제주특별자치도 제주시 애월읍 애월북서길 56-1",
+        "subway": "Aewol coast; combine with Hyeopjae Beach"
+      },
+      {
+        "name": "Choonshimi-ne (춘심이네 본점)",
+        "work": "SEVENTEEN",
+        "addressKr": "제주특별자치도 서귀포시 안덕면 창천중앙로24번길 16",
+        "subway": "Near Camellia Hill / Andeok-myeon"
+      },
+      {
+        "name": "Jeju International Airport (제주국제공항)",
+        "work": "Run On · Welcome to Waikiki-area dramas · 13 records",
+        "addressKr": "제주특별자치도 제주시 공항로 2",
+        "subway": "Main arrival hub; taxis & rental cars on-site"
+      }
+    ],
+    "sections": [
+      {
+        "heading": "Why Jeju Island Is a K-Drama and K-Pop Favorite",
+        "paragraphs": [
+          "<figure class=\"my-6\"><img src=\"/assets/blog/jeju-island-hyeopjae-osulloc-camellia-hill-kdrama-kpop-filming-guide/hyeopjae-beach-jeju.jpg\" alt=\"Turquoise water and white sand at Hyeopjae Beach looking toward Biyangdo Island on Jeju Island, South Korea\" width=\"1200\" height=\"797\" fetchpriority=\"high\" decoding=\"async\" class=\"w-full h-auto rounded-2xl border border-slate-200\" /><figcaption class=\"text-xs text-slate-500 mt-2\">Hyeopjae Beach on Jeju's west coast, looking toward Biyangdo. Photo: <a href=\"https://commons.wikimedia.org/wiki/File:Hyeopjae_Beach_Scenery.jpg\" target=\"_blank\" rel=\"noopener\" class=\"underline\">Lcarrion88 / Wikimedia Commons</a>, <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\" target=\"_blank\" rel=\"noopener license\" class=\"underline\">CC BY-SA 4.0</a></figcaption></figure>",
+          "Jeju Island sits about an hour by air south of Seoul and is Korea's favorite weekend escape for beach days, volcanic landscapes and cafe hopping. It is also one of the densest K-content filming regions outside the capital: Korea's public KCISA filming-location dataset lists about 451 records with a Jeju address — 195 from K-Pop artists, 171 from variety shows, 82 from TV dramas and 3 from films.",
+          "This guide focuses on the places international fans actually plan a trip around: Hyeopjae and Hamdeok beaches, the O'Sulloc Tea Museum green-tea fields, Camellia Hill from BLACKPINK and BTS shoots, Seoyeon's House from Architecture 101 and SHINee, the Seogwipo healing forest from Crash Landing on You, and Seongeup Land from SEVENTEEN. Every stop includes the exact Korean address so you can paste it into Naver Map or KakaoMap, or show it to a taxi driver.",
+          "Jeju has no subway. Plan around Jeju International Airport (제주국제공항), Intercity buses, the Jeju City and Seogwipo tourist buses, and taxis. Renting a car or booking a day tour is the most realistic way to cover both the west coast and Seogwipo in one trip."
+        ]
+      },
+      {
+        "heading": "Hyeopjae and Hamdeok: Jeju's Most Filmed Beaches",
+        "paragraphs": [
+          "Hyeopjae Beach (제주특별자치도 제주시 한림읍 한림로 329-10) on the west coast is Jeju's most filmed beach in the KCISA dataset, with seven records. Dae Jang Geum lists a seaside walk between Jang Geum and Min Jeong-ho here. The ending of Something in the Rain was shot on this sand. BLACKPINK's Jisoo and Lisa stopped here before leaving the island, SEVENTEEN filmed the Love Letter music video from the mini-album Al1 at Hyeopjae, and iKON jumped into the water during their School of Rock Jeju trip.",
+          "The water is famously turquoise on clear days, with Biyangdo Island on the horizon. From Jeju Airport, take a westbound bus toward Hallim or a taxi (about 40–50 minutes). Pair it with nearby Aewol cafes on the same coastal road.<figure class=\"my-6\"><img src=\"/assets/blog/jeju-island-hyeopjae-osulloc-camellia-hill-kdrama-kpop-filming-guide/hamdeok-beach-jeju.jpg\" alt=\"Palm trees and turquoise water along the stone path at Hamdeok Beach in Jocheon-eup, Jeju City\" width=\"1200\" height=\"900\" loading=\"lazy\" decoding=\"async\" class=\"w-full h-auto rounded-2xl border border-slate-200\" /><figcaption class=\"text-xs text-slate-500 mt-2\">Hamdeok Beach on Jeju's northeast coast. Photo: <a href=\"https://commons.wikimedia.org/wiki/File:Hamdeok_Beach.jpg\" target=\"_blank\" rel=\"noopener\" class=\"underline\">Hong Da Hyeon / Wikimedia Commons</a>, <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\" target=\"_blank\" rel=\"noopener license\" class=\"underline\">CC0 1.0 (public domain)</a></figcaption></figure>",
+          "Hamdeok Beach (제주특별자치도 제주시 조천읍 조함해안로 525) on the northeast coast has four KCISA records from Dreamcatcher, Min Kyung-hoon, SEVENTEEN and TXT. It is one of the easiest beaches to reach from Jeju Airport (about 30 minutes by taxi or bus toward Jocheon) and has a wide sandy shore, palm trees and cafes along the boardwalk. Go early in summer or on a weekday if you want space for photos.",
+          "<strong>Getting there:</strong> Use Naver Map or KakaoMap for real-time bus routes from the airport. Show taxi drivers 협재해수욕장 or 함덕해수욕장. Do not rely on Google Maps walking directions on Jeju — Korean apps are far more accurate for buses and rural roads."
+        ]
+      },
+      {
+        "heading": "O'Sulloc Tea Fields and Camellia Hill",
+        "paragraphs": [
+          "<figure class=\"my-6\"><img src=\"/assets/blog/jeju-island-hyeopjae-osulloc-camellia-hill-kdrama-kpop-filming-guide/osulloc-tea-museum-fields-jeju.jpg\" alt=\"Brick entrance of the O'Sulloc Tea Museum with OSULLOC TEA MUSEUM sign near Seogwipo, Jeju Island\" width=\"1200\" height=\"800\" loading=\"lazy\" decoding=\"async\" class=\"w-full h-auto rounded-2xl border border-slate-200\" /><figcaption class=\"text-xs text-slate-500 mt-2\">Entrance to the O'Sulloc Tea Museum, surrounded by green-tea fields. Photo: <a href=\"https://commons.wikimedia.org/wiki/File:Osulloc_Tea_Museum_%26_Fields,_Jeju.jpg\" target=\"_blank\" rel=\"noopener\" class=\"underline\">Matt Kieffer / Wikimedia Commons</a>, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\" rel=\"noopener license\" class=\"underline\">CC BY-SA 2.0</a></figcaption></figure>",
+          "The O'Sulloc Tea Museum (제주특별자치도 서귀포시 안덕면 신화역사로 15) sits in the middle of rolling green-tea fields in Andeok-myeon, west of Seogwipo. The KCISA dataset lists visits by BoA during a Running Man shoot, APRIL on their Jeju spring trip, and TWICE tasting green-tea ice cream on V LIVE TWICE TV3. Walk the outdoor paths between the tea bushes, then try the museum cafe's green-tea soft serve. Admission to the museum building is usually free; check hours on Naver before you go.<figure class=\"my-6\"><img src=\"/assets/blog/jeju-island-hyeopjae-osulloc-camellia-hill-kdrama-kpop-filming-guide/camellia-hill-waterfall-jeju.jpg\" alt=\"Tiered garden waterfall cascading over dark rocks into a pond at Camellia Hill botanical garden, Seogwipo, Jeju\" width=\"1200\" height=\"623\" loading=\"lazy\" decoding=\"async\" class=\"w-full h-auto rounded-2xl border border-slate-200\" /><figcaption class=\"text-xs text-slate-500 mt-2\">Garden waterfall inside Camellia Hill (카멜리아힐). Photo: <a href=\"https://commons.wikimedia.org/wiki/File:Waterfall,_Camellia_Hill,_Jeju_(%ED%8F%AD%ED%8F%AC,_%EC%A0%9C%EC%A3%BC_%EC%B9%B4%EB%A9%9C%EB%A6%AC%EC%95%84%ED%9E%90)_-_panoramio.jpg\" target=\"_blank\" rel=\"noopener\" class=\"underline\">골뱅이 / Wikimedia Commons</a>, <a href=\"https://creativecommons.org/licenses/by-sa/3.0/\" target=\"_blank\" rel=\"noopener license\" class=\"underline\">CC BY-SA 3.0</a></figcaption></figure>",
+          "Camellia Hill (제주특별자치도 서귀포시 안덕면 병악로 166) is a large botanical garden a short drive from O'Sulloc. The dataset ties it to BTS's Love Yourself poster shoot, BLACKPINK's Lisa visiting the camellia garden, and Girls' Generation YoonA's Innisfree commercial. Peak camellia season is winter into early spring, but the grounds stay photogenic year-round with palms, ponds and walking paths. Buy tickets at the gate or online; allow 1.5 to 2 hours.",
+          "Because both O'Sulloc and Camellia Hill sit in rural Andeok-myeon, combine them in one half-day with a taxi or rental car. From Jeju Airport the drive is about 40–50 minutes south."
+        ]
+      },
+      {
+        "heading": "Seoyeon's House, Crash Landing Forest and Saryeoni Trail",
+        "paragraphs": [
+          "The cliffside house from the film Architecture 101 (건축학개론) is now Cafe Seochoyeon (제주특별자치도 서귀포시 남원읍 위미해안로 86). In the movie it is the house Seung-min builds for Seo-yeon; fans still come for the ocean view and the wooden exterior. SHINee's Taemin also filmed early We Got Married segments here, and the spot appears in Our Blues and Welcome to Samdal-ri related Jeju tourism. It is a working cafe — expect a wait on weekends — so order a drink and enjoy the Wimi coastline.",
+          "Jeju's Seogwipo Healing Forest (제주특별자치도 서귀포시 산록남로 2271) is listed in KCISA as the Crash Landing on You forest where Yoon Se-ri parachutes in and meets Ri Jeong-hyeok. The real park is a managed forest trail on the southern slope of Hallasan. Trails are easy to moderate; wear comfortable shoes and check trail-open status on rainy or windy days. A taxi from central Seogwipo takes about 20–30 minutes.",
+          "Nearby on the Jeju City side, Saryeoni Forest Path (제주특별자치도 제주시 조천읍 교래리 산 137-1) appears in Secret Garden when Hyun Bin's character searches the woods for Ha Ji-won, and as an IU Samdasoo commercial location and AKMU vlog stop. It is a flat, shaded boardwalk-style trail — one of the easiest Hallasan-area walks for visitors without hiking gear."
+        ]
+      },
+      {
+        "heading": "Seongeup Land, Folk Village and Aewol Cafe Street",
+        "paragraphs": [
+          "<figure class=\"my-6\"><img src=\"/assets/blog/jeju-island-hyeopjae-osulloc-camellia-hill-kdrama-kpop-filming-guide/seongeup-folk-village-jeju.jpg\" alt=\"Thatched-roof stone houses and volcanic stone walls in Seongeup Folk Village with an oreum hill in the background, Seogwipo, Jeju\" width=\"1200\" height=\"800\" loading=\"lazy\" decoding=\"async\" class=\"w-full h-auto rounded-2xl border border-slate-200\" /><figcaption class=\"text-xs text-slate-500 mt-2\">Seongeup Folk Village near Seongeup Land. Photo: <a href=\"https://commons.wikimedia.org/wiki/File:Seongeup_Historic_Village.jpg\" target=\"_blank\" rel=\"noopener\" class=\"underline\">Trainholic / Wikimedia Commons</a>, <a href=\"https://creativecommons.org/licenses/by-sa/4.0/\" target=\"_blank\" rel=\"noopener license\" class=\"underline\">CC BY-SA 4.0</a></figcaption></figure>",
+          "Seongeup Land (제주특별자치도 서귀포시 표선면 번영로 2650) is a theme park with horseback riding, ATVs and go-karts. The KCISA dataset lists six artist visits, including SEVENTEEN's Hot Zil shoot, EXO's Chanyeol, Sehun and D.O. on karts, Apink's Remember music video, Loco's Summer Go Loco MV, Shinhwa on Battle Trip and fromis_9. Next door, Seongeup Folk Village preserves thatched Jeju houses and stone walls — free to walk and perfect for photos after the park.",
+          "On the northwest coast, Monsant de Aewol (몽상드애월, 제주특별자치도 제주시 애월읍 애월북서길 56-1) has four KCISA records tied to G-Dragon, IU, Gray and APRIL — it was long known as a cafe associated with G-Dragon. A short drive away, Cafe Bomnal (봄날, 제주특별자치도 제주시 애월읍 애월로1길 25) is listed for TVXQ Yunho. Both sit on cliff-and-coast cafe streets that are easy to combine with Hyeopjae Beach."
+        ]
+      },
+      {
+        "heading": "Where to Eat: TV-Famous Jeju Restaurants",
+        "paragraphs": [
+          "SEVENTEEN ate grilled hairtail at Choonshimi-ne main branch (춘심이네 본점, 제주특별자치도 서귀포시 안덕면 창천중앙로24번길 16) during Hot Zil — a good lunch stop near Camellia Hill. In Jungmun, Saekdal Restaurant (색달식당 중문갈치조림구이 본점, 제주특별자치도 서귀포시 예래로 255-18) is famous for whole grilled and braised hairtail and has appeared on food TV shows.",
+          "Near Jeju City, Yurine Restaurant (유리네식당, 제주특별자치도 제주시 연북로 146) is listed as a BTS Suga family favorite. On the Aewol coast, Noraba (노라바, 제주특별자치도 제주시 애월읍 구엄길 100) is known for seafood ramyeon. Hours change seasonally — always check Naver Map before you go, and show the Korean name to staff if English menus are limited."
+        ]
+      },
+      {
+        "heading": "One- to Two-Day Jeju K-Spot Itinerary",
+        "paragraphs": [
+          "Fly into Jeju International Airport (제주특별자치도 제주시 공항로 2) in the morning. Pick up a rental car or pre-book a private driver, then drive west to Hyeopjae Beach for photos and a short swim. Continue along the Aewol coast for coffee at Monsant de Aewol or Cafe Bomnal, then head south to O'Sulloc Tea Museum and Camellia Hill for the afternoon.",
+          "Stay overnight in Seogwipo or Jungmun. On day two, visit Seoyeon's House cafe in Namwon-eup, then Seogwipo Healing Forest or Saryeoni Forest Path. If you have SEVENTEEN on your list, add Seongeup Land and walk Seongeup Folk Village afterward. End at Hamdeok Beach on the way back toward the airport.",
+          "Without a car, use airport limousines and tourist buses plus taxis between clusters. Show drivers the Korean addresses in this guide. For hotels in Jungmun, Seogwipo or near Hamdeok, compare stays with the hotel search widgets on this page — they help keep K-Spot Korea free for fans."
+        ]
+      }
+    ]
+  },
+  {
     "slug": "seocho-gu-banpo-bridge-sevit-island-seoul-arts-center-kdrama-filming-guide",
     "title": "Seocho-gu (Banpo Bridge, Some Sevit, Seoul Arts Center): K-Drama Filming Spots Guide",
     "subtitle": "See the Run On and Secret Garden bridge, Goblin's Some Sevit, the courthouse from Extraordinary Attorney Woo and Do You Like Brahms?' concert hall, plus TV-famous Seocho restaurants, with exact Korean addresses.",
