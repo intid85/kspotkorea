@@ -4,7 +4,8 @@ prepend it to data/blog-posts.json and add it to sitemap.xml.
 Usage: python3 scripts/render_post_html.py data/drafts/<file>.json
 Draft JSON fields: slug,title,subtitle,region,district,districtKr,date,readTime,wordCount,
 heroImage,featuredWorks,relatedSpotIds,summary,spotHighlights[{name,work,addressKr,subway}],
-sections[{heading,html}],faq[{q,a}], optional heroAlt (alt text for the hero image)"""
+sections[{heading,html}],faq[{q,a}], optional heroAlt (alt text for the hero image), heroWidth/heroHeight,
+spotHighlights[].lat/lng/image (adds geo + image to TouristAttraction JSON-LD)"""
 import html, json, os, sys, urllib.parse
 sys.path.insert(0, os.path.dirname(__file__))
 from publish_daily_blog import BASE_DIR, POSTS_JSON, BLOG_DIR, update_sitemap
@@ -26,7 +27,9 @@ def render(post, others):
          "publisher": {"@type": "Organization", "name": "K-Spot Korea", "url": "https://kspotkorea.co.kr/"},
          "mainEntityOfPage": url},
         *[{"@type": "TouristAttraction", "name": s['name'], "description": f"Filming location: {s['work']}",
-           "address": {"@type": "PostalAddress", "streetAddress": s['addressKr'], "addressLocality": post['district'], "addressCountry": "KR"}}
+           "address": {"@type": "PostalAddress", "streetAddress": s['addressKr'], "addressLocality": post['district'], "addressCountry": "KR"},
+           **({"geo": {"@type": "GeoCoordinates", "latitude": s['lat'], "longitude": s['lng']}} if s.get('lat') else {}),
+           **({"image": s['image']} if s.get('image') else {})}
           for s in post['spotHighlights']],
         {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": f['q'], "acceptedAnswer": {"@type": "Answer", "text": f['a']}} for f in post['faq']]}]}
     spots = ''.join(f'''
@@ -101,7 +104,7 @@ def render(post, others):
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
     <article class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
       <div class="relative h-64 sm:h-80 bg-slate-900">
-        <img src="{post['heroImage']}" alt="{E(post.get('heroAlt') or ('Seoul street at night, illustrating ' + post['district']))}" class="w-full h-full object-cover opacity-90" />
+        <img src="{post['heroImage']}" alt="{E(post.get('heroAlt') or ('Seoul street at night, illustrating ' + post['district']))}" {(' width="%s" height="%s"' % (post['heroWidth'], post['heroHeight'])) if post.get('heroWidth') else ''} fetchpriority="high" class="w-full h-full object-cover opacity-90" />
         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-transparent"></div>
         <div class="absolute bottom-5 left-5 right-5 text-white">
           <div class="flex flex-wrap items-center gap-2 text-xs font-mono mb-2">
@@ -203,7 +206,7 @@ def main():
     os.makedirs(BLOG_DIR, exist_ok=True)
     with open(os.path.join(BLOG_DIR, post['slug'] + '.html'), 'w', encoding='utf-8') as f:
         f.write(render(post, others))
-    entry = {k: v for k, v in post.items() if k not in ('faq', 'heroAlt')}
+    entry = {k: v for k, v in post.items() if k not in ('faq', 'heroAlt', 'heroWidth', 'heroHeight')}
     entry['sections'] = [{"heading": s['heading'], "paragraphs": [x for x in __import__('re').sub('<h3>.*?</h3>', '', s['html']).replace('</p>', '').split('<p>') if x.strip()]} for s in post['sections']]
     posts.insert(0, entry)
     json.dump(posts, open(POSTS_JSON, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
